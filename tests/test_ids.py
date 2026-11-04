@@ -1,7 +1,7 @@
 import pytest
 
 from conftest import found, nit
-from pii_shield_es import PIIType, detect
+from datashield_es import PIIType, detect
 
 
 class TestCedula:

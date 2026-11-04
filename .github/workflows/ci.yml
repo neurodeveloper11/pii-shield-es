@@ -43,14 +43,14 @@ jobs:
       - name: Instalar
         run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
       - name: pytest con cobertura
-        run: pytest --cov=pii_shield_es --cov-report=term-missing --cov-fail-under=95
+        run: pytest --cov=datashield_es --cov-report=term-missing --cov-fail-under=95
       - name: Métricas, README y gráfica web sincronizados
         run: python eval/evaluate.py --check
       - name: Ejemplos de la web = salida real de la librería
         run: python scripts/build_docs.py --check
       - name: Humo de la CLI
         run: |
-          pii-shield --version
-          pii-shield anonimizar "Mi cédula es 1.023.456.789 y mi correo a@example.com"
-          pii-shield tipos
-          echo "Tarjeta 4111 1111 1111 1111 desde la IP 203.0.113.45" | pii-shield detectar --resumen
+          datashield --version
+          datashield anonimizar "Mi cédula es 1.023.456.789 y mi correo a@example.com"
+          datashield tipos
+          echo "Tarjeta 4111 1111 1111 1111 desde la IP 203.0.113.45" | datashield detectar --resumen

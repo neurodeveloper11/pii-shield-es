@@ -4,14 +4,14 @@ import stat
 
 import pytest
 
-from pii_shield_es import (
+from datashield_es import (
     PIIType,
     PseudonymTable,
     anonymize,
     anonymize_detailed,
     deanonymize,
 )
-from pii_shield_es.anonymize import mask_value, normalize_mode
+from datashield_es.anonymize import mask_value, normalize_mode
 
 TEXTO = (
     "Soy Juan Camilo Pérez Gómez, C.C. 1.023.456.789, vivo en Cra 15 # 93-60 apto 502. "

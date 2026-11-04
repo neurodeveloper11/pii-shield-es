@@ -10,7 +10,7 @@ sys.path.insert(0, str(EVAL))
 
 import dataset  # noqa: E402
 import evaluate  # noqa: E402
-from pii_shield_es.validators import is_valid_clabe, is_valid_iban, is_valid_nit  # noqa: E402
+from datashield_es.validators import is_valid_clabe, is_valid_iban, is_valid_nit  # noqa: E402
 
 
 def test_parse_line_calcula_offsets():

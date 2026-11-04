@@ -1,6 +1,6 @@
 import pytest
 
-from pii_shield_es.validators import (
+from datashield_es.validators import (
     clabe_check_digit,
     iban_check_digits,
     is_valid_clabe,

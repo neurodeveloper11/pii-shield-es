@@ -1,4 +1,4 @@
-"""CLI ``pii-shield``: procesa texto, archivos ``.txt`` y ``.csv`` (todo local)."""
+"""CLI ``datashield``: procesa texto, archivos ``.txt`` y ``.csv`` (todo local)."""
 
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ from .detectors import detect
 from .types import PIIType, coerce_types
 
 _AVISO = (
-    "pii-shield-es es una ayuda técnica: no sustituye una revisión de cumplimiento "
+    "datashield-es es una ayuda técnica: no sustituye una revisión de cumplimiento "
     "(Ley 1581 de 2012 / Habeas Data)."
 )
 
@@ -55,11 +55,11 @@ def _score(value: str) -> float:
 
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="pii-shield",
+        prog="datashield",
         description="Detecta y anonimiza datos personales en español (Colombia/LatAm), 100 % local",
         epilog=_AVISO,
     )
-    parser.add_argument("--version", action="version", version=f"pii-shield-es {__version__}")
+    parser.add_argument("--version", action="version", version=f"datashield-es {__version__}")
     sub = parser.add_subparsers(dest="command", required=True, metavar="COMANDO")
 
     def add_input(p: argparse.ArgumentParser) -> None:
@@ -352,8 +352,18 @@ def main(argv: Sequence[str] | None = None) -> int:
     try:
         return handlers[args.command](args)
     except CLIError as exc:
-        print(f"pii-shield: error: {exc}", file=sys.stderr)
+        print(f"datashield: error: {exc}", file=sys.stderr)
         return 2
+
+
+def legacy_main(argv: Sequence[str] | None = None) -> int:
+    """Comando obsoleto ``pii-shield``: avisa y delega en ``datashield``."""
+    print(
+        "aviso: el comando «pii-shield» ahora se llama «datashield»; el alias se eliminará "
+        "en una versión futura.",
+        file=sys.stderr,
+    )
+    return main(argv)
 
 
 if __name__ == "__main__":  # pragma: no cover

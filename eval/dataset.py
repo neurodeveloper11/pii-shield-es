@@ -22,7 +22,7 @@ import json
 import re
 from pathlib import Path
 
-from pii_shield_es.validators import clabe_check_digit, iban_check_digits, nit_check_digit
+from datashield_es.validators import clabe_check_digit, iban_check_digits, nit_check_digit
 
 HERE = Path(__file__).parent
 

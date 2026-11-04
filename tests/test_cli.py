@@ -4,7 +4,7 @@ import sys
 
 import pytest
 
-from pii_shield_es import PseudonymTable, cli
+from datashield_es import PseudonymTable, cli
 
 TEXTO = "Cédula 1.234.567.890, correo a.b@example.com."
 
@@ -209,7 +209,7 @@ def test_detectar_csv_con_fila_y_columna(tmp_path, capsys):
 def test_version_y_ayuda(capsys):
     with pytest.raises(SystemExit) as exc:
         cli.main(["--version"])
-    assert exc.value.code == 0 and "pii-shield-es" in capsys.readouterr().out
+    assert exc.value.code == 0 and "datashield-es" in capsys.readouterr().out
     with pytest.raises(SystemExit):
         cli.main([])
 
