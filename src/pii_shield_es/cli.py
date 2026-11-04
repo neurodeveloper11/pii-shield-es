@@ -26,6 +26,33 @@ class CLIError(Exception):
     """Error de uso: se imprime en stderr y termina con código 2."""
 
 
+_TYPE_HELP: dict[PIIType, str] = {
+    PIIType.CEDULA: "cédula de ciudadanía / tarjeta de identidad (con palabra clave)",
+    PIIType.CEDULA_EXTRANJERIA: "cédula de extranjería (con palabra clave)",
+    PIIType.NIT: "NIT con dígito de verificación DIAN, o tras «NIT»",
+    PIIType.PASAPORTE: "pasaporte (tras «pasaporte»)",
+    PIIType.TELEFONO: "celulares y fijos colombianos",
+    PIIType.CORREO: "correos electrónicos, también ofuscados («(at)», «arroba»)",
+    PIIType.DIRECCION: "direcciones urbanas, vías con nombre y manzana/casa",
+    PIIType.PLACA: "placas de carro y moto",
+    PIIType.CUENTA_BANCARIA: "IBAN, CLABE y cuentas con palabra clave",
+    PIIType.TARJETA_CREDITO: "tarjetas de pago (prefijo de marca + Luhn)",
+    PIIType.DIRECCION_IP: "direcciones IPv4 / IPv6",
+    PIIType.FECHA_NACIMIENTO: "fechas de nacimiento (con contexto)",
+    PIIType.NOMBRE: "nombres propios (listas + contexto)",
+}
+
+
+def _score(value: str) -> float:
+    try:
+        score = float(value)
+    except ValueError:
+        raise argparse.ArgumentTypeError(f"no es un número: {value!r}") from None
+    if not 0.0 <= score <= 1.0:
+        raise argparse.ArgumentTypeError("debe estar entre 0 y 1")
+    return score
+
+
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="pii-shield",
@@ -44,7 +71,7 @@ def _build_parser() -> argparse.ArgumentParser:
             help="tipos separados por coma (p. ej. CEDULA,NIT,CORREO). Por defecto, todos",
         )
         p.add_argument(
-            "--min-score", type=float, default=0.0, help="umbral mínimo de confianza (0 a 1)"
+            "--min-score", type=_score, default=0.0, help="umbral mínimo de confianza (0 a 1)"
         )
         p.add_argument(
             "--columnas",
@@ -69,6 +96,11 @@ def _build_parser() -> argparse.ArgumentParser:
     det = sub.add_parser("detectar", aliases=["detect"], help="lista las entidades detectadas")
     add_input(det)
     det.add_argument("--json", action="store_true", help="salida en JSON")
+    det.add_argument(
+        "--resumen", action="store_true", help="solo el conteo por tipo (sin mostrar los datos)"
+    )
+
+    sub.add_parser("tipos", aliases=["types"], help="lista los tipos de datos que se detectan")
 
     res = sub.add_parser("restaurar", aliases=["restore"], help="revierte una seudonimización")
     res.add_argument("texto", nargs="?", help="texto seudonimizado (si se omite, se lee stdin)")
@@ -159,8 +191,9 @@ def _write_csv(rows: list[list[str]], dialect: csv.Dialect) -> str:
     return buffer.getvalue()
 
 
-def _process_csv(args: argparse.Namespace, content: str, cell_fn) -> list[list[str]]:  # type: ignore[no-untyped-def]
-    rows, _ = _read_csv(args, content)
+def _process_csv(  # type: ignore[no-untyped-def]
+    args: argparse.Namespace, rows: list[list[str]], cell_fn
+) -> list[list[str]]:
     width = max((len(r) for r in rows), default=0)
     header = None if args.sin_encabezado or not rows else rows[0]
     columns = _selected_columns(args.columnas, header, width)
@@ -217,14 +250,19 @@ def _cmd_anonymize(args: argparse.Namespace) -> int:
         return anonymize(cell, modo, tipos=tipos, tabla=table, min_score=args.min_score)
 
     if is_csv:
-        _, dialect = _read_csv(args, content)
-        rows = _process_csv(args, content, lambda cell, _i, _j: run(cell))
-        result = _write_csv(rows, dialect)
+        rows, dialect = _read_csv(args, content)
+        result = _write_csv(_process_csv(args, rows, lambda cell, _i, _j: run(cell)), dialect)
     else:
         result = run(content)
+    # La tabla se guarda ANTES que la salida: si algo falla después, no queda un archivo
+    # seudonimizado sin la tabla que permite revertirlo.
+    if table is not None and args.tabla:
+        try:
+            table.save(args.tabla)
+        except OSError as exc:
+            raise CLIError(f"No se pudo guardar la tabla {args.tabla}: {exc}") from exc
     _write_output(args, result)
     if table is not None and args.tabla:
-        table.save(args.tabla)
         print(
             f"Tabla de seudónimos guardada en {args.tabla} ({len(table)} entradas). "
             "Contiene datos originales: protégela.",
@@ -244,14 +282,24 @@ def _cmd_detect(args: argparse.Namespace) -> int:
                 findings.append({"fila": i, "columna": j, **ent.to_dict()})
             return cell
 
-        _process_csv(args, content, collect)
+        rows, _ = _read_csv(args, content)
+        _process_csv(args, rows, collect)
     else:
         findings = [e.to_dict() for e in detect(content, tipos=tipos, min_score=args.min_score)]
 
+    counts = Counter(str(f["type"]) for f in findings)
+    if args.resumen:
+        summary = {k: counts[k] for k in sorted(counts)}
+        if args.json:
+            _write_output(args, json.dumps(summary, ensure_ascii=False, indent=2))
+        else:
+            lines = [f"{k:<20} {v:>6}" for k, v in summary.items()]
+            lines.append(f"{'TOTAL':<20} {sum(counts.values()):>6}")
+            _write_output(args, "\n".join(lines))
+        return 0
     if args.json:
         _write_output(args, json.dumps(findings, ensure_ascii=False, indent=2))
         return 0
-    counts = Counter(str(f["type"]) for f in findings)
     lines = [
         f"{f['type']:<20} {f['start']:>6}-{f['end']:<6} score={f['score']:.2f}  {f['text']}"
         for f in findings
@@ -282,6 +330,12 @@ def _cmd_restore(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_types(_args: argparse.Namespace) -> int:
+    lines = [f"{tipo.value:<20} {_TYPE_HELP[tipo]}" for tipo in PIIType]
+    _write_output(argparse.Namespace(salida=None), "\n".join(lines))
+    return 0
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = _build_parser()
     args = parser.parse_args(argv)
@@ -292,6 +346,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         "detect": _cmd_detect,
         "restaurar": _cmd_restore,
         "restore": _cmd_restore,
+        "tipos": _cmd_types,
+        "types": _cmd_types,
     }
     try:
         return handlers[args.command](args)

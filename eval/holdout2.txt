@@ -4,6 +4,8 @@
 # incluye tipos que la v0.1 no detecta (tarjetas, IP, fechas de nacimiento) y casos difíciles.
 # Formato: ver eval/dataset.py. Todos los datos son inventados; las tarjetas son números de
 # prueba públicos y las IP pertenecen a rangos de documentación (RFC 5737 / RFC 3849).
+# Única corrección posterior: la muestra «Cra. 50 … barrio Laureles» se re-anotó con el barrio
+# dentro de la dirección, que es la convención documentada (README); no fue un ajuste del detector.
 
 # ---------------- historia clínica ----------------
 Paciente: [[NOMBRE|Rosa Elena Quintero]], C.C. [[CEDULA|41.888.222]], fecha de nacimiento: [[FECHA_NACIMIENTO|14/03/1957]].
@@ -31,7 +33,7 @@ Radicado PQRS 2025-000123 recibido por el canal web.
 Nombre completo: [[NOMBRE|Yuliana Marcela Ospina Henao]]
 Cédula de ciudadanía [[CEDULA|1.017.234.567]] expedida en Medellín.
 Cuenta de nómina: ahorros [[CUENTA_BANCARIA|2345 6789 0123]] en Bancolombia.
-Dirección: [[DIRECCION|Cra. 50 # 30-45 Apto 801]], barrio Laureles.
+Dirección: [[DIRECCION|Cra. 50 # 30-45 Apto 801, barrio Laureles]].
 El empleado [[NOMBRE|Óscar Iván Salcedo]] ingresó el 2 de febrero con salario de $3.500.000.
 Fecha de nacimiento [[FECHA_NACIMIENTO|02-11-1993]], estado civil soltera.
 Contacto de emergencia: [[NOMBRE|Martha Lucía Henao]] ([[TELEFONO|320 555 0111]]).

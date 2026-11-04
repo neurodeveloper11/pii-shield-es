@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pii-shield-es"
-version = "0.1.0"
+version = "0.2.0"
 description = "Detección y anonimización 100 % local de datos personales en español (Colombia/LatAm)."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "neurodeveloper11" }]
-keywords = ["pii", "anonimizacion", "habeas-data", "colombia", "privacidad", "nlp", "espanol"]
+keywords = ["pii", "anonimizacion", "habeas-data", "colombia", "privacidad", "nlp", "espanol", "luhn"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",

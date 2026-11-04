@@ -1,5 +1,7 @@
 # Conjunto CIEGO (sintético). Se redactó DESPUÉS de congelar los detectores (commit 1683f45) y
 # no se usó para ajustarlos. Incluye a propósito casos difíciles y límites conocidos.
+# NOTA v0.2: sus errores se usaron para diagnosticar la v0.2, así que YA NO ES CIEGO. La cifra
+# honesta de la v0.2 es la del conjunto ciego v2 (eval/holdout2.txt).
 # Formato: ver eval/dataset.py. Todos los datos son inventados.
 
 # ---------------- cédula ----------------

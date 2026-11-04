@@ -44,6 +44,13 @@ yurani zulma viviana victoria vanessa veronica wendy yenny yessica ingrid irma j
 julieta kimberly lady lizeth lisbeth maribel maricela marlen marleny martina milena miriam
 nathalia nicole noelia paulina rebeca regina ligia lucero luna magdalena maira mabel
 marlene dolores soledad paz aurora
+angie brenda celeste dayana deisy doris edith emilia estela gisela hilda isabela jazmin
+josefina karla lida lilian lucy luzmila maritza nubia piedad rubiela ruby shirley sindy
+stephany tania xiomara yaqueline zoraida aida alexandra mariela marcia daisy dayanna
+abel adolfo agustin alirio anibal antonio armando augusto aurelio benjamin clemente danilo
+duvan eider elmer emerson faber gildardo hamilton harvey hollman horacio ismael jader
+leandro libardo marino misael noel olmedo ovidio reinel robinson rodolfo ronald silvio
+wilber wilfer yovany jhonny johnny alonso alfredo arnulfo baltazar dairo eduar fredy
 """
 
 _SURNAMES = """
@@ -64,6 +71,14 @@ posada prieto puerta quesada quiroga quiroz rangel rey rincon rivas rivera roble
 rueda salamanca salgado salinas sandoval santamaria santos sepulveda serrano solano soto
 tamayo tellez toro trujillo valencia valderrama valdes vallejo vega velez venegas vera
 villa villamizar villegas zambrano zuluaga zabala orjuela ballesteros cortes
+acevedo aguirre alvarado amaya angulo aponte arboleda arenas ariza avendano barbosa barreto
+becerra beltran bermudez betancur betancourt bohorquez buitrago burbano caicedo camargo
+carrillo ceballos chaparro chaves cuervo daza espitia figueroa florez gamboa gaviria godoy
+grajales guevara guerra hoyos ibanez jaimes leal linares losada manrique mantilla mendez
+meneses mercado miranda monsalve motta munera murcia ocampo ojeda oliveros otalora otero
+pabon paez pinilla plata poveda quevedo quiceno rengifo rendon ricaurte roa rodas roldan
+rosero saavedra salcedo sarmiento sierra solorzano tabares tobon tovar urrego usma
+valbuena varon velandia vergara vidal villalba villarreal yepes zamora echeverri
 """
 
 # Palabras que además son sustantivos/adjetivos/lugares comunes: no bastan por sí solas
@@ -75,6 +90,7 @@ blanco moreno rey castillo torres mora cruz sol parra prieto pastor guerrero mar
 vega rios campos bravo santos leon lobo cano vera mesa gil flores franco duque montes
 estrada castro serrano delgado valencia ortega santander polo villa rocha puerta nieto
 nino lara toro gallo cortes salinas arias correa
+sierra plata leal guerra mercado cuervo miranda celeste ruby
 """
 
 FIRST_NAMES: frozenset[str] = frozenset(_FIRST_NAMES.split())
@@ -112,6 +128,12 @@ TITLES: frozenset[str] = frozenset(
         "querido",
         "querida",
         "hola",
+        "gracias",
+        "saludos",
+        "atte",
+        "att",
+        "atentamente",
+        "cordialmente",
     ]
 )
 

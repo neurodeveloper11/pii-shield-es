@@ -6,6 +6,7 @@ import contextlib
 import json
 import os
 import re
+import tempfile
 from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -38,6 +39,9 @@ _MASK_KEEP_LAST: dict[PIIType, int] = {
     PIIType.TELEFONO: 3,
     PIIType.PLACA: 0,
     PIIType.CUENTA_BANCARIA: 4,
+    PIIType.TARJETA_CREDITO: 4,  # los últimos 4 dígitos, como permite PCI DSS
+    PIIType.DIRECCION_IP: 0,
+    PIIType.FECHA_NACIMIENTO: 0,
 }
 
 _TOKEN_RE = re.compile(r"\[([A-Z_]+)_(\d+)\]")
@@ -76,26 +80,33 @@ def _mask_alnum(value: str, keep_last: int, keep_first: int = 0, mask: str = "*"
     return "".join(out)
 
 
+_AT_RE = re.compile(r"@|\s*[\(\[\{<]\s*(?i:at|arroba)\s*[\)\]\}>]\s*|\s+(?i:arroba)\s+")
+_LETTERS_RE = re.compile(r"[^\W\d_]+")
+
+
 def _mask_email(value: str) -> str:
-    local, _, domain = value.partition("@")
+    parts = _AT_RE.split(value, maxsplit=1)
+    local, domain = (parts[0], parts[1]) if len(parts) == 2 else (value, "")
     host, dot, tld = domain.rpartition(".")
-    if not dot:  # dominio sin punto: no se conserva nada de él
+    if not dot or not tld.isalpha():  # sin TLD reconocible: no se conserva nada del dominio
         return f"{local[:1]}***@***"
     return f"{local[:1]}***@{host[:1]}***.{tld}"
 
 
 def _mask_name(value: str) -> str:
-    return " ".join(
-        word[:1] + "*" * max(len(word) - 1, 2) if word.isalpha() else word
-        for word in value.split(" ")
-    )
+    """Conserva la inicial de cada parte del nombre y oculta el resto (y su longitud).
+
+    Cualquier separador (espacio, tabulador, espacio duro, guion, apóstrofo) se respeta, de modo
+    que «Ana-María» o «Juan\u00a0Pérez» quedan enmascarados igual que «Ana María».
+    """
+    return _LETTERS_RE.sub(lambda m: m.group()[0] + "*" * max(len(m.group()) - 1, 2), value)
 
 
 def _mask_address(value: str) -> str:
-    first, sep, rest = value.partition(" ")
-    if not sep:
+    via = re.match(r"[^\W\d_]+\.?", value)
+    if via is None or via.end() == len(value.rstrip()):
         return _mask_alnum(value, 0)
-    return f"{first} {_mask_alnum(rest, 0)}"
+    return value[: via.end()] + _mask_alnum(value[via.end() :], 0)
 
 
 def mask_value(tipo: PIIType, value: str) -> str:
@@ -179,13 +190,26 @@ class PseudonymTable:
         return table
 
     def save(self, path: str | os.PathLike[str]) -> None:
-        """Guarda la tabla en JSON con permisos ``0600`` (solo el propietario)."""
+        """Guarda la tabla en JSON con permisos ``0600`` (solo el propietario).
+
+        La escritura es atómica: se escribe un archivo temporal en la misma carpeta y luego se
+        reemplaza el destino. Si el proceso se interrumpe, la tabla anterior sigue intacta (sin
+        ella, la seudonimización sería irreversible).
+        """
         target = Path(path)
-        fd = os.open(target, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
-        with os.fdopen(fd, "w", encoding="utf-8") as handle:
-            handle.write(self.to_json())
-        with contextlib.suppress(OSError):  # sistemas de archivos sin permisos POSIX
-            target.chmod(0o600)
+        fd, tmp = tempfile.mkstemp(prefix=f".{target.name}.", suffix=".tmp", dir=target.parent)
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as handle:
+                handle.write(self.to_json())
+                handle.flush()
+                os.fsync(handle.fileno())
+            with contextlib.suppress(OSError):  # sistemas de archivos sin permisos POSIX
+                os.chmod(tmp, 0o600)
+            os.replace(tmp, target)
+        except BaseException:
+            with contextlib.suppress(OSError):
+                os.unlink(tmp)
+            raise
 
     @classmethod
     def load(cls, path: str | os.PathLike[str]) -> PseudonymTable:
