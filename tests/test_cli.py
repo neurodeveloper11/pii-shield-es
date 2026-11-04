@@ -86,7 +86,7 @@ def test_csv_todas_las_columnas(tmp_path, capsys):
     lines = out.splitlines()
     assert lines[0] == "id,nombre,nota"
     assert lines[1] == '1,[NOMBRE],"Cédula [CEDULA], tel [TELEFONO]"'
-    assert lines[2] == "2,Ana,sin datos"
+    assert lines[2] == "2,[NOMBRE],sin datos"  # el encabezado «nombre» da contexto
 
 
 def test_csv_columnas_por_nombre_e_indice(tmp_path, capsys):
@@ -203,7 +203,7 @@ def test_detectar_csv_con_fila_y_columna(tmp_path, capsys):
     f.write_text(CSV, encoding="utf-8")
     _, out, _ = run(["detectar", "-f", str(f), "--json"], capsys)
     data = json.loads(out)
-    assert {(d["fila"], d["columna"]) for d in data} == {(1, 1), (1, 2)}
+    assert {(d["fila"], d["columna"]) for d in data} == {(1, 1), (1, 2), (2, 1)}
 
 
 def test_version_y_ayuda(capsys):
@@ -251,3 +251,79 @@ def test_restaurar_por_stdin_y_sin_entrada(tmp_path, capsys, monkeypatch):
     monkeypatch.setattr(sys, "stdin", Tty())
     assert cli.main(["restaurar", "--tabla", str(table)]) == 2
     assert "No hay entrada" in capsys.readouterr().err
+
+
+def _docx_bytes() -> bytes:
+    import io
+    import zipfile
+
+    w = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"'
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w") as z:
+        z.writestr(
+            "word/document.xml",
+            f"<w:document {w}><w:body><w:p><w:r><w:t>Paciente: Rosa Elena Quintero, "
+            "C.C. 41.888.222</w:t></w:r></w:p></w:body></w:document>",
+        )
+        z.writestr("word/media/image1.png", "png")
+        z.writestr(
+            "docProps/core.xml",
+            '<cp:coreProperties xmlns:cp="x" xmlns:dc="y"><dc:creator>Fabio</dc:creator>'
+            "</cp:coreProperties>",
+        )
+    return buffer.getvalue()
+
+
+def test_word_anonimizar_detectar_y_restaurar(tmp_path, capsys):
+    import zipfile
+
+    src = tmp_path / "historia.docx"
+    src.write_bytes(_docx_bytes())
+    tabla = tmp_path / "tabla.json"
+    code, _, err = run(
+        ["anonimizar", "-f", str(src), "-m", "seudonimo", "--tabla", str(tabla)], capsys
+    )
+    out = tmp_path / "historia_anonimizado.docx"
+    assert code == 0 and out.exists() and tabla.exists()
+    assert "CEDULA=1" in err and "Metadatos limpiados: autor" in err and "Advertencia" in err
+    doc = zipfile.ZipFile(out).read("word/document.xml").decode()
+    assert "[NOMBRE_1]" in doc and "Rosa" not in doc
+
+    code, out_text, _ = run(["detectar", "-f", str(src)], capsys)
+    assert "word/document" not in out_text and "document, párrafo 1" in out_text
+    assert "Total: CEDULA=1, NOMBRE=1" in out_text
+    _, js, _ = run(["detectar", "-f", str(src), "--json"], capsys)
+    assert json.loads(js)["total"] == 2
+    _, res, _ = run(["detectar", "-f", str(src), "--resumen"], capsys)
+    assert "TOTAL" in res and "2" in res
+    _, res_js, _ = run(["detectar", "-f", str(src), "--resumen", "--json"], capsys)
+    assert json.loads(res_js) == {"CEDULA": 1, "NOMBRE": 1}
+
+    code, _, err = run(["restaurar", "-f", str(out), "--tabla", str(tabla)], capsys)
+    restored = tmp_path / "historia_anonimizado_restaurado.docx"
+    assert code == 0 and "restaurado" in err
+    assert "Rosa Elena Quintero" in zipfile.ZipFile(restored).read("word/document.xml").decode()
+
+
+def test_office_con_salida_explicita_conservar_metadatos_y_errores(tmp_path, capsys):
+    import zipfile
+
+    src = tmp_path / "h.docx"
+    src.write_bytes(_docx_bytes())
+    dest = tmp_path / "limpio.docx"
+    code, _, _ = run(
+        ["anonimizar", "-f", str(src), "-o", str(dest), "--conservar-metadatos"], capsys
+    )
+    assert code == 0
+    assert b"Fabio" in zipfile.ZipFile(dest).read("docProps/core.xml")
+    bad = tmp_path / "roto.xlsx"
+    bad.write_bytes(b"no es zip")
+    for cmd in (["anonimizar", "-f", str(bad)], ["detectar", "-f", str(bad)]):
+        code, _, err = run(cmd, capsys)
+        assert code == 2 and "no es un .xlsx válido" in err
+    tabla = tmp_path / "t.json"
+    tabla.write_text('{"version": 1, "mapping": {}}', encoding="utf-8")
+    code, _, err = run(["restaurar", "-f", str(bad), "--tabla", str(tabla)], capsys)
+    assert code == 2 and "No se pudo restaurar" in err
+    code, _, err = run(["anonimizar", "-f", str(tmp_path / "no.docx")], capsys)
+    assert code == 2 and "No se pudo leer" in err

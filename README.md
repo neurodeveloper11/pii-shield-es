@@ -22,7 +22,9 @@
 
 - Detecta: **cédula de ciudadanía**, **cédula de extranjería**, **NIT** (valida el dígito de verificación), **pasaporte**, **teléfonos** colombianos (móvil y fijo, con o sin +57), **correos**, **direcciones** (Calle/Carrera/Diagonal/Transversal/Avenida…), **placas** de vehículo, **cuentas bancarias** (IBAN y CLABE con checksum; cuentas colombianas con contexto), **tarjetas de pago** (marca + Luhn), **direcciones IP** (IPv4/IPv6), **fechas de nacimiento** (con contexto) y **nombres propios** (reglas y listas).
 - Tres modos de anonimización: **etiqueta** (`[CEDULA]`), **enmascarado parcial** (`*.***.***.890`) y **seudonimización reversible** con una tabla local opcional.
-- API de Python (`detect`, `anonymize`) y CLI `datashield` para texto, `.txt` y `.csv`.
+- **Archivos completos: Word (`.docx`), Excel (`.xlsx`), `.csv`, `.txt` y `.md`**, conservando el formato. En Excel y CSV usa el **encabezado de la columna como contexto** («Cédula», «Celular», «Nombre»…). En Word limpia también encabezados, pies, comentarios, control de cambios y vínculos de correo. Borra los metadatos (autor, empresa, autores de comentarios).
+- **Sin instalar nada:** en la [página del proyecto](https://neurodeveloper11.github.io/pii-shield-es/#probar) arrastras el archivo y descargas la versión anonimizada. Se procesa **dentro de tu navegador** (Python en WebAssembly con Pyodide, alojado en el mismo sitio): el archivo no se sube a ningún servidor.
+- API de Python (`detect`, `anonymize`, `anonymize_file`) y CLI `datashield`.
 - Acepta texto con tildes descompuestas (NFD, típico al copiar de PDF o macOS): se normaliza internamente y los índices siguen apuntando al texto original.
 - Escala de forma lineal con el tamaño del texto (≈0,7 MB/s en un núcleo).
 - Sin dependencias en tiempo de ejecución. Nada sale de tu máquina.
@@ -76,6 +78,17 @@ assert tabla.restore(anon) == texto  # reversible con la tabla
 tabla.save("tabla.json")  # ¡contiene los datos originales! (permisos 0600)
 ```
 
+Archivos completos:
+
+```python
+from datashield_es.files import anonymize_file
+
+salida, reporte = anonymize_file("clientes.xlsx")  # escribe clientes_anonimizado.xlsx
+print(reporte.conteo)  # {'CEDULA': 4, 'NOMBRE': 5, ...}
+print(reporte.metadatos_limpiados)  # ['autor', 'autores de comentarios']
+print(reporte.advertencias)  # p. ej., imágenes que no se analizan
+```
+
 Opciones útiles: `detect(texto, tipos=["CEDULA", "NIT"], min_score=0.8)`; `anonymize_detailed(...)` devuelve además las entidades; `deanonymize(texto, tabla)` revierte.
 
 `score` es una confianza **heurística** (0–1), no una probabilidad calibrada. Las detecciones por contexto explícito («cédula 123…», «NIT 900…») puntúan alto; las que dependen solo del formato (por ejemplo, una placa sin la palabra «placa») puntúan bajo, y puedes filtrarlas con `min_score`.
@@ -95,6 +108,12 @@ Opciones útiles: `detect(texto, tipos=["CEDULA", "NIT"], min_score=0.8)`; `anon
 ```bash
 # Texto directo
 datashield anonimizar "Mi cédula es 1.023.456.789 y mi correo a@example.com"
+
+# Word y Excel: escribe informe_anonimizado.docx / clientes_anonimizado.xlsx
+datashield anonimizar -f informe.docx
+datashield anonimizar -f clientes.xlsx -m seudonimo --tabla tabla.json
+datashield restaurar -f clientes_anonimizado.xlsx --tabla tabla.json   # -> *_restaurado.xlsx
+datashield detectar -f clientes.xlsx            # tipo, hoja!celda o párrafo de cada hallazgo
 
 # Archivos .txt y .csv (por defecto, a stdout; usa -o para escribir un archivo)
 datashield anonimizar -f entrevistas.txt -o entrevistas_anon.txt
@@ -118,6 +137,8 @@ datashield tipos
 ```
 
 Con `--tabla`, la tabla se guarda **antes** de escribir la salida y de forma atómica: si algo falla, no queda un archivo seudonimizado sin su tabla.
+
+En Word y Excel, `--conservar-metadatos` deja el autor y la empresa. Los formatos antiguos `.doc` y `.xls` no se soportan: ábrelos y guárdalos como `.docx`/`.xlsx`.
 
 Opciones comunes: `--tipos CEDULA,NIT,CORREO`, `--min-score 0.8` (entre 0 y 1), `--columnas` (nombres o índices; CSV), `--sin-encabezado`, `--delimitador ";"`. Los comandos también existen en inglés (`anonymize`, `detect`, `restore`). Los archivos se leen como UTF-8. En CSV se procesa cada celda por separado.
 
@@ -153,6 +174,7 @@ Léelas antes de confiar en la herramienta; son importantes.
 - **Tarjetas:** solo marcas con prefijos públicos (Visa, Mastercard, Amex, Diners, Discover, JCB, UnionPay). Una tarjeta escrita con separadores mezclados (`4111 1111-1111 1111`) no se detecta.
 - **Fechas de nacimiento:** solo con contexto explícito; una fecha suelta nunca se marca. **IP:** una IPv4 tras «versión»/«v.» se omite a propósito.
 - **Correos ofuscados:** se cubren `(at)`, `[at]`, `{at}` y « arroba »; no variantes más creativas («ana punto ruiz en example»).
+- **Archivos:** no se analizan imágenes, fotos escaneadas, gráficos ni objetos incrustados (el reporte lo advierte), ni la caché de tablas dinámicas de Excel (actualízalas o elimínalas). Una celda de Excel o CSV se considera del tipo de su columna solo si tiene la forma mínima (dígitos suficientes, una @…); una columna «ID» no se toca. Las celdas con fórmula no se modifican. La herramienta web acepta archivos de hasta 50 MB; para más, usa la CLI.
 - **No cubre otros datos personales:** ciudades, nombres de empresas, datos de salud, usuarios de redes sociales, documentos de otros países (CURP, RFC, DNI, RUT…). Un texto «anonimizado» puede seguir permitiendo reidentificar a alguien por el contexto.
 - **Acentos:** el texto con tildes descompuestas (NFD) se normaliza internamente; los índices de `Entity` son siempre posiciones de carácter del texto de entrada.
 - **Seudonimización:** el mismo valor escrito de dos formas distintas (`1.234.567` vs `1234567`) recibe seudónimos distintos.
@@ -169,7 +191,9 @@ Anonimizar o seudonimizar texto es una medida técnica útil, pero **cumplir la 
 
 - Detects: Colombian **ID card (cédula de ciudadanía)**, **foreigner ID (cédula de extranjería)**, **tax ID (NIT, with check-digit validation)**, **passport**, Colombian **phone numbers** (mobile and landline, with or without +57), **emails**, **street addresses** (Calle/Carrera/Diagonal/Transversal/Avenida…), **vehicle plates**, **bank accounts** (IBAN and CLABE with checksum; Colombian accounts with context), **payment cards** (brand + Luhn), **IP addresses** (IPv4/IPv6), **birth dates** (with context) and **proper names** (rules and word lists).
 - Three anonymization modes: **label** (`[CEDULA]`), **partial masking** (`*.***.***.890`) and **reversible pseudonymization** with an optional local table.
-- Python API (`detect`, `anonymize`) and a `datashield` CLI for text, `.txt` and `.csv`.
+- **Whole files: Word (`.docx`), Excel (`.xlsx`), `.csv`, `.txt`, `.md`**, keeping the formatting. Spreadsheets use the **column header as context**; Word headers, footers, comments, tracked changes and mail links are cleaned too, plus document metadata (author, company, comment authors).
+- **No install needed:** on the [project page](https://neurodeveloper11.github.io/pii-shield-es/#probar) drop a file and download the anonymized version. It runs **inside your browser** (Python on WebAssembly via self-hosted Pyodide); the file is never uploaded.
+- Python API (`detect`, `anonymize`, `anonymize_file`) and a `datashield` CLI.
 - Handles text with decomposed accents (NFD); offsets always refer to the original input.
 - Scales linearly with input size (≈0.7 MB/s on one core).
 - Zero runtime dependencies. Nothing leaves your machine.
@@ -237,6 +261,7 @@ Subcommands also exist in Spanish (`anonimizar`, `detectar`, `restaurar`). Optio
 - **Plates:** plate-shaped codes with no context (`PED123`) can be flagged by mistake; use `min_score=0.8` to favor precision.
 - **Accounts:** Colombian bank accounts have no public checksum, so they are detected only with a keyword; IBAN is validated only for a subset of countries.
 - **Cards:** only brands with public prefixes; mixed separators are not matched. **Birth dates** need explicit context. An IPv4 after "versión"/"v." is skipped on purpose.
+- **Files:** images, scanned pages, charts, embedded objects and Excel pivot caches are not analyzed (the report warns). Formula cells are left untouched. The web tool accepts files up to 50 MB.
 - **Not covered:** cities, company names, health data, social handles, documents from other countries (CURP, RFC, DNI, RUT…). "Anonymized" text may still allow re-identification from context.
 - `Entity` offsets are character indexes into the input, even for NFD text.
 

@@ -1,0 +1,6 @@
+Pyodide 0.26.4 (https://pyodide.org) — CPython compilado a WebAssembly.
+Copia sin modificar de los archivos del paquete npm «pyodide@0.26.4», cuyo package.json declara la
+licencia Apache-2.0. Detalle de licencias de sus componentes (CPython, etc.) en el repositorio:
+https://github.com/pyodide/pyodide/tree/0.26.4
+Se aloja aquí para que la herramienta de la web funcione sin depender de servidores de terceros:
+los archivos que el usuario procesa nunca salen de su navegador.

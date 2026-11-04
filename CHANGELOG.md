@@ -1,5 +1,36 @@
 # Cambios / Changelog
 
+## 0.5.0
+
+### Archivos completos (Word, Excel, CSV, texto)
+
+- `datashield_es.files`: `anonymize_file`, `anonymize_bytes`, `detect_bytes` y `restore_bytes` para
+  `.docx`, `.xlsx`, `.csv`, `.tsv`, `.txt` y `.md`, **sin dependencias nuevas** y conservando el
+  formato (negritas, tablas, estilos, fórmulas).
+- **Word:** cuerpo, tablas, encabezados, pies, notas, comentarios, texto eliminado con control de
+  cambios, campos y vínculos `mailto:`. Un dato repartido en varios fragmentos con distinto
+  formato se reemplaza correctamente.
+- **Excel:** todas las hojas; el **encabezado de la columna se usa como contexto** («Cédula»,
+  «Celular», «Nombre», «Fecha de nacimiento»…), de modo que una cédula guardada como número o un
+  nombre suelto («Gladys») se detectan. Las cadenas compartidas que quedan huérfanas se vacían
+  para que el dato original no siga dentro del archivo. Las fórmulas no se tocan.
+- **Metadatos:** autor, «modificado por», empresa y autores de comentarios y revisiones.
+- **Advertencias** cuando hay imágenes, objetos incrustados o tablas dinámicas que no se analizan.
+- **Seudónimos reversibles en archivos:** `datashield restaurar -f archivo.xlsx` devuelve también los
+  números y fechas de Excel como números (la tabla recuerda qué celdas eran numéricas).
+- **CSV:** también usa el encabezado como contexto; lee archivos en cp1252 (Excel en Windows).
+
+### Web: sube tu archivo
+
+- Sección «Pruébalo con tu archivo»: arrastras un Word, Excel, CSV o texto y descargas el
+  resultado. Corre **dentro del navegador** con Pyodide alojado en el mismo sitio: el archivo no se
+  sube a ningún servidor (verificado: cero peticiones externas).
+
+### CLI
+
+- `datashield anonimizar -f informe.docx` → `informe_anonimizado.docx`; `--conservar-metadatos`.
+- `datashield detectar -f clientes.xlsx` muestra hoja!celda o párrafo de cada hallazgo.
+
 ## 0.4.0
 
 ### Nombres (el punto más débil)

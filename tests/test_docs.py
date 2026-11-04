@@ -119,3 +119,16 @@ def test_vista_previa_para_redes_sociales():
     width, height = struct.unpack(">II", png[16:24])
     assert (width, height) == (1200, 627)
     assert len(png) < 1_000_000  # LinkedIn recomienda imágenes livianas
+
+
+def test_herramienta_de_archivos_en_la_web():
+    # La herramienta corre en el navegador: Pyodide y el paquete se sirven desde el mismo sitio.
+    assert 'id="file-input"' in INDEX and '<script src="tool.js"></script>' in INDEX
+    assert "'wasm-unsafe-eval'" in INDEX and "connect-src 'self'" in INDEX
+    for name in ("pyodide.js", "pyodide.asm.js", "pyodide.asm.wasm", "python_stdlib.zip"):
+        assert (DOCS / "vendor" / "pyodide" / name).exists(), name
+    tool = (DOCS / "tool.js").read_text(encoding="utf-8")
+    assert "http://" not in tool and "https://" not in tool
+    assert "anonymize_bytes" in tool and "vendor/pyodide/" in tool
+    manifest = (DOCS / "py" / "manifest.json").read_text(encoding="utf-8")
+    assert '"files.py"' in manifest

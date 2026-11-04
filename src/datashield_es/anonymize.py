@@ -140,6 +140,9 @@ class PseudonymTable:
         self._token_to_value: dict[str, str] = {}
         self._value_to_token: dict[tuple[str, str], str] = {}
         self._counters: dict[str, int] = {}
+        # Seudónimos que reemplazaron una celda NUMÉRICA de Excel (números, fechas): al
+        # restaurar se devuelven como número para conservar el tipo y el formato de la celda.
+        self.numeric_tokens: set[str] = set()
 
     def __len__(self) -> int:
         return len(self._token_to_value)
@@ -167,11 +170,10 @@ class PseudonymTable:
     # -- persistencia ------------------------------------------------------------------
 
     def to_json(self) -> str:
-        return json.dumps(
-            {"version": self.VERSION, "mapping": self._token_to_value},
-            ensure_ascii=False,
-            indent=2,
-        )
+        payload: dict[str, object] = {"version": self.VERSION, "mapping": self._token_to_value}
+        if self.numeric_tokens:
+            payload["numericos"] = sorted(self.numeric_tokens)
+        return json.dumps(payload, ensure_ascii=False, indent=2)
 
     @classmethod
     def from_json(cls, data: str) -> PseudonymTable:
@@ -187,6 +189,12 @@ class PseudonymTable:
             table._token_to_value[token] = original
             table._value_to_token[(tipo, original)] = token
             table._counters[tipo] = max(table._counters.get(tipo, 0), n)
+        numeric = payload.get("numericos", [])
+        if not isinstance(numeric, list) or not all(
+            tok in table._token_to_value for tok in numeric
+        ):
+            raise ValueError("Entrada inválida en la tabla: numericos")
+        table.numeric_tokens = set(numeric)
         return table
 
     def save(self, path: str | os.PathLike[str]) -> None:
@@ -251,14 +259,25 @@ def anonymize_detailed(
     table = tabla
     if mode == "seudonimo" and table is None:
         table = PseudonymTable()  # consistente dentro de la llamada, pero no recuperable
+    new_text = replace_entities(texto, entities, mode, table)
+    return AnonymizationResult(new_text, entities, table if mode == "seudonimo" else None)
+
+
+def replace_entities(
+    texto: str, entities: Iterable[Entity], modo: str, tabla: PseudonymTable | None = None
+) -> str:
+    """Reemplaza ``entities`` (ordenadas y sin solapes) en ``texto`` según ``modo``."""
+    mode = normalize_mode(modo)
+    if mode == "seudonimo" and tabla is None:
+        tabla = PseudonymTable()
     pieces: list[str] = []
     cursor = 0
     for ent in entities:
         pieces.append(texto[cursor : ent.start])
-        pieces.append(_replacement(ent, mode, table))
+        pieces.append(_replacement(ent, mode, tabla))
         cursor = ent.end
     pieces.append(texto[cursor:])
-    return AnonymizationResult("".join(pieces), entities, table if mode == "seudonimo" else None)
+    return "".join(pieces)
 
 
 def anonymize(

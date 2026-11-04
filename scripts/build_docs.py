@@ -225,6 +225,21 @@ def _replace(text: str, start: str, end: str, block: str) -> str:
     return head + block + tail
 
 
+PY_SRC = ROOT / "src" / "datashield_es"
+PY_DST = ROOT / "docs" / "py" / "datashield_es"
+MANIFEST = ROOT / "docs" / "py" / "manifest.json"
+
+
+def browser_package() -> dict[Path, str]:
+    """Archivos que la web carga en Pyodide: copia exacta del paquete + manifiesto."""
+    import json
+
+    files = sorted(p for p in PY_SRC.glob("*.py"))
+    out = {PY_DST / p.name: p.read_text(encoding="utf-8") for p in files}
+    out[MANIFEST] = json.dumps({"files": [p.name for p in files]}, indent=2) + "\n"
+    return out
+
+
 def build(index: Path = INDEX) -> str:
     text = index.read_text(encoding="utf-8")
     text = _replace(text, DEMO_START, DEMO_END, render_demo())
@@ -236,7 +251,25 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args(argv)
     new = build()
+    package = browser_package()
     if args.check:
+        stale = [
+            str(path.relative_to(ROOT))
+            for path, content in package.items()
+            if not path.exists() or path.read_text(encoding="utf-8") != content
+        ]
+        extra = (
+            sorted(str(p.relative_to(ROOT)) for p in PY_DST.glob("*.py") if p not in package)
+            if PY_DST.exists()
+            else []
+        )
+        if stale or extra:
+            print(
+                f"docs/py desactualizado ({', '.join(stale + extra)}). "
+                "Ejecuta: python scripts/build_docs.py",
+                file=sys.stderr,
+            )
+            return 1
         if new != INDEX.read_text(encoding="utf-8"):
             print(
                 "docs/index.html está desactualizado: python scripts/build_docs.py", file=sys.stderr
@@ -245,6 +278,12 @@ def main(argv: list[str] | None = None) -> int:
         print("OK: ejemplos de la web sincronizados con la librería.")
         return 0
     INDEX.write_text(new, encoding="utf-8")
+    PY_DST.mkdir(parents=True, exist_ok=True)
+    for stale in PY_DST.glob("*.py"):
+        if stale not in package:
+            stale.unlink()
+    for path, content in package.items():
+        path.write_text(content, encoding="utf-8")
     print("docs/index.html actualizado.")
     return 0
 
