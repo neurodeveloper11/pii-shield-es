@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from pii_shield_es import PIIType, PseudonymTable, anonymize
+from datashield_es import PIIType, PseudonymTable, anonymize
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))

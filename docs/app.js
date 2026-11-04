@@ -1,4 +1,4 @@
-/* pii-shield-es · interacciones mínimas (tema, idioma, pestañas por grupo, copiar). Sin dependencias. */
+/* DataShield · interacciones mínimas (tema, idioma, pestañas por grupo, copiar). Sin dependencias. */
 (function () {
   "use strict";
 
@@ -21,8 +21,8 @@
 
   /* ---------- idioma ---------- */
   var TITLES = {
-    es: "pii-shield-es · Anonimiza datos personales en español, 100 % local",
-    en: "pii-shield-es · Anonymize personal data in Spanish text, 100% local",
+    es: "DataShield · Anonimiza datos personales en español, 100 % local",
+    en: "DataShield · Anonymize personal data in Spanish text, 100% local",
   };
 
   function setLang(lang, persist) {

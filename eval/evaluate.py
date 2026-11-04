@@ -22,7 +22,7 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).parent))
 
 import dataset
-from pii_shield_es import PIIType, detect
+from datashield_es import PIIType, detect
 
 ROOT = Path(__file__).resolve().parent.parent
 README = ROOT / "README.md"

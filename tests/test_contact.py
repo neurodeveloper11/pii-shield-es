@@ -1,8 +1,8 @@
 import pytest
 
 from conftest import found
-from pii_shield_es import PIIType
-from pii_shield_es.validators import iban_check_digits
+from datashield_es import PIIType
+from datashield_es.validators import iban_check_digits
 
 
 class TestTelefono:
@@ -55,7 +55,7 @@ class TestTelefono:
         assert found(text, PIIType.TELEFONO) == []
 
     def test_prefijo_sin_mas_se_conserva_completo(self):
-        (ent,) = [e for e in __import__("pii_shield_es").detect("+57 3001234567")]
+        (ent,) = [e for e in __import__("datashield_es").detect("+57 3001234567")]
         assert ent.text == "+57 3001234567"
 
 
@@ -154,7 +154,7 @@ class TestPlaca:
         assert found(text, PIIType.PLACA) == []
 
     def test_confianza_menor_sin_contexto(self):
-        from pii_shield_es import detect
+        from datashield_es import detect
 
         con = detect("placa ABC123")[0].score
         sin = detect("salió ABC123")[0].score
@@ -189,7 +189,7 @@ class TestCuenta:
         assert found("IBAN ES00 1234 5678 9012 3456 7890", PIIType.CUENTA_BANCARIA) == []
 
     def test_clabe(self):
-        from pii_shield_es.validators import clabe_check_digit
+        from datashield_es.validators import clabe_check_digit
 
         first17 = "01218000123456789"
         clabe = first17 + str(clabe_check_digit(first17))

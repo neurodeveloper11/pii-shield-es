@@ -10,12 +10,12 @@ import unicodedata
 import pytest
 
 from conftest import found
-from pii_shield_es import PIIType, PseudonymTable, anonymize, detect
-from pii_shield_es.anonymize import mask_value
-from pii_shield_es.cli import main
-from pii_shield_es.detectors import _is_sentence_start, resolve_overlaps
-from pii_shield_es.types import Entity
-from pii_shield_es.validators import card_brand, is_valid_card, is_valid_ip, luhn_ok
+from datashield_es import PIIType, PseudonymTable, anonymize, detect
+from datashield_es.anonymize import mask_value
+from datashield_es.cli import main
+from datashield_es.detectors import _is_sentence_start, resolve_overlaps
+from datashield_es.types import Entity
+from datashield_es.validators import card_brand, is_valid_card, is_valid_ip, luhn_ok
 
 # --------------------------------------------------------------------------- validadores
 
@@ -280,7 +280,7 @@ def test_resolve_overlaps_equivale_a_la_version_cuadratica():
             ents.append(
                 Entity(rng.choice(tipos), start, start + rng.randint(1, 15), "x", rng.random())
             )
-        from pii_shield_es.detectors import _PRIORITY_INDEX
+        from datashield_es.detectors import _PRIORITY_INDEX
 
         ordered = sorted(
             ents, key=lambda e: (-e.score, _PRIORITY_INDEX[e.type], -(e.end - e.start), e.start)
@@ -362,3 +362,19 @@ def test_cli_tipos(capsys):
 def test_cli_min_score_valido(capsys):
     assert main(["detectar", "cédula 1.023.456.789", "--min-score", "0.5", "--resumen"]) == 0
     assert "CEDULA" in capsys.readouterr().out
+
+
+def test_alias_obsoletos_siguen_funcionando(capsys):
+    import importlib
+    import sys
+
+    from datashield_es.cli import legacy_main
+
+    sys.modules.pop("pii_shield_es", None)
+    with pytest.warns(DeprecationWarning, match="datashield_es"):
+        legacy = importlib.import_module("pii_shield_es")
+    assert legacy.anonymize("cédula 1.023.456.789") == "cédula [CEDULA]"
+    assert legacy.__version__ == __import__("datashield_es").__version__
+    assert legacy_main(["anonimizar", "cédula 1.023.456.789"]) == 0
+    captured = capsys.readouterr()
+    assert "[CEDULA]" in captured.out and "datashield" in captured.err

@@ -1,8 +1,8 @@
 import pytest
 
-from pii_shield_es import Entity, PIIType, detect
-from pii_shield_es.detectors import resolve_overlaps
-from pii_shield_es.types import coerce_types
+from datashield_es import Entity, PIIType, detect
+from datashield_es.detectors import resolve_overlaps
+from datashield_es.types import coerce_types
 
 TEXTO = (
     "Soy Juan Camilo Pérez Gómez, C.C. 1.023.456.789, vivo en Cra 15 # 93-60 apto 502. "

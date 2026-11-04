@@ -1,7 +1,7 @@
 import pytest
 
 from conftest import found
-from pii_shield_es import PIIType
+from datashield_es import PIIType
 
 
 @pytest.mark.parametrize(
@@ -73,7 +73,7 @@ def test_limites_conocidos_documentados():
 
 
 def test_nombre_no_invade_otros_tipos():
-    from pii_shield_es import detect
+    from datashield_es import detect
 
     ents = detect("Contacto: Camila Vélez, correo camila.velez@example.com")
     assert [e.type for e in ents] == [PIIType.NOMBRE, PIIType.CORREO]
@@ -84,7 +84,7 @@ def test_no_cruza_saltos_de_linea():
 
 
 def test_normalize_tolera_tildes_y_enie():
-    from pii_shield_es._names import normalize
+    from datashield_es._names import normalize
 
     assert normalize("PÉREZ") == "perez"
     assert normalize("Ñoño") == "nono"

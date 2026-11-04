@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-from pii_shield_es import PIIType, detect
-from pii_shield_es.validators import nit_check_digit
+from datashield_es import PIIType, detect
+from datashield_es.validators import nit_check_digit
 
 
 def nit(base: str, dotted: bool = False) -> str:

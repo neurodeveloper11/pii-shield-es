@@ -3,8 +3,8 @@ requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pii-shield-es"
-version = "0.2.0"
+name = "datashield-es"
+version = "0.3.0"
 description = "Detección y anonimización 100 % local de datos personales en español (Colombia/LatAm)."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -30,7 +30,8 @@ dependencies = []
 dev = ["pytest>=7", "pytest-cov>=4", "ruff>=0.5"]
 
 [project.scripts]
-pii-shield = "pii_shield_es.cli:main"
+datashield = "datashield_es.cli:main"
+pii-shield = "datashield_es.cli:legacy_main"  # alias obsoleto
 
 [project.urls]
 Homepage = "https://github.com/neurodeveloper11/pii-shield-es"
@@ -41,14 +42,14 @@ Issues = "https://github.com/neurodeveloper11/pii-shield-es/issues"
 where = ["src"]
 
 [tool.setuptools.package-data]
-pii_shield_es = ["py.typed"]
+datashield_es = ["py.typed"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
 
 [tool.coverage.run]
-source = ["pii_shield_es"]
+source = ["datashield_es"]
 branch = true
 
 [tool.coverage.report]

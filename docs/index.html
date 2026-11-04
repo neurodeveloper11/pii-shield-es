@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
   <meta name="color-scheme" content="light dark">
-  <title>pii-shield-es · Anonimiza datos personales en español, 100 % local</title>
-  <meta name="description" content="pii-shield-es detecta y anonimiza datos personales en textos en español de Colombia y LatAm: cédulas, NIT, teléfonos, correos, direcciones, placas, cuentas, tarjetas, IP, fechas de nacimiento y nombres. 100 % local, código abierto.">
+  <title>DataShield · Anonimiza datos personales en español, 100 % local</title>
+  <meta name="description" content="DataShield detecta y anonimiza datos personales en textos en español de Colombia y LatAm: cédulas, NIT, teléfonos, correos, direcciones, placas, cuentas, tarjetas, IP, fechas de nacimiento y nombres. 100 % local, código abierto.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -15,9 +15,9 @@
 
   <header class="topbar">
     <div class="wrap">
-      <a class="brand" href="#top" aria-label="pii-shield-es">
+      <a class="brand" href="#top" aria-label="DataShield">
         <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 5 6v8c0 7.2 4.6 12.8 11 16 6.4-3.2 11-8.8 11-16V6z" fill="currentColor" opacity=".18"/><path d="M16 2 5 6v8c0 7.2 4.6 12.8 11 16 6.4-3.2 11-8.8 11-16V6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M11 15.5l3.6 3.6L21.5 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        pii-shield-es
+        DataShield
       </a>
       <nav class="nav" aria-label="Secciones">
         <a href="#casos"><span data-l="es">Casos de uso</span><span data-l="en">Use cases</span></a>
@@ -42,14 +42,14 @@
     <div class="hero" id="top">
       <div class="wrap hero-grid">
         <div class="hero-copy">
-          <span class="eyebrow"><span data-l="es">Código abierto · MIT · Python 3.10+ · v0.2</span><span data-l="en">Open source · MIT · Python 3.10+ · v0.2</span></span>
+          <span class="eyebrow"><span data-l="es">Código abierto · MIT · Python 3.10+ · v0.3</span><span data-l="en">Open source · MIT · Python 3.10+ · v0.3</span></span>
           <h1>
             <span data-l="es">Comparte tus textos, <em>no los datos de tus usuarios</em></span>
             <span data-l="en">Share your text, <em>not your users’ data</em></span>
           </h1>
           <p class="lead">
-            <span data-l="es">pii-shield-es encuentra y anonimiza cédulas, NIT, teléfonos, correos, direcciones, placas, cuentas, tarjetas, IP, fechas de nacimiento y nombres en textos en español de Colombia y LatAm. Todo corre en tu máquina: sin APIs, sin red, sin modelos pesados.</span>
-            <span data-l="en">pii-shield-es finds and anonymizes Colombian/LatAm IDs, tax IDs, phones, emails, addresses, plates, bank accounts, cards, IPs, birth dates and names in Spanish text. Everything runs on your machine: no APIs, no network, no heavy models.</span>
+            <span data-l="es">DataShield encuentra y anonimiza cédulas, NIT, teléfonos, correos, direcciones, placas, cuentas, tarjetas, IP, fechas de nacimiento y nombres en textos en español de Colombia y LatAm. Todo corre en tu máquina: sin APIs, sin red, sin modelos pesados.</span>
+            <span data-l="en">DataShield finds and anonymizes Colombian/LatAm IDs, tax IDs, phones, emails, addresses, plates, bank accounts, cards, IPs, birth dates and names in Spanish text. Everything runs on your machine: no APIs, no network, no heavy models.</span>
           </p>
           <div class="cta-row">
             <a class="btn btn-primary" href="https://github.com/neurodeveloper11/pii-shield-es" target="_blank" rel="noopener noreferrer">
@@ -319,13 +319,13 @@ Notificaciones: <mark class="e e-DIRECCION" title="DIRECCION">[DIRECCION_1]</mar
       <div class="wrap">
         <h2><span data-l="es">Tu hoja de cálculo, antes y después</span><span data-l="en">Your spreadsheet, before and after</span></h2>
         <p class="section-lead">
-          <span data-l="es">Un solo comando procesa las columnas que elijas. Con <code>--tabla</code>, el mismo valor recibe siempre el mismo seudónimo en todo el archivo y puedes revertirlo con <code>pii-shield restaurar</code>.</span>
-          <span data-l="en">One command processes the columns you choose. With <code>--tabla</code>, the same value always gets the same pseudonym across the file, and <code>pii-shield restore</code> reverts it.</span>
+          <span data-l="es">Un solo comando procesa las columnas que elijas. Con <code>--tabla</code>, el mismo valor recibe siempre el mismo seudónimo en todo el archivo y puedes revertirlo con <code>datashield restaurar</code>.</span>
+          <span data-l="en">One command processes the columns you choose. With <code>--tabla</code>, the same value always gets the same pseudonym across the file, and <code>datashield restore</code> reverts it.</span>
         </p>
         <div class="code code-inline">
           <span class="label"><span data-l="es">Terminal</span><span data-l="en">Terminal</span></span>
           <button type="button" class="copy" data-copy="code-csv"><span data-l="es">Copiar</span><span data-l="en">Copy</span></button>
-          <pre id="code-csv">pii-shield anonimizar -f clientes.csv --columnas cliente,documento,contacto,nota -m seudonimo --tabla tabla.json -o clientes_anon.csv</pre>
+          <pre id="code-csv">datashield anonimizar -f clientes.csv --columnas cliente,documento,contacto,nota -m seudonimo --tabla tabla.json -o clientes_anon.csv</pre>
         </div>
 <!-- CSV:START -->
 <div class="csv-compare">
@@ -530,7 +530,7 @@ Notificaciones: <mark class="e e-DIRECCION" title="DIRECCION">[DIRECCION_1]</mar
           <div class="code">
             <span class="label"><span data-l="es">Desde Python</span><span data-l="en">From Python</span></span>
             <button type="button" class="copy" data-copy="code-python"><span data-l="es">Copiar</span><span data-l="en">Copy</span></button>
-            <pre id="code-python">from pii_shield_es import detect, anonymize, PseudonymTable
+            <pre id="code-python">from datashield_es import detect, anonymize, PseudonymTable
 
 texto = "Mi cédula es 1.023.456.789 y mi correo es a@example.com"
 
@@ -546,13 +546,13 @@ assert tabla.restore(anon) == texto</pre>
           <div class="code">
             <span class="label"><span data-l="es">Desde la terminal</span><span data-l="en">From the terminal</span></span>
             <button type="button" class="copy" data-copy="code-cli"><span data-l="es">Copiar</span><span data-l="en">Copy</span></button>
-            <pre id="code-cli">pii-shield tipos                      # qué se detecta
-pii-shield anonimizar "Mi cédula es 1.023.456.789"
-pii-shield anonimizar -f chat.txt -m mascara -o chat_anon.txt
-pii-shield detectar -f clientes.csv --resumen
-pii-shield anonimizar -f datos.csv -m seudonimo \
+            <pre id="code-cli">datashield tipos                      # qué se detecta
+datashield anonimizar "Mi cédula es 1.023.456.789"
+datashield anonimizar -f chat.txt -m mascara -o chat_anon.txt
+datashield detectar -f clientes.csv --resumen
+datashield anonimizar -f datos.csv -m seudonimo \
     --tabla tabla.json -o datos_anon.csv
-pii-shield restaurar -f datos_anon.csv --tabla tabla.json</pre>
+datashield restaurar -f datos_anon.csv --tabla tabla.json</pre>
           </div>
         </div>
       </div>
@@ -569,7 +569,7 @@ pii-shield restaurar -f datos_anon.csv --tabla tabla.json</pre>
                 <th scope="col"></th>
                 <th scope="col"><span data-l="es">Revisión manual</span><span data-l="en">Manual review</span></th>
                 <th scope="col"><span data-l="es">Servicio en la nube</span><span data-l="en">Cloud service</span></th>
-                <th scope="col" class="us">pii-shield-es</th>
+                <th scope="col" class="us">DataShield</th>
               </tr>
             </thead>
             <tbody>
@@ -607,8 +607,8 @@ pii-shield restaurar -f datos_anon.csv --tabla tabla.json</pre>
           </table>
         </div>
         <p class="note">
-          <span data-l="es">Lo recomendable es combinar: pii-shield-es hace el grueso del trabajo localmente y una persona revisa el resultado.</span>
-          <span data-l="en">Best practice is to combine both: pii-shield-es does the bulk of the work locally and a person reviews the result.</span>
+          <span data-l="es">Lo recomendable es combinar: DataShield hace el grueso del trabajo localmente y una persona revisa el resultado.</span>
+          <span data-l="en">Best practice is to combine both: DataShield does the bulk of the work locally and a person reviews the result.</span>
         </p>
       </div>
     </section>
@@ -620,8 +620,8 @@ pii-shield restaurar -f datos_anon.csv --tabla tabla.json</pre>
         <div class="notice">
           <h3><span data-l="es">No sustituye una revisión de cumplimiento</span><span data-l="en">It does not replace a compliance review</span></h3>
           <p>
-            <span data-l="es">pii-shield-es es una ayuda técnica heurística: no garantiza detectarlo todo y no ofrece asesoría jurídica. Cumplir la Ley 1581 de 2012 (<em>Habeas Data</em>) implica mucho más que anonimizar texto. Revisa siempre el resultado y consulta a un profesional.</span>
-            <span data-l="en">pii-shield-es is a heuristic technical aid: it does not guarantee that everything is detected and offers no legal advice. Complying with Colombian Law 1581 of 2012 (<em>Habeas Data</em>) takes far more than anonymizing text. Always review the output and consult a professional.</span>
+            <span data-l="es">DataShield es una ayuda técnica heurística: no garantiza detectarlo todo y no ofrece asesoría jurídica. Cumplir la Ley 1581 de 2012 (<em>Habeas Data</em>) implica mucho más que anonimizar texto. Revisa siempre el resultado y consulta a un profesional.</span>
+            <span data-l="en">DataShield is a heuristic technical aid: it does not guarantee that everything is detected and offers no legal advice. Complying with Colombian Law 1581 of 2012 (<em>Habeas Data</em>) takes far more than anonymizing text. Always review the output and consult a professional.</span>
           </p>
           <ul>
             <li><span data-l="es">Son reglas y listas, no un modelo de lenguaje: habrá falsos negativos y positivos.</span><span data-l="en">It is rules and word lists, not a language model: expect false negatives and positives.</span></li>
@@ -657,8 +657,8 @@ pii-shield restaurar -f datos_anon.csv --tabla tabla.json</pre>
 
   <footer>
     <div class="wrap">
-      <span data-l="es">pii-shield-es · Licencia MIT · Los ejemplos usan datos inventados. No es asesoría jurídica.</span>
-      <span data-l="en">pii-shield-es · MIT License · Examples use invented data. Not legal advice.</span>
+      <span data-l="es">DataShield · Licencia MIT · Los ejemplos usan datos inventados. No es asesoría jurídica.</span>
+      <span data-l="en">DataShield · MIT License · Examples use invented data. Not legal advice.</span>
     </div>
   </footer>
 

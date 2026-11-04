@@ -1,5 +1,13 @@
 # Cambios / Changelog
 
+## 0.3.0
+
+- **Nuevo nombre: DataShield.** Paquete `datashield-es`, módulo `datashield_es`, comando
+  `datashield`. Se usa el sufijo `-es` para no confundirse con DataSHIELD (datashield.org).
+- Compatibilidad: `import pii_shield_es` y el comando `pii-shield` siguen funcionando y emiten un
+  aviso de obsolescencia; se eliminarán en una versión futura.
+- Sin cambios en la detección ni en la API (`detect`, `anonymize`, `PseudonymTable`…).
+
 ## 0.2.0
 
 ### Seguridad y correcciones
@@ -38,8 +46,8 @@
 
 ### CLI
 
-- `pii-shield tipos` lista los tipos detectables.
-- `pii-shield detectar --resumen` cuenta por tipo sin mostrar los datos (también con `--json`).
+- `datashield tipos` lista los tipos detectables.
+- `datashield detectar --resumen` cuenta por tipo sin mostrar los datos (también con `--json`).
 
 ### Evaluación y web
 

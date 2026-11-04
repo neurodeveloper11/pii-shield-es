@@ -2,7 +2,7 @@
 
 import pytest
 
-from pii_shield_es import detect
+from datashield_es import detect
 
 NEGATIVOS = [
     # montos, fechas, cantidades

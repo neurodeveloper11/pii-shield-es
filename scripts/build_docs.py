@@ -15,8 +15,8 @@ import html
 import sys
 from pathlib import Path
 
-from pii_shield_es import PIIType, PseudonymTable, detect
-from pii_shield_es.anonymize import label_for, mask_value
+from datashield_es import PIIType, PseudonymTable, detect
+from datashield_es.anonymize import label_for, mask_value
 
 ROOT = Path(__file__).resolve().parent.parent
 INDEX = ROOT / "docs" / "index.html"
@@ -177,7 +177,7 @@ def _csv_table(rows: list[tuple[str, ...]], caption_es: str, caption_en: str, cl
 
 
 def render_csv() -> str:
-    """La misma hoja antes y después de ``pii-shield anonimizar -m seudonimo --tabla``."""
+    """La misma hoja antes y después de ``datashield anonimizar -m seudonimo --tabla``."""
     table = PseudonymTable()
     before = [
         tuple(render_text(c, None) if j in CSV_COLUMNS else html.escape(c) for j, c in enumerate(r))

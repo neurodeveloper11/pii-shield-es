@@ -1,27 +1,17 @@
-"""pii-shield-es: detección y anonimización 100 % local de datos personales en español."""
+"""Alias obsoleto: el paquete ahora se llama ``datashield_es`` (DataShield).
 
-from .anonymize import (
-    MODES,
-    AnonymizationResult,
-    PseudonymTable,
-    anonymize,
-    anonymize_detailed,
-    deanonymize,
+``import pii_shield_es`` sigue funcionando para no romper código existente, pero emite un
+``DeprecationWarning``. Cambia tus imports a ``from datashield_es import ...``.
+"""
+
+import warnings
+
+from datashield_es import *  # noqa: F403
+from datashield_es import __all__, __version__  # noqa: F401
+
+warnings.warn(
+    "pii_shield_es ahora se llama datashield_es; actualiza tus imports "
+    "(from datashield_es import ...). El alias se eliminará en una versión futura.",
+    DeprecationWarning,
+    stacklevel=2,
 )
-from .detectors import detect
-from .types import Entity, PIIType
-
-__version__ = "0.2.0"
-
-__all__ = [
-    "MODES",
-    "AnonymizationResult",
-    "Entity",
-    "PIIType",
-    "PseudonymTable",
-    "__version__",
-    "anonymize",
-    "anonymize_detailed",
-    "deanonymize",
-    "detect",
-]

@@ -1,4 +1,4 @@
-# pii-shield-es
+# DataShield
 
 [![CI](https://github.com/neurodeveloper11/pii-shield-es/actions/workflows/ci.yml/badge.svg)](https://github.com/neurodeveloper11/pii-shield-es/actions/workflows/ci.yml)
 [![Licencia: MIT](https://img.shields.io/badge/licencia-MIT-blue.svg)](LICENSE)
@@ -7,6 +7,8 @@
 **ES** — Detecta y anonimiza datos personales en textos en español de Colombia/LatAm. 100 % local: sin llamadas de red, sin APIs externas, sin modelos pesados. · [Ir a Español](#español)
 
 **EN** — Detects and anonymizes personal data (PII) in Colombian/LatAm Spanish text. 100 % local: no network calls, no external APIs, no heavy models. · [Jump to English](#english)
+
+> **Nombre / Name.** Antes se llamaba **pii-shield-es**. Paquete `datashield-es`, módulo `datashield_es`, comando `datashield`. `import pii_shield_es` y el comando `pii-shield` siguen funcionando con un aviso de obsolescencia. No tiene relación con [DataSHIELD](https://www.datashield.org/) (plataforma de análisis federado), de ahí el sufijo `-es`. / Formerly **pii-shield-es**. Package `datashield-es`, module `datashield_es`, command `datashield`; the old import and command still work with a deprecation warning. Unrelated to the DataSHIELD federated-analysis platform, hence the `-es` suffix.
 
 > **Aviso / Notice.** 
 > **ES:** esta herramienta es una ayuda técnica heurística. **No sustituye una revisión de cumplimiento** de la Ley 1581 de 2012 (régimen de protección de datos personales / *Habeas Data*) ni asesoría jurídica, y **no garantiza** que todo dato personal sea detectado. Revisa siempre el resultado antes de publicarlo o compartirlo.
@@ -20,7 +22,7 @@
 
 - Detecta: **cédula de ciudadanía**, **cédula de extranjería**, **NIT** (valida el dígito de verificación), **pasaporte**, **teléfonos** colombianos (móvil y fijo, con o sin +57), **correos**, **direcciones** (Calle/Carrera/Diagonal/Transversal/Avenida…), **placas** de vehículo, **cuentas bancarias** (IBAN y CLABE con checksum; cuentas colombianas con contexto), **tarjetas de pago** (marca + Luhn), **direcciones IP** (IPv4/IPv6), **fechas de nacimiento** (con contexto) y **nombres propios** (reglas y listas).
 - Tres modos de anonimización: **etiqueta** (`[CEDULA]`), **enmascarado parcial** (`*.***.***.890`) y **seudonimización reversible** con una tabla local opcional.
-- API de Python (`detect`, `anonymize`) y CLI `pii-shield` para texto, `.txt` y `.csv`.
+- API de Python (`detect`, `anonymize`) y CLI `datashield` para texto, `.txt` y `.csv`.
 - Acepta texto con tildes descompuestas (NFD, típico al copiar de PDF o macOS): se normaliza internamente y los índices siguen apuntando al texto original.
 - Escala de forma lineal con el tamaño del texto (≈0,7 MB/s en un núcleo).
 - Sin dependencias en tiempo de ejecución. Nada sale de tu máquina.
@@ -45,7 +47,7 @@ pip install -e ".[dev]"
 ### Uso en Python
 
 ```python
-from pii_shield_es import detect, anonymize, PseudonymTable
+from datashield_es import detect, anonymize, PseudonymTable
 
 texto = (
     "Hola, soy Juan Camilo Pérez Gómez, C.C. 1.023.456.789. "
@@ -92,27 +94,27 @@ Opciones útiles: `detect(texto, tipos=["CEDULA", "NIT"], min_score=0.8)`; `anon
 
 ```bash
 # Texto directo
-pii-shield anonimizar "Mi cédula es 1.023.456.789 y mi correo a@example.com"
+datashield anonimizar "Mi cédula es 1.023.456.789 y mi correo a@example.com"
 
 # Archivos .txt y .csv (por defecto, a stdout; usa -o para escribir un archivo)
-pii-shield anonimizar -f entrevistas.txt -o entrevistas_anon.txt
-pii-shield anonimizar -f clientes.csv --columnas nota,observaciones -m mascara -o clientes_anon.csv
+datashield anonimizar -f entrevistas.txt -o entrevistas_anon.txt
+datashield anonimizar -f clientes.csv --columnas nota,observaciones -m mascara -o clientes_anon.csv
 
 # Desde stdin
-cat correo.txt | pii-shield anonimizar -m etiqueta
+cat correo.txt | datashield anonimizar -m etiqueta
 
 # Seudonimización reversible con tabla local
-pii-shield anonimizar -f datos.csv -m seudonimo --tabla tabla.json -o datos_anon.csv
-pii-shield restaurar -f datos_anon.csv --tabla tabla.json -o datos_originales.csv
+datashield anonimizar -f datos.csv -m seudonimo --tabla tabla.json -o datos_anon.csv
+datashield restaurar -f datos_anon.csv --tabla tabla.json -o datos_originales.csv
 
 # Solo detectar (tabla legible o JSON; en CSV incluye fila y columna)
-pii-shield detectar -f clientes.csv --json
+datashield detectar -f clientes.csv --json
 
 # Solo contar por tipo, sin mostrar los datos (útil para auditar un archivo)
-pii-shield detectar -f clientes.csv --resumen
+datashield detectar -f clientes.csv --resumen
 
 # Listar los tipos que se detectan
-pii-shield tipos
+datashield tipos
 ```
 
 Con `--tabla`, la tabla se guarda **antes** de escribir la salida y de forma atómica: si algo falla, no queda un archivo seudonimizado sin su tabla.
@@ -167,7 +169,7 @@ Anonimizar o seudonimizar texto es una medida técnica útil, pero **cumplir la 
 
 - Detects: Colombian **ID card (cédula de ciudadanía)**, **foreigner ID (cédula de extranjería)**, **tax ID (NIT, with check-digit validation)**, **passport**, Colombian **phone numbers** (mobile and landline, with or without +57), **emails**, **street addresses** (Calle/Carrera/Diagonal/Transversal/Avenida…), **vehicle plates**, **bank accounts** (IBAN and CLABE with checksum; Colombian accounts with context), **payment cards** (brand + Luhn), **IP addresses** (IPv4/IPv6), **birth dates** (with context) and **proper names** (rules and word lists).
 - Three anonymization modes: **label** (`[CEDULA]`), **partial masking** (`*.***.***.890`) and **reversible pseudonymization** with an optional local table.
-- Python API (`detect`, `anonymize`) and a `pii-shield` CLI for text, `.txt` and `.csv`.
+- Python API (`detect`, `anonymize`) and a `datashield` CLI for text, `.txt` and `.csv`.
 - Handles text with decomposed accents (NFD); offsets always refer to the original input.
 - Scales linearly with input size (≈0.7 MB/s on one core).
 - Zero runtime dependencies. Nothing leaves your machine.
@@ -191,7 +193,7 @@ pip install -e ".[dev]"
 ### Python usage
 
 ```python
-from pii_shield_es import detect, anonymize, PseudonymTable
+from datashield_es import detect, anonymize, PseudonymTable
 
 text = "Hola, soy Juan Camilo Pérez Gómez, C.C. 1.023.456.789. Mi correo es juan.perez@example.com."
 
@@ -213,14 +215,14 @@ Mode names accept English aliases: `label`, `mask`, `pseudonym`. `detect(text, t
 ### CLI
 
 ```bash
-pii-shield anonymize "Mi cédula es 1.023.456.789 y mi correo a@example.com"
-pii-shield anonymize -f clients.csv --columnas notes -m mascara -o clients_anon.csv
-cat mail.txt | pii-shield anonymize
-pii-shield anonymize -f data.csv -m seudonimo --tabla tabla.json -o data_anon.csv
-pii-shield restore -f data_anon.csv --tabla tabla.json -o data_original.csv
-pii-shield detect -f clients.csv --json     # in CSV, includes row and column
-pii-shield detect -f clients.csv --resumen  # counts per type only, no data shown
-pii-shield types                            # list the supported types
+datashield anonymize "Mi cédula es 1.023.456.789 y mi correo a@example.com"
+datashield anonymize -f clients.csv --columnas notes -m mascara -o clients_anon.csv
+cat mail.txt | datashield anonymize
+datashield anonymize -f data.csv -m seudonimo --tabla tabla.json -o data_anon.csv
+datashield restore -f data_anon.csv --tabla tabla.json -o data_original.csv
+datashield detect -f clients.csv --json     # in CSV, includes row and column
+datashield detect -f clients.csv --resumen  # counts per type only, no data shown
+datashield types                            # list the supported types
 ```
 
 Subcommands also exist in Spanish (`anonimizar`, `detectar`, `restaurar`). Options: `--tipos`, `--min-score`, `--columnas` (names or 0-based indexes; CSV), `--sin-encabezado` (no header row), `--delimitador`. Files are read as UTF-8; each CSV cell is processed independently. The CLI messages are in Spanish.
@@ -322,12 +324,12 @@ Generadas por `python eval/evaluate.py` sobre conjuntos **sintéticos** (todos l
 ```bash
 pip install -e ".[dev]"
 ruff check . && ruff format --check .
-pytest --cov=pii_shield_es
+pytest --cov=datashield_es
 python eval/evaluate.py --check      # métricas, README y gráfica de la web
 python scripts/build_docs.py --check # ejemplos de la web = salida real de la librería
 ```
 
-- `src/pii_shield_es/` — librería / library. `tests/` — pruebas (incluye falsos positivos) / tests (including false positives). `eval/` — conjuntos sintéticos y script de métricas / synthetic sets and metrics script. `docs/` — página web estática (GitHub Pages) / static site; `scripts/build_docs.py` genera sus ejemplos / generates its examples. Historial / history: [CHANGELOG.md](CHANGELOG.md).
+- `src/datashield_es/` — librería / library. `tests/` — pruebas (incluye falsos positivos) / tests (including false positives). `eval/` — conjuntos sintéticos y script de métricas / synthetic sets and metrics script. `docs/` — página web estática (GitHub Pages) / static site; `scripts/build_docs.py` genera sus ejemplos / generates its examples. Historial / history: [CHANGELOG.md](CHANGELOG.md).
 - Los datos de `eval/` son inventados: nombres sobre listas de nombres comunes, números ficticios y dominios reservados (`example.com/.org/.net`). Cualquier coincidencia con personas reales es involuntaria. / `eval/` data is fabricated: common-name combinations, fictitious numbers and reserved domains. Any resemblance to real people is unintentional.
 
 ## Licencia / License
