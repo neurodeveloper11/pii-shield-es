@@ -26,7 +26,6 @@ NEGATIVOS = [
     "Factura electrónica FE-2024-000123 emitida.",
     "El tracking es 1Z999AA10123456784 según la guía.",
     "Commit 3f2a9c1 y rama feature/login.",
-    "Dirección IP 192.168.100.200 del servidor interno.",
     "Coordenadas 4.7110, -74.0721 en el mapa.",
     # normativa y conceptos
     "Según la Ley 1581 de 2012, el titular puede solicitar la supresión de sus datos.",

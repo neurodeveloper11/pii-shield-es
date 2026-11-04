@@ -1,0 +1,89 @@
+{"text": "Paciente: Rosa Elena Quintero, C.C. 41.888.222, fecha de nacimiento: 14/03/1957.", "entities": [{"type": "NOMBRE", "start": 10, "end": 29, "text": "Rosa Elena Quintero"}, {"type": "CEDULA", "start": 36, "end": 46, "text": "41.888.222"}, {"type": "FECHA_NACIMIENTO", "start": 69, "end": 79, "text": "14/03/1957"}], "id": "holdout2-001"}
+{"text": "Acompañante: Héctor Julio Quintero, celular 311 555 0142.", "entities": [{"type": "NOMBRE", "start": 13, "end": 34, "text": "Héctor Julio Quintero"}, {"type": "TELEFONO", "start": 44, "end": 56, "text": "311 555 0142"}], "id": "holdout2-002"}
+{"text": "Se remite al servicio de cardiología. Control en 30 días.", "entities": [], "id": "holdout2-003"}
+{"text": "La paciente refiere dolor torácico desde hace 3 días; TA 140/90, FC 88.", "entities": [], "id": "holdout2-004"}
+{"text": "F. nac.: 1985-07-22 · Documento: 1.098.765.432", "entities": [{"type": "FECHA_NACIMIENTO", "start": 9, "end": 19, "text": "1985-07-22"}, {"type": "CEDULA", "start": 33, "end": 46, "text": "1.098.765.432"}], "id": "holdout2-005"}
+{"text": "Médico tratante: Dr. Mauricio Lozano, registro médico 54321.", "entities": [{"type": "NOMBRE", "start": 21, "end": 36, "text": "Mauricio Lozano"}], "id": "holdout2-006"}
+{"text": "Nació el 3 de mayo de 1990 en Tunja, según la madre.", "entities": [{"type": "FECHA_NACIMIENTO", "start": 9, "end": 26, "text": "3 de mayo de 1990"}], "id": "holdout2-007"}
+{"text": "Se programa cita para el 14/03/2026 a las 10:00.", "entities": [], "id": "holdout2-008"}
+{"text": "Cliente: Fabián Andrés Cárdenas · Tel. 604 555 0123 · Correo fabian.cardenas@example.com", "entities": [{"type": "NOMBRE", "start": 9, "end": 31, "text": "Fabián Andrés Cárdenas"}, {"type": "TELEFONO", "start": 39, "end": 51, "text": "604 555 0123"}, {"type": "CORREO", "start": 61, "end": 88, "text": "fabian.cardenas@example.com"}], "id": "holdout2-009"}
+{"text": "El cliente indica que su número es el 3175550109 y que no le llegan los SMS.", "entities": [{"type": "TELEFONO", "start": 38, "end": 48, "text": "3175550109"}], "id": "holdout2-010"}
+{"text": "Pagó con la tarjeta 4111 1111 1111 1111 y el cobro salió doble.", "entities": [{"type": "TARJETA_CREDITO", "start": 20, "end": 39, "text": "4111 1111 1111 1111"}], "id": "holdout2-011"}
+{"text": "Tarjeta terminada en 1111, no compartir el número completo por chat.", "entities": [], "id": "holdout2-012"}
+{"text": "Número de tarjeta: 5555555555554444 (Mastercard).", "entities": [{"type": "TARJETA_CREDITO", "start": 19, "end": 35, "text": "5555555555554444"}], "id": "holdout2-013"}
+{"text": "Su tarjeta American Express 3782 822463 10005 fue bloqueada.", "entities": [{"type": "TARJETA_CREDITO", "start": 28, "end": 45, "text": "3782 822463 10005"}], "id": "holdout2-014"}
+{"text": "El número 4111 1111 1111 1112 no pasó la validación del datáfono.", "entities": [], "id": "holdout2-015"}
+{"text": "Ticket #45821 escalado a segundo nivel el viernes.", "entities": [], "id": "holdout2-016"}
+{"text": "Me pueden escribir al correo soporte.ventas@example.org o al WhatsApp +57 300 555 0175.", "entities": [{"type": "CORREO", "start": 29, "end": 55, "text": "soporte.ventas@example.org"}, {"type": "TELEFONO", "start": 70, "end": 86, "text": "+57 300 555 0175"}], "id": "holdout2-017"}
+{"text": "Radicado PQRS 2025-000123 recibido por el canal web.", "entities": [], "id": "holdout2-018"}
+{"text": "Nombre completo: Yuliana Marcela Ospina Henao", "entities": [{"type": "NOMBRE", "start": 17, "end": 45, "text": "Yuliana Marcela Ospina Henao"}], "id": "holdout2-019"}
+{"text": "Cédula de ciudadanía 1.017.234.567 expedida en Medellín.", "entities": [{"type": "CEDULA", "start": 21, "end": 34, "text": "1.017.234.567"}], "id": "holdout2-020"}
+{"text": "Cuenta de nómina: ahorros 2345 6789 0123 en Bancolombia.", "entities": [{"type": "CUENTA_BANCARIA", "start": 26, "end": 40, "text": "2345 6789 0123"}], "id": "holdout2-021"}
+{"text": "Dirección: Cra. 50 # 30-45 Apto 801, barrio Laureles.", "entities": [{"type": "DIRECCION", "start": 11, "end": 52, "text": "Cra. 50 # 30-45 Apto 801, barrio Laureles"}], "id": "holdout2-022"}
+{"text": "El empleado Óscar Iván Salcedo ingresó el 2 de febrero con salario de $3.500.000.", "entities": [{"type": "NOMBRE", "start": 12, "end": 30, "text": "Óscar Iván Salcedo"}], "id": "holdout2-023"}
+{"text": "Fecha de nacimiento 02-11-1993, estado civil soltera.", "entities": [{"type": "FECHA_NACIMIENTO", "start": 20, "end": 30, "text": "02-11-1993"}], "id": "holdout2-024"}
+{"text": "Contacto de emergencia: Martha Lucía Henao (320 555 0111).", "entities": [{"type": "NOMBRE", "start": 24, "end": 42, "text": "Martha Lucía Henao"}, {"type": "TELEFONO", "start": 44, "end": 56, "text": "320 555 0111"}], "id": "holdout2-025"}
+{"text": "La evaluación de desempeño se realiza cada seis meses.", "entities": [], "id": "holdout2-026"}
+{"text": "Se aprobó la vacante de analista de datos con contrato a término fijo.", "entities": [], "id": "holdout2-027"}
+{"text": "Su hoja de vida llegó desde y.ospina@mail.example.net el lunes.", "entities": [{"type": "CORREO", "start": 28, "end": 53, "text": "y.ospina@mail.example.net"}], "id": "holdout2-028"}
+{"text": "Acceso sospechoso desde la IP 203.0.113.45 a las 02:13.", "entities": [{"type": "DIRECCION_IP", "start": 30, "end": 42, "text": "203.0.113.45"}], "id": "holdout2-029"}
+{"text": "El usuario admin.portal@example.com inició sesión desde 198.51.100.23.", "entities": [{"type": "CORREO", "start": 11, "end": 35, "text": "admin.portal@example.com"}, {"type": "DIRECCION_IP", "start": 56, "end": 69, "text": "198.51.100.23"}], "id": "holdout2-030"}
+{"text": "Bloqueada la dirección IPv6 2001:db8:85a3::8a2e:370:7334 por fuerza bruta.", "entities": [{"type": "DIRECCION_IP", "start": 28, "end": 56, "text": "2001:db8:85a3::8a2e:370:7334"}], "id": "holdout2-031"}
+{"text": "Actualice a la versión 2.10.4 antes del viernes.", "entities": [], "id": "holdout2-032"}
+{"text": "El servidor responde en el puerto 8443 con TLS 1.3.", "entities": [], "id": "holdout2-033"}
+{"text": "IP del cliente: 192.0.2.17", "entities": [{"type": "DIRECCION_IP", "start": 16, "end": 26, "text": "192.0.2.17"}], "id": "holdout2-034"}
+{"text": "La dirección 999.10.10.10 no es una IP válida.", "entities": [], "id": "holdout2-035"}
+{"text": "Hola, me llamo Valeria Rincón y quiero actualizar mis datos.", "entities": [{"type": "NOMBRE", "start": 15, "end": 29, "text": "Valeria Rincón"}], "id": "holdout2-036"}
+{"text": "Mi cédula es 1144556677 y vivo en la Calle 13 # 68D-45.", "entities": [{"type": "CEDULA", "start": 13, "end": 23, "text": "1144556677"}, {"type": "DIRECCION", "start": 37, "end": 54, "text": "Calle 13 # 68D-45"}], "id": "holdout2-037"}
+{"text": "Buenas tardes, soy Germán Ochoa, de la oficina de Cali.", "entities": [{"type": "NOMBRE", "start": 19, "end": 31, "text": "Germán Ochoa"}], "id": "holdout2-038"}
+{"text": "Le paso el contacto de mi hermano Kevin Arley: 318 555 0166.", "entities": [{"type": "NOMBRE", "start": 34, "end": 45, "text": "Kevin Arley"}, {"type": "TELEFONO", "start": 47, "end": 59, "text": "318 555 0166"}], "id": "holdout2-039"}
+{"text": "mi correo es camilo_r85@example.com y mi cel 3005550190", "entities": [{"type": "CORREO", "start": 13, "end": 35, "text": "camilo_r85@example.com"}, {"type": "TELEFONO", "start": 45, "end": 55, "text": "3005550190"}], "id": "holdout2-040"}
+{"text": "Saludos a doña Esperanza de parte de todos.", "entities": [{"type": "NOMBRE", "start": 15, "end": 24, "text": "Esperanza"}], "id": "holdout2-041"}
+{"text": "Escríbeme a laura.vega[at]example.com cuando puedas.", "entities": [{"type": "CORREO", "start": 12, "end": 37, "text": "laura.vega[at]example.com"}], "id": "holdout2-042"}
+{"text": "Gracias Natalia, quedo atento.", "entities": [{"type": "NOMBRE", "start": 8, "end": 15, "text": "Natalia"}], "id": "holdout2-043"}
+{"text": "Mi placa es HTR 593 y el parqueadero es el 12.", "entities": [{"type": "PLACA", "start": 12, "end": 19, "text": "HTR 593"}], "id": "holdout2-044"}
+{"text": "Placa de la moto: XYZ45F", "entities": [{"type": "PLACA", "start": 18, "end": 24, "text": "XYZ45F"}], "id": "holdout2-045"}
+{"text": "El vehículo de placas DFG-781 quedó mal parqueado.", "entities": [{"type": "PLACA", "start": 22, "end": 29, "text": "DFG-781"}], "id": "holdout2-046"}
+{"text": "Clave temporal ABC123 enviada al usuario.", "entities": [], "id": "holdout2-047"}
+{"text": "Razón social: Soluciones Andinas S.A.S. — NIT 901.456.789-8", "entities": [{"type": "NIT", "start": 46, "end": 59, "text": "901.456.789-8"}], "id": "holdout2-048"}
+{"text": "Facturar a 860123456-3 con orden de compra 4500123.", "entities": [{"type": "NIT", "start": 11, "end": 22, "text": "860123456-3"}], "id": "holdout2-049"}
+{"text": "Representante legal: Juan Sebastián Arango, C.C. 80.123.456.", "entities": [{"type": "NOMBRE", "start": 21, "end": 42, "text": "Juan Sebastián Arango"}, {"type": "CEDULA", "start": 49, "end": 59, "text": "80.123.456"}], "id": "holdout2-050"}
+{"text": "Transferir a la cuenta corriente No. 123-456789-01 del Banco de Bogotá.", "entities": [{"type": "CUENTA_BANCARIA", "start": 37, "end": 50, "text": "123-456789-01"}], "id": "holdout2-051"}
+{"text": "IBAN ES91 2100 0418 4502 0005 1332 para pagos desde España.", "entities": [{"type": "CUENTA_BANCARIA", "start": 5, "end": 34, "text": "ES91 2100 0418 4502 0005 1332"}], "id": "holdout2-052"}
+{"text": "Notificaciones judiciales: Avenida Calle 26 # 69-76 Torre 3 Oficina 602", "entities": [{"type": "DIRECCION", "start": 27, "end": 71, "text": "Avenida Calle 26 # 69-76 Torre 3 Oficina 602"}], "id": "holdout2-053"}
+{"text": "La sede principal queda en la Ak 7 # 32-16 de Bogotá.", "entities": [{"type": "DIRECCION", "start": 30, "end": 42, "text": "Ak 7 # 32-16"}], "id": "holdout2-054"}
+{"text": "Bodega en Dg 25 # 15-80 sur, frente al parque.", "entities": [{"type": "DIRECCION", "start": 10, "end": 23, "text": "Dg 25 # 15-80"}], "id": "holdout2-055"}
+{"text": "Total a pagar: $1.234.567 antes de IVA.", "entities": [], "id": "holdout2-056"}
+{"text": "Orden de compra 4500123456 aprobada por el comité.", "entities": [], "id": "holdout2-057"}
+{"text": "Código postal 110111 de Bogotá.", "entities": [], "id": "holdout2-058"}
+{"text": "El pasaporte No. BP334455 del gerente vence en junio.", "entities": [{"type": "PASAPORTE", "start": 17, "end": 25, "text": "BP334455"}], "id": "holdout2-059"}
+{"text": "La señora María José Echeverri llamó dos veces.", "entities": [{"type": "NOMBRE", "start": 10, "end": 30, "text": "María José Echeverri"}], "id": "holdout2-060"}
+{"text": "Ana-María Restrepo envió la cotización.", "entities": [{"type": "NOMBRE", "start": 0, "end": 18, "text": "Ana-María Restrepo"}], "id": "holdout2-061"}
+{"text": "El arquitecto Iván Darío Palacios revisó los planos.", "entities": [{"type": "NOMBRE", "start": 14, "end": 33, "text": "Iván Darío Palacios"}], "id": "holdout2-062"}
+{"text": "Firmado: Leidy Johana Mosquera", "entities": [{"type": "NOMBRE", "start": 9, "end": 30, "text": "Leidy Johana Mosquera"}], "id": "holdout2-063"}
+{"text": "Atentamente, Hernando Villegas Ruiz", "entities": [{"type": "NOMBRE", "start": 13, "end": 35, "text": "Hernando Villegas Ruiz"}], "id": "holdout2-064"}
+{"text": "Asistentes: Diana Castaño, Jorge Mario Uribe y Paola Andrea Gil.", "entities": [{"type": "NOMBRE", "start": 12, "end": 25, "text": "Diana Castaño"}, {"type": "NOMBRE", "start": 27, "end": 44, "text": "Jorge Mario Uribe"}, {"type": "NOMBRE", "start": 47, "end": 63, "text": "Paola Andrea Gil"}], "id": "holdout2-065"}
+{"text": "Habló con yesica pérez por teléfono.", "entities": [{"type": "NOMBRE", "start": 10, "end": 22, "text": "yesica pérez"}], "id": "holdout2-066"}
+{"text": "Mosquera Palacios, Leidy Johana figura como beneficiaria.", "entities": [{"type": "NOMBRE", "start": 0, "end": 17, "text": "Mosquera Palacios"}, {"type": "NOMBRE", "start": 19, "end": 31, "text": "Leidy Johana"}], "id": "holdout2-067"}
+{"text": "El colegio San José de Calasanz abrió inscripciones.", "entities": [], "id": "holdout2-068"}
+{"text": "Viajó a San Andrés en diciembre.", "entities": [], "id": "holdout2-069"}
+{"text": "El Banco de la República publicó el informe trimestral.", "entities": [], "id": "holdout2-070"}
+{"text": "Clínica Santa María del Lago atiende urgencias 24 horas.", "entities": [], "id": "holdout2-071"}
+{"text": "La Avenida Boyacá estará cerrada el domingo.", "entities": [], "id": "holdout2-072"}
+{"text": "Santa Marta y Cartagena reciben más turistas en temporada.", "entities": [], "id": "holdout2-073"}
+{"text": "La Fundación Pablo Neruda organizó la feria.", "entities": [], "id": "holdout2-074"}
+{"text": "Los Andes son una cordillera muy extensa.", "entities": [], "id": "holdout2-075"}
+{"text": "El índice COLCAP subió 1,8 % y el dólar cerró en $4.012,35.", "entities": [], "id": "holdout2-076"}
+{"text": "El BTC rompió los 100.000 dólares y el ETH se mantuvo en 3.800.", "entities": [], "id": "holdout2-077"}
+{"text": "Reunión el 14/03/2025 a las 3:00 p. m. en la sala 4.", "entities": [], "id": "holdout2-078"}
+{"text": "Fecha de vencimiento: 30/06/2026.", "entities": [], "id": "holdout2-079"}
+{"text": "El contrato 2024-0457 se liquidó en diciembre.", "entities": [], "id": "holdout2-080"}
+{"text": "Se vendieron 1.500.000 unidades en el primer trimestre.", "entities": [], "id": "holdout2-081"}
+{"text": "Llamar a la línea 123 en caso de emergencia.", "entities": [], "id": "holdout2-082"}
+{"text": "La versión 3.12.1 de Python corrige varios errores.", "entities": [], "id": "holdout2-083"}
+{"text": "Hay 25 estudiantes inscritos en el curso de ajedrez para principiantes.", "entities": [], "id": "holdout2-084"}
+{"text": "Apertura 1. e4 e5 2. Cf3 Cc6 3. Ab5, la Ruy López.", "entities": [], "id": "holdout2-085"}
+{"text": "Yo, Carolina Andrea Mejía, identificada con cédula 52.345.678, nacida el 12 de octubre de 1978, autorizo el tratamiento de mis datos.", "entities": [{"type": "NOMBRE", "start": 4, "end": 25, "text": "Carolina Andrea Mejía"}, {"type": "CEDULA", "start": 51, "end": 61, "text": "52.345.678"}, {"type": "FECHA_NACIMIENTO", "start": 73, "end": 94, "text": "12 de octubre de 1978"}], "id": "holdout2-086"}
+{"text": "Datos del titular: Andrés Felipe Gaitán — afgaitan@example.com — (601) 555 0144 — Calle 100 # 19-61.", "entities": [{"type": "NOMBRE", "start": 19, "end": 39, "text": "Andrés Felipe Gaitán"}, {"type": "CORREO", "start": 42, "end": 62, "text": "afgaitan@example.com"}, {"type": "TELEFONO", "start": 65, "end": 79, "text": "(601) 555 0144"}, {"type": "DIRECCION", "start": 82, "end": 99, "text": "Calle 100 # 19-61"}], "id": "holdout2-087"}
+{"text": "El pago con tarjeta 4012 8888 8888 1881 desde la IP 203.0.113.200 fue marcado como fraude.", "entities": [{"type": "TARJETA_CREDITO", "start": 20, "end": 39, "text": "4012 8888 8888 1881"}, {"type": "DIRECCION_IP", "start": 52, "end": 65, "text": "203.0.113.200"}], "id": "holdout2-088"}
+{"text": "Conductor: Wilmer Asprilla, placa TKL 902, licencia vigente, cel. 3145550133.", "entities": [{"type": "NOMBRE", "start": 11, "end": 26, "text": "Wilmer Asprilla"}, {"type": "PLACA", "start": 34, "end": 41, "text": "TKL 902"}, {"type": "TELEFONO", "start": 66, "end": 76, "text": "3145550133"}], "id": "holdout2-089"}

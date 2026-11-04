@@ -18,10 +18,13 @@
 
 ### Qué hace
 
-- Detecta: **cédula de ciudadanía**, **cédula de extranjería**, **NIT** (valida el dígito de verificación), **pasaporte**, **teléfonos** colombianos (móvil y fijo, con o sin +57), **correos**, **direcciones** (Calle/Carrera/Diagonal/Transversal/Avenida…), **placas** de vehículo, **cuentas bancarias** (IBAN y CLABE con checksum; cuentas colombianas con contexto) y **nombres propios** (reglas y listas).
+- Detecta: **cédula de ciudadanía**, **cédula de extranjería**, **NIT** (valida el dígito de verificación), **pasaporte**, **teléfonos** colombianos (móvil y fijo, con o sin +57), **correos**, **direcciones** (Calle/Carrera/Diagonal/Transversal/Avenida…), **placas** de vehículo, **cuentas bancarias** (IBAN y CLABE con checksum; cuentas colombianas con contexto), **tarjetas de pago** (marca + Luhn), **direcciones IP** (IPv4/IPv6), **fechas de nacimiento** (con contexto) y **nombres propios** (reglas y listas).
 - Tres modos de anonimización: **etiqueta** (`[CEDULA]`), **enmascarado parcial** (`*.***.***.890`) y **seudonimización reversible** con una tabla local opcional.
 - API de Python (`detect`, `anonymize`) y CLI `pii-shield` para texto, `.txt` y `.csv`.
+- Acepta texto con tildes descompuestas (NFD, típico al copiar de PDF o macOS): se normaliza internamente y los índices siguen apuntando al texto original.
+- Escala de forma lineal con el tamaño del texto (≈0,7 MB/s en un núcleo).
 - Sin dependencias en tiempo de ejecución. Nada sale de tu máquina.
+- Página de presentación con demo y métricas: [`docs/`](docs/index.html) (GitHub Pages).
 
 ### Instalación
 
@@ -104,39 +107,52 @@ pii-shield restaurar -f datos_anon.csv --tabla tabla.json -o datos_originales.cs
 
 # Solo detectar (tabla legible o JSON; en CSV incluye fila y columna)
 pii-shield detectar -f clientes.csv --json
+
+# Solo contar por tipo, sin mostrar los datos (útil para auditar un archivo)
+pii-shield detectar -f clientes.csv --resumen
+
+# Listar los tipos que se detectan
+pii-shield tipos
 ```
 
-Opciones comunes: `--tipos CEDULA,NIT,CORREO`, `--min-score 0.8`, `--columnas` (nombres o índices; CSV), `--sin-encabezado`, `--delimitador ";"`. Los comandos también existen en inglés (`anonymize`, `detect`, `restore`). Los archivos se leen como UTF-8. En CSV se procesa cada celda por separado.
+Con `--tabla`, la tabla se guarda **antes** de escribir la salida y de forma atómica: si algo falla, no queda un archivo seudonimizado sin su tabla.
+
+Opciones comunes: `--tipos CEDULA,NIT,CORREO`, `--min-score 0.8` (entre 0 y 1), `--columnas` (nombres o índices; CSV), `--sin-encabezado`, `--delimitador ";"`. Los comandos también existen en inglés (`anonymize`, `detect`, `restore`). Los archivos se leen como UTF-8. En CSV se procesa cada celda por separado.
 
 ### Qué se detecta y cómo se valida
 
 | Tipo | Cómo se detecta | Reduce falsos positivos con |
 |---|---|---|
-| `CEDULA` | número de 6–10 dígitos (con o sin puntos) tras «cédula», «C.C.», «documento de identidad», «tarjeta de identidad», «NUIP»… | exige palabra clave; así no confunde montos como `$1.234.567` |
+| `CEDULA` | número de 6–10 dígitos (con puntos, espacios o seguidos) tras «cédula», «C.C.», «documento», «Doc:», «tarjeta de identidad», «NUIP»… | exige palabra clave; así no confunde montos como `$1.234.567` |
 | `CEDULA_EXTRANJERIA` | 6–7 dígitos tras «cédula de extranjería» / «C.E.» | palabra clave |
 | `NIT` | `900.123.456-8` o `900123456-8`; sin DV solo tras «NIT» | **dígito de verificación (DIAN)**; con DV inválido y sin «NIT» se descarta |
 | `PASAPORTE` | alfanumérico de 6–9 caracteres tras «pasaporte» | palabra clave |
 | `TELEFONO` | móviles `3xx`, fijos con indicativo `(60x)`/`+57 x`, y 7–10 dígitos tras «tel», «PBX»… | límites de dígitos; contexto para números sin indicativo |
-| `CORREO` | patrón de correo | — |
-| `DIRECCION` | `Calle/Carrera/Diagonal/Transversal/Avenida… N # N-N` + apto/torre/barrio | exige la estructura `N # N-N` |
-| `PLACA` | carro `ABC123`, moto `ABC12D` | contexto («placa», «moto»…); sin contexto solo formato compacto en mayúsculas y lista de siglas |
+| `CORREO` | patrón de correo; también ofuscados (`ana(at)example.com`, `ana arroba example.com`) | — |
+| `DIRECCION` | `Calle/Carrera/Kra/Ak/Ac/Diagonal/Transversal… N # N-N` + apto/torre/barrio; vías con nombre (`Autopista Norte # 152-30`); `Manzana 5 Casa 12` | exige la estructura `N # N-N` (o manzana + casa/lote) |
+| `PLACA` | carro `ABC123`, moto `ABC12D` | contexto («placa», «mi placa es»…); sin contexto solo formato compacto en mayúsculas, lista de siglas y sin anti-contexto («clave», «código», «pedido»…) |
 | `CUENTA_BANCARIA` | IBAN, CLABE y números tras «cuenta de ahorros», «cta»… | **módulo 97 (IBAN)**, **checksum CLABE**, palabra clave |
-| `NOMBRE` | secuencias de palabras con mayúscula inicial apoyadas en listas de nombres/apellidos frecuentes y en contexto («señor», «nombre:», «me llamo»…) | exige coincidencias en lista o contexto; descarta lugares e instituciones comunes |
+| `TARJETA_CREDITO` | 13–19 dígitos (agrupados 4-4-4-4, 4-6-5 o seguidos) | **prefijo de marca (IIN) + longitud + Luhn**; puntaje mayor con contexto («tarjeta», «Visa»…) |
+| `DIRECCION_IP` | IPv4 e IPv6 | **validación de octetos/grupos**; omite versiones de software («versión 2.10.4.1»), `127.*`, `0.*`, `255.*` y `::1` |
+| `FECHA_NACIMIENTO` | `14/03/1957`, `1985-07-22`, «3 de mayo de 1990» tras «fecha de nacimiento», «F. nac.», «nació el»… | exige contexto y una **fecha real** entre 1900 y hoy |
+| `NOMBRE` | secuencias de palabras con mayúscula inicial apoyadas en listas de nombres/apellidos frecuentes y en contexto («señor», «nombre:», «me llamo», «gracias»…); compuestos (`Ana-María`) | exige coincidencias en lista o contexto; descarta lugares e instituciones («Universidad…», «Parque…», «Fundación…») |
 
 ### Limitaciones
 
 Léelas antes de confiar en la herramienta; son importantes.
 
 - **Es una heurística, no un modelo de lenguaje.** Habrá falsos negativos (datos que no detecta) y falsos positivos. Las métricas de abajo vienen de un conjunto sintético pequeño; **no** se pueden extrapolar a tus datos reales.
-- **Nombres:** las listas son cortas. Un nombre fuera de ellas **solo se detecta si hay contexto** («señor X», «nombre: X», «me llamo X»). No detecta nombres en minúscula, nombres de una sola palabra sin contexto (`Gladys`), ni el formato «Apellido Apellido, Nombre». Puede marcar como nombre una institución que contenga nombres (`Universidad Francisco José de Caldas`) o un nombre de empresa tras «a nombre de».
+- **Nombres:** las listas son cortas. Un nombre fuera de ellas **solo se detecta si hay contexto** («señor X», «nombre: X», «me llamo X»). No detecta nombres en minúscula, nombres de una sola palabra sin contexto (`Gladys`), ni el formato «Apellido Apellido, Nombre». Puede marcar como nombre una empresa tras «a nombre de». Es el tipo con peor recall (0,85 en el conjunto ciego v2).
 - **Números de identificación sin contexto no se detectan** (por diseño, para no marcar montos o códigos). Una cédula suelta como `1.234.567.890` sin la palabra «cédula» cerca pasa de largo. Tampoco si entre la palabra clave y el número hay mucho texto («la tarjeta de identidad del menor es la 1.100…»).
 - **Teléfonos:** solo formatos colombianos. Los números internacionales no se detectan. Nequi y Daviplata son números de celular (se detectan como `TELEFONO`).
-- **Direcciones:** solo el patrón urbano `Vía N # N-N`. No cubre abreviaturas poco comunes (`Kra`), nombres de vía sin número (`Autopista Norte # 152-30`), direcciones rurales ni de manzana/casa (`Manzana 5 Casa 12`), ni intersecciones («calle 80 con carrera 30»).
+- **Direcciones:** patrón urbano `Vía N # N-N`, vías con nombre seguidas de `#`/`No.` y manzana/casa. No cubre direcciones rurales («vereda…, finca…»), nombres de vía sin `#` ni intersecciones («calle 80 con carrera 30»).
 - **Placas:** un código con forma de placa sin contexto (`PED123`) puede marcarse por error; filtra con `min_score=0.8` si prefieres precisión.
-- **Cuentas:** las cuentas colombianas no tienen checksum público: se detectan solo con palabra clave. El IBAN se valida solo para un subconjunto de países. No hay detector de tarjetas de crédito.
-- **Correos ofuscados** (`info(at)example.com`) no se detectan.
-- **No cubre otros datos personales:** fechas de nacimiento, ciudades, nombres de empresas, datos de salud, direcciones IP, usuarios de redes sociales, documentos de otros países (CURP, RFC, DNI, RUT…). Un texto «anonimizado» puede seguir permitiendo reidentificar a alguien por el contexto.
-- **Acentos:** normaliza el texto a NFC (`unicodedata.normalize("NFC", texto)`) si puede venir con tildes descompuestas. Los índices de `Entity` son posiciones de carácter del texto de entrada.
+- **Cuentas:** las cuentas colombianas no tienen checksum público: se detectan solo con palabra clave («Bancolombia 123456789» sin «cuenta» no se detecta). El IBAN se valida solo para un subconjunto de países.
+- **Tarjetas:** solo marcas con prefijos públicos (Visa, Mastercard, Amex, Diners, Discover, JCB, UnionPay). Una tarjeta escrita con separadores mezclados (`4111 1111-1111 1111`) no se detecta.
+- **Fechas de nacimiento:** solo con contexto explícito; una fecha suelta nunca se marca. **IP:** una IPv4 tras «versión»/«v.» se omite a propósito.
+- **Correos ofuscados:** se cubren `(at)`, `[at]`, `{at}` y « arroba »; no variantes más creativas («ana punto ruiz en example»).
+- **No cubre otros datos personales:** ciudades, nombres de empresas, datos de salud, usuarios de redes sociales, documentos de otros países (CURP, RFC, DNI, RUT…). Un texto «anonimizado» puede seguir permitiendo reidentificar a alguien por el contexto.
+- **Acentos:** el texto con tildes descompuestas (NFD) se normaliza internamente; los índices de `Entity` son siempre posiciones de carácter del texto de entrada.
 - **Seudonimización:** el mismo valor escrito de dos formas distintas (`1.234.567` vs `1234567`) recibe seudónimos distintos.
 
 ### Cumplimiento legal (Ley 1581 de 2012 / Habeas Data)
@@ -149,9 +165,11 @@ Anonimizar o seudonimizar texto es una medida técnica útil, pero **cumplir la 
 
 ### What it does
 
-- Detects: Colombian **ID card (cédula de ciudadanía)**, **foreigner ID (cédula de extranjería)**, **tax ID (NIT, with check-digit validation)**, **passport**, Colombian **phone numbers** (mobile and landline, with or without +57), **emails**, **street addresses** (Calle/Carrera/Diagonal/Transversal/Avenida…), **vehicle plates**, **bank accounts** (IBAN and CLABE with checksum; Colombian accounts with context) and **proper names** (rules and word lists).
+- Detects: Colombian **ID card (cédula de ciudadanía)**, **foreigner ID (cédula de extranjería)**, **tax ID (NIT, with check-digit validation)**, **passport**, Colombian **phone numbers** (mobile and landline, with or without +57), **emails**, **street addresses** (Calle/Carrera/Diagonal/Transversal/Avenida…), **vehicle plates**, **bank accounts** (IBAN and CLABE with checksum; Colombian accounts with context), **payment cards** (brand + Luhn), **IP addresses** (IPv4/IPv6), **birth dates** (with context) and **proper names** (rules and word lists).
 - Three anonymization modes: **label** (`[CEDULA]`), **partial masking** (`*.***.***.890`) and **reversible pseudonymization** with an optional local table.
 - Python API (`detect`, `anonymize`) and a `pii-shield` CLI for text, `.txt` and `.csv`.
+- Handles text with decomposed accents (NFD); offsets always refer to the original input.
+- Scales linearly with input size (≈0.7 MB/s on one core).
 - Zero runtime dependencies. Nothing leaves your machine.
 
 ### Installation
@@ -201,6 +219,8 @@ cat mail.txt | pii-shield anonymize
 pii-shield anonymize -f data.csv -m seudonimo --tabla tabla.json -o data_anon.csv
 pii-shield restore -f data_anon.csv --tabla tabla.json -o data_original.csv
 pii-shield detect -f clients.csv --json     # in CSV, includes row and column
+pii-shield detect -f clients.csv --resumen  # counts per type only, no data shown
+pii-shield types                            # list the supported types
 ```
 
 Subcommands also exist in Spanish (`anonimizar`, `detectar`, `restaurar`). Options: `--tipos`, `--min-score`, `--columnas` (names or 0-based indexes; CSV), `--sin-encabezado` (no header row), `--delimitador`. Files are read as UTF-8; each CSV cell is processed independently. The CLI messages are in Spanish.
@@ -208,15 +228,15 @@ Subcommands also exist in Spanish (`anonimizar`, `detectar`, `restaurar`). Optio
 ### Limitations (please read)
 
 - **Heuristics, not a language model.** Expect false negatives and false positives. The metrics below come from a small synthetic set and **cannot** be extrapolated to your real data.
-- **Names:** the word lists are short. A name that is not in them is **only detected with context** ("señor X", "nombre: X", "me llamo X"). Lowercase names, single-word names without context, and the "Surname Surname, Given name" format are missed. Institutions containing person names can be flagged by mistake.
+- **Names:** the word lists are short. A name that is not in them is **only detected with context** ("señor X", "nombre: X", "me llamo X"). Lowercase names, single-word names without context, and the "Surname Surname, Given name" format are missed. Names have the lowest recall (0.85 on blind set v2).
 - **ID numbers without context are not detected** (by design, to avoid flagging amounts and codes). A bare `1.234.567.890` with no nearby keyword is missed.
 - **Phones:** Colombian formats only; international numbers are not detected.
-- **Addresses:** only the urban `Street N # N-N` pattern; no rural/block-style addresses, unusual abbreviations (`Kra`), street names without a number, or intersections.
+- **Addresses:** urban `Street N # N-N`, named roads followed by `#`/`No.`, and block/house; no rural addresses or intersections.
 - **Plates:** plate-shaped codes with no context (`PED123`) can be flagged by mistake; use `min_score=0.8` to favor precision.
-- **Accounts:** Colombian bank accounts have no public checksum, so they are detected only with a keyword; IBAN is validated only for a subset of countries; no credit-card detector.
-- **Obfuscated emails** (`info(at)example.com`) are not detected.
-- **Not covered:** dates of birth, cities, company names, health data, IP addresses, social handles, documents from other countries (CURP, RFC, DNI, RUT…). "Anonymized" text may still allow re-identification from context.
-- Normalize input to NFC if it may contain decomposed accents. `Entity` offsets are character indexes into the input.
+- **Accounts:** Colombian bank accounts have no public checksum, so they are detected only with a keyword; IBAN is validated only for a subset of countries.
+- **Cards:** only brands with public prefixes; mixed separators are not matched. **Birth dates** need explicit context. An IPv4 after "versión"/"v." is skipped on purpose.
+- **Not covered:** cities, company names, health data, social handles, documents from other countries (CURP, RFC, DNI, RUT…). "Anonymized" text may still allow re-identification from context.
+- `Entity` offsets are character indexes into the input, even for NFD text.
 
 ### Legal notice (Law 1581 of 2012 / Habeas Data)
 
@@ -244,31 +264,56 @@ Generadas por `python eval/evaluate.py` sobre conjuntos **sintéticos** (todos l
 | DIRECCION | 13 | 13 | 0 | 0 | 1.00 | 1.00 | 1.00 |
 | PLACA | 9 | 9 | 0 | 0 | 1.00 | 1.00 | 1.00 |
 | CUENTA_BANCARIA | 10 | 10 | 0 | 0 | 1.00 | 1.00 | 1.00 |
+| TARJETA_CREDITO | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
+| DIRECCION_IP | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
+| FECHA_NACIMIENTO | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
 | NOMBRE | 28 | 25 | 0 | 3 | 1.00 | 0.89 | 0.94 |
 | **TOTAL (micro)** | 127 | 124 | 0 | 3 | 1.00 | 0.98 | 0.99 |
 
-**ciego / blind hold-out** — 124 muestras / samples, 90 entidades / entities (coincidencia exacta de tipo y rango / exact type+span match)
+**hold-out v1 (ciego en v0.1; usado para diagnóstico en v0.2 / blind in v0.1, used for diagnosis in v0.2)** — 124 muestras / samples, 90 entidades / entities (coincidencia exacta de tipo y rango / exact type+span match)
 
 | Tipo / Type | Soporte / Support | TP | FP | FN | Precisión / Precision | Recall | F1 |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| CEDULA | 11 | 8 | 0 | 3 | 1.00 | 0.73 | 0.84 |
+| CEDULA | 11 | 10 | 0 | 1 | 1.00 | 0.91 | 0.95 |
 | CEDULA_EXTRANJERIA | 5 | 5 | 0 | 0 | 1.00 | 1.00 | 1.00 |
 | NIT | 7 | 7 | 0 | 0 | 1.00 | 1.00 | 1.00 |
 | PASAPORTE | 5 | 4 | 0 | 1 | 1.00 | 0.80 | 0.89 |
 | TELEFONO | 11 | 11 | 0 | 0 | 1.00 | 1.00 | 1.00 |
-| CORREO | 7 | 6 | 0 | 1 | 1.00 | 0.86 | 0.92 |
-| DIRECCION | 10 | 7 | 0 | 3 | 1.00 | 0.70 | 0.82 |
-| PLACA | 7 | 7 | 1 | 0 | 0.88 | 1.00 | 0.93 |
+| CORREO | 7 | 7 | 0 | 0 | 1.00 | 1.00 | 1.00 |
+| DIRECCION | 10 | 10 | 0 | 0 | 1.00 | 1.00 | 1.00 |
+| PLACA | 7 | 7 | 0 | 0 | 1.00 | 1.00 | 1.00 |
 | CUENTA_BANCARIA | 6 | 5 | 0 | 1 | 1.00 | 0.83 | 0.91 |
-| NOMBRE | 21 | 17 | 2 | 4 | 0.89 | 0.81 | 0.85 |
-| **TOTAL (micro)** | 90 | 77 | 3 | 13 | 0.96 | 0.86 | 0.91 |
+| TARJETA_CREDITO | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
+| DIRECCION_IP | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
+| FECHA_NACIMIENTO | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
+| NOMBRE | 21 | 17 | 1 | 4 | 0.94 | 0.81 | 0.87 |
+| **TOTAL (micro)** | 90 | 83 | 1 | 7 | 0.99 | 0.92 | 0.95 |
+
+**ciego v2 / blind hold-out v2** — 89 muestras / samples, 79 entidades / entities (coincidencia exacta de tipo y rango / exact type+span match)
+
+| Tipo / Type | Soporte / Support | TP | FP | FN | Precisión / Precision | Recall | F1 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| CEDULA | 6 | 6 | 0 | 0 | 1.00 | 1.00 | 1.00 |
+| CEDULA_EXTRANJERIA | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
+| NIT | 2 | 2 | 0 | 0 | 1.00 | 1.00 | 1.00 |
+| PASAPORTE | 1 | 1 | 0 | 0 | 1.00 | 1.00 | 1.00 |
+| TELEFONO | 9 | 9 | 0 | 0 | 1.00 | 1.00 | 1.00 |
+| CORREO | 7 | 7 | 0 | 0 | 1.00 | 1.00 | 1.00 |
+| DIRECCION | 6 | 6 | 0 | 0 | 1.00 | 1.00 | 1.00 |
+| PLACA | 4 | 4 | 0 | 0 | 1.00 | 1.00 | 1.00 |
+| CUENTA_BANCARIA | 3 | 3 | 0 | 0 | 1.00 | 1.00 | 1.00 |
+| TARJETA_CREDITO | 4 | 4 | 0 | 0 | 1.00 | 1.00 | 1.00 |
+| DIRECCION_IP | 5 | 5 | 0 | 0 | 1.00 | 1.00 | 1.00 |
+| FECHA_NACIMIENTO | 5 | 5 | 0 | 0 | 1.00 | 1.00 | 1.00 |
+| NOMBRE | 27 | 23 | 0 | 4 | 1.00 | 0.85 | 0.92 |
+| **TOTAL (micro)** | 79 | 75 | 0 | 4 | 1.00 | 0.95 | 0.97 |
 
 <!-- METRICS:END -->
 
 **Cómo leerlas / How to read them**
 
-- **ES:** *desarrollo* se usó mientras se escribían y ajustaban los detectores, por lo que **sobreestima** el rendimiento. *Ciego* (hold-out) se redactó **después** de congelar los detectores (commit `1683f45`) y no se usó para ajustarlos; es la cifra más honesta, pero sigue siendo pequeña, sintética y escrita por la misma persona que escribió los detectores. Incluye a propósito casos difíciles y falsos positivos. Coincidencia estricta: tipo y rango exactos. Los conteos son pequeños: una diferencia de una o dos muestras mueve mucho los porcentajes.
-- **EN:** *development* was used while the detectors were written and tuned, so it **overestimates** performance. *Blind hold-out* was written **after** freezing the detectors (commit `1683f45`) and never used to tune them; it is the more honest figure, but it is still small, synthetic and authored by the same person who wrote the detectors. It deliberately includes hard cases and false-positive bait. Strict match: exact type and span. Counts are small: one or two samples move the percentages a lot.
+- **ES:** *desarrollo* se usó mientras se escribían y ajustaban los detectores, por lo que **sobreestima** el rendimiento. El *hold-out v1* fue ciego para la v0.1, pero sus errores se usaron para diagnosticar la v0.2: **ya no es ciego**. La cifra honesta de la v0.2 es la del *ciego v2*, redactado **antes** de cambiar los detectores (commit `5117975`) e imitando documentos reales (historias clínicas, call center, RR. HH., registros). Con la v0.1 ese mismo conjunto daba P 0,95 · R 0,67 · F1 0,79 (sin tarjetas, IP ni fechas de nacimiento). Sigue siendo pequeño, sintético y escrito por quien escribió los detectores, y los errores de la línea base se vieron antes de implementar. Coincidencia estricta: tipo y rango exactos. Los conteos son pequeños: una o dos muestras mueven mucho los porcentajes.
+- **EN:** *development* was used while the detectors were written and tuned, so it **overestimates** performance. *Hold-out v1* was blind for v0.1, but its errors were used to diagnose v0.2: it is **no longer blind**. The honest v0.2 figure is *blind v2*, written **before** changing the detectors (commit `5117975`) and modeled on real documents (medical records, call center, HR, logs). With v0.1 the same set scored P 0.95 · R 0.67 · F1 0.79 (no cards, IPs or birth dates). It is still small, synthetic and authored by the detectors' author, and the baseline errors were seen before implementing. Strict match: exact type and span. Counts are small: one or two samples move the percentages a lot.
 - `n/a` = no hay casos (denominador cero) / no cases (zero denominator).
 - Reproducir / Reproduce: `python eval/evaluate.py --errors` lista cada falso positivo/negativo / lists every false positive/negative. `python eval/evaluate.py --update-readme` regenera esta tabla; el CI falla si el README no coincide con lo medido / regenerates this table; CI fails if the README does not match what was measured.
 
@@ -278,10 +323,11 @@ Generadas por `python eval/evaluate.py` sobre conjuntos **sintéticos** (todos l
 pip install -e ".[dev]"
 ruff check . && ruff format --check .
 pytest --cov=pii_shield_es
-python eval/evaluate.py --check
+python eval/evaluate.py --check      # métricas, README y gráfica de la web
+python scripts/build_docs.py --check # ejemplos de la web = salida real de la librería
 ```
 
-- `src/pii_shield_es/` — librería / library. `tests/` — pruebas (incluye falsos positivos) / tests (including false positives). `eval/` — conjuntos sintéticos y script de métricas / synthetic sets and metrics script. `docs/` — página web estática (GitHub Pages) / static site.
+- `src/pii_shield_es/` — librería / library. `tests/` — pruebas (incluye falsos positivos) / tests (including false positives). `eval/` — conjuntos sintéticos y script de métricas / synthetic sets and metrics script. `docs/` — página web estática (GitHub Pages) / static site; `scripts/build_docs.py` genera sus ejemplos / generates its examples. Historial / history: [CHANGELOG.md](CHANGELOG.md).
 - Los datos de `eval/` son inventados: nombres sobre listas de nombres comunes, números ficticios y dominios reservados (`example.com/.org/.net`). Cualquier coincidencia con personas reales es involuntaria. / `eval/` data is fabricated: common-name combinations, fictitious numbers and reserved domains. Any resemblance to real people is unintentional.
 
 ## Licencia / License

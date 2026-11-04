@@ -107,7 +107,7 @@ def load(name: str) -> list[dict[str, object]]:
     ]
 
 
-def build(names: tuple[str, ...] = ("dev", "holdout")) -> None:
+def build(names: tuple[str, ...] = ("dev", "holdout", "holdout2")) -> None:
     for name in names:
         if (HERE / f"{name}.txt").exists():
             jsonl_path(name).write_text(render_jsonl(name), encoding="utf-8")

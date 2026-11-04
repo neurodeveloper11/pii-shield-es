@@ -1,4 +1,4 @@
-/* pii-shield-es · interacciones mínimas (tema, idioma, pestañas, copiar). Sin dependencias. */
+/* pii-shield-es · interacciones mínimas (tema, idioma, pestañas por grupo, copiar). Sin dependencias. */
 (function () {
   "use strict";
 
@@ -77,30 +77,34 @@
     });
   }
 
-  /* ---------- pestañas del ejemplo ---------- */
-  var tabs = document.querySelectorAll('[role="tab"][data-target]');
-  function selectTab(tab) {
-    tabs.forEach(function (t) {
-      var on = t === tab;
-      t.setAttribute("aria-selected", String(on));
-      t.setAttribute("tabindex", on ? "0" : "-1");
-      var panel = document.getElementById(t.getAttribute("data-target"));
-      if (panel) panel.hidden = !on;
+  /* ---------- pestañas (cada tablist es un grupo independiente) ---------- */
+  document.querySelectorAll('[role="tablist"]').forEach(function (list) {
+    var tabs = Array.prototype.filter.call(list.querySelectorAll('[role="tab"][data-target]'), function (t) {
+      return t.closest('[role="tablist"]') === list;
     });
-  }
-  tabs.forEach(function (tab, i) {
-    tab.addEventListener("click", function () {
-      selectTab(tab);
-    });
-    tab.addEventListener("keydown", function (ev) {
-      var next = null;
-      if (ev.key === "ArrowRight") next = tabs[(i + 1) % tabs.length];
-      if (ev.key === "ArrowLeft") next = tabs[(i - 1 + tabs.length) % tabs.length];
-      if (next) {
-        ev.preventDefault();
-        selectTab(next);
-        next.focus();
-      }
+    function selectTab(tab) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute("aria-selected", String(on));
+        t.setAttribute("tabindex", on ? "0" : "-1");
+        var panel = document.getElementById(t.getAttribute("data-target"));
+        if (panel) panel.hidden = !on;
+      });
+    }
+    tabs.forEach(function (tab, i) {
+      tab.addEventListener("click", function () {
+        selectTab(tab);
+      });
+      tab.addEventListener("keydown", function (ev) {
+        var next = null;
+        if (ev.key === "ArrowRight") next = tabs[(i + 1) % tabs.length];
+        if (ev.key === "ArrowLeft") next = tabs[(i - 1 + tabs.length) % tabs.length];
+        if (next) {
+          ev.preventDefault();
+          selectTab(next);
+          next.focus();
+        }
+      });
     });
   });
 

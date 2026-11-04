@@ -2,8 +2,8 @@
 
 Uso:
     python eval/evaluate.py                 # imprime las tablas
-    python eval/evaluate.py --update-readme # reescribe el bloque de métricas del README
-    python eval/evaluate.py --check         # falla si JSONL o README están desactualizados
+    python eval/evaluate.py --update-readme # reescribe las métricas del README y la gráfica web
+    python eval/evaluate.py --check         # falla si JSONL, README o web están desactualizados
     python eval/evaluate.py --json out.json # guarda los resultados
 
 Coincidencia estricta: una predicción es TP solo si tipo, inicio y fin coinciden EXACTAMENTE.
@@ -26,12 +26,17 @@ from pii_shield_es import PIIType, detect
 
 ROOT = Path(__file__).resolve().parent.parent
 README = ROOT / "README.md"
+DOCS_INDEX = ROOT / "docs" / "index.html"
 START, END = "<!-- METRICS:START -->", "<!-- METRICS:END -->"
-SETS = ("dev", "holdout")
+CHART_START, CHART_END = "<!-- CHART:START -->", "<!-- CHART:END -->"
+SETS = ("dev", "holdout", "holdout2")
 SET_LABEL = {
     "dev": "desarrollo / development",
-    "holdout": "ciego / blind hold-out",
+    "holdout": "hold-out v1 (ciego en v0.1; usado para diagnóstico en v0.2 / blind in v0.1, "
+    "used for diagnosis in v0.2)",
+    "holdout2": "ciego v2 / blind hold-out v2",
 }
+CHART_SET = "holdout2"
 
 
 def _counts() -> dict[str, int]:
@@ -158,25 +163,89 @@ def render_block(results: dict[str, Any]) -> str:
     return "\n".join(out)
 
 
-def update_readme(block: str) -> bool:
-    text = README.read_text(encoding="utf-8")
-    if START not in text or END not in text:
-        raise SystemExit("README.md no contiene los marcadores de métricas")
-    head, rest = text.split(START, 1)
-    _, tail = rest.split(END, 1)
+def render_chart(results: dict[str, Any]) -> str:
+    """Gráfica SVG (barras horizontales de F1 por tipo) para la web, sin JS ni estilos en línea.
+
+    Los colores salen de clases CSS (``.ch-*``) para respetar el tema claro/oscuro.
+    """
+    data = results.get(CHART_SET)
+    if data is None:
+        return f"{CHART_START}\n{CHART_END}"
+    rows = [(k, v) for k, v in data["strict"].items() if v["support"]]
+    row_h, top, left, width = 30, 34, 170, 330
+    height = top + row_h * len(rows) + 8
+    out = [
+        CHART_START,
+        f'<svg class="chart" viewBox="0 0 610 {height}" role="img" '
+        f'aria-labelledby="chart-title chart-desc">',
+        f'<title id="chart-title">F1 por tipo — {SET_LABEL[CHART_SET]}</title>',
+        f'<desc id="chart-desc">{data["samples"]} muestras, {data["entities"]} entidades; '
+        "coincidencia exacta de tipo y rango.</desc>",
+    ]
+    for tick in (0, 0.25, 0.5, 0.75, 1):
+        x = left + width * tick
+        out.append(
+            f'<line class="ch-grid" x1="{x:.0f}" y1="{top - 8}" x2="{x:.0f}" y2="{height - 8}"/>'
+            f'<text class="ch-tick" x="{x:.0f}" y="{top - 14}">{tick:.2f}</text>'
+        )
+    for i, (name, r) in enumerate(rows):
+        y = top + i * row_h
+        f1 = r["f1"] or 0.0
+        total = name.startswith("TOTAL")
+        cls = "ch-bar ch-total" if total else "ch-bar"
+        label = "TOTAL" if total else name
+        out.append(
+            f'<text class="ch-label{" ch-strong" if total else ""}" x="{left - 10}" '
+            f'y="{y + 15}">{label}</text>'
+            f'<rect class="ch-track" x="{left}" y="{y + 3}" width="{width}" height="16" rx="3"/>'
+            f'<rect class="{cls}" x="{left}" y="{y + 3}" width="{width * f1:.1f}" height="16" '
+            f'rx="3"><title>{label}: F1 {f1:.2f} · P {_fmt(r["precision"])} · '
+            f"R {_fmt(r['recall'])} · n={r['support']}</title></rect>"
+            f'<text class="ch-value" x="{left + width + 10}" y="{y + 15}">{f1:.2f}</text>'
+            f'<text class="ch-n" x="{left + width + 50}" y="{y + 15}">n={r["support"]}</text>'
+        )
+    out.append("</svg>")
+    out.append(CHART_END)
+    return "\n".join(out)
+
+
+def _replace_block(path: Path, start: str, end: str, block: str) -> bool:
+    text = path.read_text(encoding="utf-8")
+    if start not in text or end not in text:
+        raise SystemExit(f"{path.name} no contiene los marcadores {start}")
+    head, rest = text.split(start, 1)
+    _, tail = rest.split(end, 1)
     new = head + block + tail
     changed = new != text
     if changed:
-        README.write_text(new, encoding="utf-8")
+        path.write_text(new, encoding="utf-8")
     return changed
 
 
-def readme_in_sync(block: str) -> bool:
-    text = README.read_text(encoding="utf-8")
-    if START not in text or END not in text:
+def _block_in_sync(path: Path, start: str, end: str, block: str) -> bool:
+    if not path.exists():
         return False
-    current = START + text.split(START, 1)[1].split(END, 1)[0] + END
+    text = path.read_text(encoding="utf-8")
+    if start not in text or end not in text:
+        return False
+    current = start + text.split(start, 1)[1].split(end, 1)[0] + end
     return current.strip() == block.strip()
+
+
+def update_readme(block: str) -> bool:
+    return _replace_block(README, START, END, block)
+
+
+def readme_in_sync(block: str) -> bool:
+    return _block_in_sync(README, START, END, block)
+
+
+def update_docs(chart: str) -> bool:
+    return _replace_block(DOCS_INDEX, CHART_START, CHART_END, chart)
+
+
+def docs_in_sync(chart: str) -> bool:
+    return _block_in_sync(DOCS_INDEX, CHART_START, CHART_END, chart)
 
 
 def print_report(results: dict[str, Any], *, show_errors: bool) -> None:
@@ -225,15 +294,16 @@ def main(argv: list[str] | None = None) -> int:
 
     results = run()
     block = render_block(results)
+    chart = render_chart(results)
     if args.check:
-        if not readme_in_sync(block):
+        if not readme_in_sync(block) or not docs_in_sync(chart):
             print(
-                "El README no coincide con las métricas medidas. "
-                "Ejecuta: python eval/evaluate.py --update-readme",
+                "El README o la gráfica de docs/index.html no coinciden con las métricas "
+                "medidas. Ejecuta: python eval/evaluate.py --update-readme",
                 file=sys.stderr,
             )
             return 1
-        print("OK: dataset y README sincronizados con las métricas medidas.")
+        print("OK: dataset, README y web sincronizados con las métricas medidas.")
         return 0
     print_report(results, show_errors=args.errors)
     if args.json:
@@ -242,6 +312,7 @@ def main(argv: list[str] | None = None) -> int:
         )
     if args.update_readme:
         print("\nREADME actualizado." if update_readme(block) else "\nREADME ya estaba al día.")
+        print("Web actualizada." if update_docs(chart) else "Web ya estaba al día.")
     return 0
 
 

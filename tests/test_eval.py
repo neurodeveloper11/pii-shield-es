@@ -37,14 +37,14 @@ def test_macros_generan_digitos_de_control_validos_e_invalidos():
         dataset.parse_line("{NOPE:1}")
 
 
-@pytest.mark.parametrize("name", ["dev", "holdout"])
+@pytest.mark.parametrize("name", ["dev", "holdout", "holdout2"])
 def test_jsonl_esta_sincronizado_con_la_fuente(name):
     if not (EVAL / f"{name}.txt").exists():
         pytest.skip("conjunto no presente")
     assert dataset.jsonl_path(name).read_text(encoding="utf-8") == dataset.render_jsonl(name)
 
 
-@pytest.mark.parametrize("name", ["dev", "holdout"])
+@pytest.mark.parametrize("name", ["dev", "holdout", "holdout2"])
 def test_dataset_bien_formado_y_con_negativos(name):
     if not dataset.jsonl_path(name).exists():
         pytest.skip("conjunto no presente")
@@ -62,7 +62,7 @@ def test_dataset_no_contiene_correos_reales():
     # Solo dominios reservados para ejemplos (RFC 2606) o claramente ficticios.
     import re
 
-    for name in ("dev", "holdout"):
+    for name in ("dev", "holdout", "holdout2"):
         if not dataset.jsonl_path(name).exists():
             continue
         for s in dataset.load(name):

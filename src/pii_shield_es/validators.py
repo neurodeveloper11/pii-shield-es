@@ -1,7 +1,8 @@
-"""Validadores con checksum: NIT (DIAN), IBAN (ISO 13616) y CLABE (México)."""
+"""Validadores: NIT (DIAN), IBAN (ISO 13616), CLABE (México), tarjetas (Luhn) e IP."""
 
 from __future__ import annotations
 
+import ipaddress
 import re
 
 # Pesos oficiales de la DIAN para el dígito de verificación (de derecha a izquierda).
@@ -80,3 +81,58 @@ def is_valid_clabe(value: str) -> bool:
     if not re.fullmatch(r"\d{18}", digits):
         return False
     return clabe_check_digit(digits[:17]) == int(digits[17])
+
+
+def luhn_ok(digits: str) -> bool:
+    """Algoritmo de Luhn (ISO/IEC 7812) sobre una cadena de dígitos."""
+    if not digits.isdigit():
+        return False
+    total = 0
+    for i, ch in enumerate(reversed(digits)):
+        d = int(ch)
+        if i % 2 == 1:
+            d = d * 2 - 9 if d > 4 else d * 2
+        total += d
+    return total % 10 == 0
+
+
+# (prefijos, longitudes válidas) por marca. Solo marcas con rangos IIN públicos y estables.
+_CARD_BRANDS: tuple[tuple[str, tuple[tuple[int, int], ...], frozenset[int]], ...] = (
+    ("visa", ((4, 4),), frozenset({13, 16, 19})),
+    ("mastercard", ((51, 55), (2221, 2720)), frozenset({16})),
+    ("amex", ((34, 34), (37, 37)), frozenset({15})),
+    ("diners", ((300, 305), (36, 36), (38, 39)), frozenset({14, 16})),
+    ("discover", ((6011, 6011), (644, 649), (65, 65)), frozenset({16, 19})),
+    ("jcb", ((3528, 3589),), frozenset({16, 17, 18, 19})),
+    ("unionpay", ((62, 62),), frozenset({16, 17, 18, 19})),
+)
+
+
+def card_brand(number: str) -> str | None:
+    """Marca de una tarjeta por su prefijo IIN y longitud, o ``None`` si no encaja."""
+    digits = re.sub(r"[\s-]", "", number)
+    if not digits.isdigit():
+        return None
+    for brand, ranges, lengths in _CARD_BRANDS:
+        if len(digits) not in lengths:
+            continue
+        for low, high in ranges:
+            width = len(str(low))
+            if low <= int(digits[:width]) <= high:
+                return brand
+    return None
+
+
+def is_valid_card(number: str) -> bool:
+    """``True`` si el número tiene prefijo/longitud de una marca conocida y pasa Luhn."""
+    digits = re.sub(r"[\s-]", "", number)
+    return card_brand(digits) is not None and luhn_ok(digits)
+
+
+def is_valid_ip(value: str) -> bool:
+    """IPv4/IPv6 sintácticamente válida (sin ceros a la izquierda en IPv4)."""
+    try:
+        ipaddress.ip_address(value)
+    except ValueError:
+        return False
+    return True

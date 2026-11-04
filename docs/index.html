@@ -6,7 +6,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
   <meta name="color-scheme" content="light dark">
   <title>pii-shield-es · Anonimiza datos personales en español, 100 % local</title>
-  <meta name="description" content="pii-shield-es detecta y anonimiza datos personales en textos en español de Colombia y LatAm (cédula, NIT, teléfonos, correos, direcciones, placas, cuentas y nombres). 100 % local, de código abierto.">
+  <meta name="description" content="pii-shield-es detecta y anonimiza datos personales en textos en español de Colombia y LatAm: cédulas, NIT, teléfonos, correos, direcciones, placas, cuentas, tarjetas, IP, fechas de nacimiento y nombres. 100 % local, código abierto.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -20,8 +20,9 @@
         pii-shield-es
       </a>
       <nav class="nav" aria-label="Secciones">
-        <a href="#problema"><span data-l="es">Problema</span><span data-l="en">Problem</span></a>
-        <a href="#como-funciona"><span data-l="es">Cómo funciona</span><span data-l="en">How it works</span></a>
+        <a href="#casos"><span data-l="es">Casos de uso</span><span data-l="en">Use cases</span></a>
+        <a href="#demo"><span data-l="es">Demo</span><span data-l="en">Demo</span></a>
+        <a href="#resultados"><span data-l="es">Resultados</span><span data-l="en">Results</span></a>
         <a href="#instalacion"><span data-l="es">Instalación</span><span data-l="en">Install</span></a>
         <a href="#limites"><span data-l="es">Límites</span><span data-l="en">Limits</span></a>
       </nav>
@@ -39,56 +40,300 @@
   <main id="contenido">
     <!-- ===================== HERO ===================== -->
     <div class="hero" id="top">
-      <div class="wrap">
-        <span class="eyebrow"><span data-l="es">Código abierto · MIT · Python 3.10+</span><span data-l="en">Open source · MIT · Python 3.10+</span></span>
-        <h1>
-          <span data-l="es">Quita los datos personales de tus textos en español</span>
-          <span data-l="en">Strip personal data from your Spanish text</span>
-        </h1>
-        <p class="lead">
-          <span data-l="es">Detecta y anonimiza cédulas, NIT, teléfonos, correos, direcciones, placas, cuentas y nombres de Colombia y LatAm. Todo en tu máquina: sin APIs externas, sin llamadas de red.</span>
-          <span data-l="en">Detects and anonymizes Colombian/LatAm IDs, tax IDs (NIT), phones, emails, addresses, plates, bank accounts and names. Everything runs on your machine: no external APIs, no network calls.</span>
-        </p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="https://github.com/neurodeveloper11/pii-shield-es" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="5" r="2.2"/><circle cx="6" cy="19" r="2.2"/><circle cx="18" cy="9" r="2.2"/><path d="M6 7.2v9.6M18 11.2c0 4-6 3-12 6"/></svg>
-            <span data-l="es">Ver el código en GitHub</span><span data-l="en">View the code on GitHub</span>
-          </a>
-          <a class="btn btn-ghost" href="#instalacion"><span data-l="es">Instalar</span><span data-l="en">Install</span></a>
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow"><span data-l="es">Código abierto · MIT · Python 3.10+ · v0.2</span><span data-l="en">Open source · MIT · Python 3.10+ · v0.2</span></span>
+          <h1>
+            <span data-l="es">Comparte tus textos, <em>no los datos de tus usuarios</em></span>
+            <span data-l="en">Share your text, <em>not your users’ data</em></span>
+          </h1>
+          <p class="lead">
+            <span data-l="es">pii-shield-es encuentra y anonimiza cédulas, NIT, teléfonos, correos, direcciones, placas, cuentas, tarjetas, IP, fechas de nacimiento y nombres en textos en español de Colombia y LatAm. Todo corre en tu máquina: sin APIs, sin red, sin modelos pesados.</span>
+            <span data-l="en">pii-shield-es finds and anonymizes Colombian/LatAm IDs, tax IDs, phones, emails, addresses, plates, bank accounts, cards, IPs, birth dates and names in Spanish text. Everything runs on your machine: no APIs, no network, no heavy models.</span>
+          </p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="https://github.com/neurodeveloper11/pii-shield-es" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="5" r="2.2"/><circle cx="6" cy="19" r="2.2"/><circle cx="18" cy="9" r="2.2"/><path d="M6 7.2v9.6M18 11.2c0 4-6 3-12 6"/></svg>
+              <span data-l="es">Ver el código en GitHub</span><span data-l="en">View the code on GitHub</span>
+            </a>
+            <a class="btn btn-ghost" href="#demo"><span data-l="es">Ver la demo</span><span data-l="en">See the demo</span></a>
+          </div>
         </div>
-        <ul class="badges" aria-label="Características">
-          <li><span data-l="es">100 % local</span><span data-l="en">100% local</span></li>
-          <li><span data-l="es">Sin dependencias en ejecución</span><span data-l="en">No runtime dependencies</span></li>
-          <li><span data-l="es">Checksum en NIT, IBAN y CLABE</span><span data-l="en">Checksums for NIT, IBAN and CLABE</span></li>
-          <li><span data-l="es">API de Python + CLI</span><span data-l="en">Python API + CLI</span></li>
+
+        <figure class="hero-art" aria-labelledby="hero-art-cap">
+          <svg viewBox="0 0 520 380" role="img" aria-labelledby="hero-art-title">
+            <title id="hero-art-title">Un documento con datos personales resaltados pasa por el escudo y sale con los datos reemplazados</title>
+            <defs>
+              <linearGradient id="g-doc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="art-doc-top"/><stop offset="1" class="art-doc-bot"/></linearGradient>
+            </defs>
+            <!-- documento original -->
+            <g transform="translate(12 30) rotate(-4 105 150)">
+              <rect class="art-doc" x="0" y="0" width="210" height="290" rx="14"/>
+              <rect class="art-line" x="22" y="28" width="110" height="10" rx="5"/>
+              <rect class="art-line" x="22" y="56" width="44" height="9" rx="4.5"/><rect class="art-hl art-hl-1" x="70" y="52" width="118" height="17" rx="5"/>
+              <rect class="art-line" x="22" y="82" width="26" height="9" rx="4.5"/><rect class="art-hl art-hl-2" x="52" y="78" width="96" height="17" rx="5"/>
+              <rect class="art-line" x="22" y="108" width="166" height="9" rx="4.5"/>
+              <rect class="art-line" x="22" y="130" width="60" height="9" rx="4.5"/><rect class="art-hl art-hl-3" x="86" y="126" width="102" height="17" rx="5"/>
+              <rect class="art-line" x="22" y="156" width="166" height="9" rx="4.5"/>
+              <rect class="art-hl art-hl-4" x="22" y="176" width="150" height="17" rx="5"/>
+              <rect class="art-line" x="22" y="206" width="120" height="9" rx="4.5"/>
+              <rect class="art-line" x="22" y="228" width="40" height="9" rx="4.5"/><rect class="art-hl art-hl-5" x="66" y="224" width="122" height="17" rx="5"/>
+              <rect class="art-line" x="22" y="254" width="90" height="9" rx="4.5"/>
+            </g>
+            <!-- documento anonimizado -->
+            <g transform="translate(300 40) rotate(3 105 150)">
+              <rect class="art-doc" x="0" y="0" width="210" height="290" rx="14"/>
+              <rect class="art-line" x="22" y="28" width="110" height="10" rx="5"/>
+              <rect class="art-line" x="22" y="56" width="44" height="9" rx="4.5"/><rect class="art-tag" x="70" y="52" width="74" height="17" rx="5"/><text class="art-tag-t" x="107" y="64.5">NOMBRE</text>
+              <rect class="art-line" x="22" y="82" width="26" height="9" rx="4.5"/><rect class="art-tag" x="52" y="78" width="70" height="17" rx="5"/><text class="art-tag-t" x="87" y="90.5">CEDULA</text>
+              <rect class="art-line" x="22" y="108" width="166" height="9" rx="4.5"/>
+              <rect class="art-line" x="22" y="130" width="60" height="9" rx="4.5"/><rect class="art-tag" x="86" y="126" width="80" height="17" rx="5"/><text class="art-tag-t" x="126" y="138.5">TELEFONO</text>
+              <rect class="art-line" x="22" y="156" width="166" height="9" rx="4.5"/>
+              <rect class="art-tag" x="22" y="176" width="88" height="17" rx="5"/><text class="art-tag-t" x="66" y="188.5">DIRECCION</text>
+              <rect class="art-line" x="22" y="206" width="120" height="9" rx="4.5"/>
+              <rect class="art-line" x="22" y="228" width="40" height="9" rx="4.5"/><rect class="art-tag" x="66" y="224" width="70" height="17" rx="5"/><text class="art-tag-t" x="101" y="236.5">CORREO</text>
+              <rect class="art-line" x="22" y="254" width="90" height="9" rx="4.5"/>
+            </g>
+            <!-- flujo -->
+            <path class="art-flow" d="M214 196 H 236"/>
+            <path class="art-flow" d="M300 196 H 318"/>
+            <!-- escudo -->
+            <g transform="translate(226 146)">
+              <circle class="art-halo" cx="42" cy="50" r="54"/>
+              <path class="art-shield" d="M42 4 10 16v24c0 21 13.5 37.5 32 47 18.5-9.5 32-26 32-47V16z"/>
+              <path class="art-check" d="M27 47l11 11 21-22"/>
+            </g>
+          </svg>
+          <figcaption id="hero-art-cap">
+            <span data-l="es">Detecta → valida → reemplaza. Sin que el texto salga de tu equipo.</span>
+            <span data-l="en">Detect → validate → replace. Without the text ever leaving your computer.</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="wrap">
+        <ul class="stats" aria-label="Datos clave / Key facts">
+          <li><strong>13</strong><span data-l="es">tipos de datos personales</span><span data-l="en">personal data types</span></li>
+          <li><strong>0</strong><span data-l="es">dependencias en ejecución</span><span data-l="en">runtime dependencies</span></li>
+          <li><strong>3</strong><span data-l="es">modos: etiqueta, máscara y seudónimo reversible</span><span data-l="en">modes: label, mask and reversible pseudonym</span></li>
+          <li><strong>5</strong><span data-l="es">validadores con checksum (NIT, IBAN, CLABE, Luhn, IP)</span><span data-l="en">checksum validators (NIT, IBAN, CLABE, Luhn, IP)</span></li>
         </ul>
       </div>
     </div>
 
-    <!-- ===================== PROBLEMA ===================== -->
-    <section id="problema">
+    <!-- ===================== CASOS DE USO ===================== -->
+    <section id="casos">
       <div class="wrap">
-        <h2><span data-l="es">El problema</span><span data-l="en">The problem</span></h2>
+        <h2><span data-l="es">¿Para qué sirve en la práctica?</span><span data-l="en">What is it actually for?</span></h2>
         <p class="section-lead">
-          <span data-l="es">Los textos en español están llenos de datos personales: respuestas a PQRS, correos, chats de soporte, contratos, hojas de cálculo. Antes de compartirlos con un tercero, analizarlos o enviarlos a un servicio de IA, hay que quitar esos datos, y hacerlo a mano no escala.</span>
-          <span data-l="en">Spanish-language text is full of personal data: complaint replies, emails, support chats, contracts, spreadsheets. Before sharing it with a third party, analyzing it or sending it to an AI service, that data has to go, and doing it by hand does not scale.</span>
+          <span data-l="es">Cada vez que un texto con datos de personas tiene que salir de donde está —a un proveedor, a un analista, a un modelo de IA o a un informe público— alguien debe quitar esos datos. Hacerlo a mano no escala y se escapa información.</span>
+          <span data-l="en">Whenever text containing people’s data has to leave where it lives —to a vendor, an analyst, an AI model or a public report— someone must strip that data. Doing it by hand does not scale and data slips through.</span>
         </p>
-        <div class="grid grid-2">
-          <div class="card">
-            <h3><span data-l="es">Formatos locales</span><span data-l="en">Local formats</span></h3>
-            <p>
-              <span data-l="es">Muchas herramientas de detección de PII están pensadas sobre todo para inglés y formatos de EE. UU. Una cédula con puntos, un NIT con su dígito de verificación, una dirección «Cra 15 # 93-60» o un celular «+57 300…» exigen reglas propias.</span>
-              <span data-l="en">Many PII detection tools are designed mainly for English and US formats. A dotted cédula, a NIT with its check digit, an address like “Cra 15 # 93-60” or a “+57 300…” mobile number need purpose-built rules.</span>
-            </p>
-          </div>
-          <div class="card">
-            <h3><span data-l="es">Sin enviar nada afuera</span><span data-l="en">Nothing leaves your machine</span></h3>
-            <p>
-              <span data-l="es">Mandar el texto sin anonimizar a un servicio externo para anonimizarlo es justo lo que querías evitar. pii-shield-es corre sin red: reglas, listas y checksums, sin modelos pesados.</span>
-              <span data-l="en">Sending raw text to an external service so it can be anonymized defeats the purpose. pii-shield-es runs offline: rules, word lists and checksums, no heavy models.</span>
-            </p>
+        <div class="grid grid-3 cases">
+          <article class="card case">
+            <svg class="case-ico" viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="8" width="36" height="34" rx="6"/><path d="M24 16v14M17 23h14"/></svg>
+            <h3><span data-l="es">Salud</span><span data-l="en">Healthcare</span></h3>
+            <p><span data-l="es">Historias clínicas y notas de evolución para investigación, auditoría o docencia, sin nombres, documentos ni fechas de nacimiento.</span><span data-l="en">Medical records and progress notes for research, audits or teaching, without names, IDs or birth dates.</span></p>
+          </article>
+          <article class="card case">
+            <svg class="case-ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 12h32v20H22l-8 7v-7H8z"/><path d="M15 20h18M15 26h11"/></svg>
+            <h3><span data-l="es">Atención al cliente</span><span data-l="en">Customer support</span></h3>
+            <p><span data-l="es">Chats, PQRS y grabaciones transcritas listas para analizar o entrenar a tu equipo, sin tarjetas, celulares ni correos.</span><span data-l="en">Chats, complaints and transcribed calls ready for analysis or training, without cards, phones or emails.</span></p>
+          </article>
+          <article class="card case">
+            <svg class="case-ico" viewBox="0 0 48 48" aria-hidden="true"><rect x="10" y="6" width="28" height="36" rx="5"/><circle cx="24" cy="19" r="5"/><path d="M16 34c1.5-5 4.5-7 8-7s6.5 2 8 7"/></svg>
+            <h3><span data-l="es">Recursos humanos</span><span data-l="en">Human resources</span></h3>
+            <p><span data-l="es">Hojas de vida, nómina y evaluaciones compartidas con consultores o comités, con seudónimos reversibles si hace falta volver al original.</span><span data-l="en">CVs, payroll and reviews shared with consultants or committees, with reversible pseudonyms when you need the original back.</span></p>
+          </article>
+          <article class="card case">
+            <svg class="case-ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6l3.5 9.5L37 19l-9.5 3.5L24 32l-3.5-9.5L11 19l9.5-3.5z"/><path d="M36 30l1.8 4.2L42 36l-4.2 1.8L36 42l-1.8-4.2L30 36l4.2-1.8z"/></svg>
+            <h3><span data-l="es">Antes de usar IA</span><span data-l="en">Before using AI</span></h3>
+            <p><span data-l="es">Anonimiza el prompt antes de enviarlo a un modelo externo y restaura la respuesta con la tabla local: el proveedor nunca ve los datos reales.</span><span data-l="en">Anonymize the prompt before sending it to an external model and restore the answer with the local table: the provider never sees the real data.</span></p>
+          </article>
+          <article class="card case">
+            <svg class="case-ico" viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="10" width="36" height="28" rx="5"/><path d="M6 19h36M18 19v19M30 19v19"/></svg>
+            <h3><span data-l="es">Datos y analítica</span><span data-l="en">Data and analytics</span></h3>
+            <p><span data-l="es">Archivos CSV de clientes o encuestas: procesa solo las columnas de texto libre y conserva el resto intacto.</span><span data-l="en">Customer or survey CSV files: process only free-text columns and keep the rest untouched.</span></p>
+          </article>
+          <article class="card case">
+            <svg class="case-ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6 10 11v10c0 9.5 6 16.5 14 21 8-4.5 14-11.5 14-21V11z"/><path d="M18 24l4.5 4.5L31 20"/></svg>
+            <h3><span data-l="es">Seguridad y TI</span><span data-l="en">Security and IT</span></h3>
+            <p><span data-l="es">Registros de servidores y reportes de incidentes compartibles con terceros, sin IP de usuarios ni cuentas de correo.</span><span data-l="en">Server logs and incident reports you can share with third parties, without user IPs or email accounts.</span></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== DEMO ===================== -->
+    <section id="demo">
+      <div class="wrap">
+        <h2><span data-l="es">Míralo funcionar con textos reales</span><span data-l="en">See it work on realistic text</span></h2>
+        <p class="section-lead">
+          <span data-l="es">Elige un escenario y un modo. Cada salida es la respuesta <strong>real</strong> de la librería (el CI verifica que esta página coincida con el código). Los datos son inventados.</span>
+          <span data-l="en">Pick a scenario and a mode. Every output is the library’s <strong>real</strong> response (CI checks this page matches the code). All data is invented.</span>
+        </p>
+        <div class="example">
+<!-- DEMO:START -->
+<div class="tabs tabs-scenario" role="tablist" aria-label="Escenario / Scenario">
+<button type="button" role="tab" id="tab-sc-salud" aria-selected="true" data-target="sc-salud" data-group="scenario"><span data-l="es">Historia clínica</span><span data-l="en">Medical record</span></button>
+<button type="button" role="tab" id="tab-sc-soporte" aria-selected="false" tabindex="-1" data-target="sc-soporte" data-group="scenario"><span data-l="es">Chat de soporte</span><span data-l="en">Support chat</span></button>
+<button type="button" role="tab" id="tab-sc-proveedores" aria-selected="false" tabindex="-1" data-target="sc-proveedores" data-group="scenario"><span data-l="es">Proveedores y pagos</span><span data-l="en">Vendors and payments</span></button>
+<button type="button" role="tab" id="tab-sc-seguridad" aria-selected="false" tabindex="-1" data-target="sc-seguridad" data-group="scenario"><span data-l="es">Registro de seguridad</span><span data-l="en">Security log</span></button>
+</div>
+<div class="demo-scenario" id="sc-salud" role="tabpanel" aria-labelledby="tab-sc-salud">
+<div class="example-grid">
+<div class="pane">
+<div class="pane-title"><span data-l="es">Entrada · datos detectados</span><span data-l="en">Input · detected data</span></div>
+<pre class="sample" id="in-salud">Paciente: <mark class="e e-NOMBRE" title="NOMBRE">Rosa Elena Quintero</mark>, C.C. <mark class="e e-CEDULA" title="CEDULA">41.888.222</mark>, fecha de nacimiento: <mark class="e e-FECHA_NACIMIENTO" title="FECHA_NACIMIENTO">14/03/1957</mark>.
+Acompañante: <mark class="e e-NOMBRE" title="NOMBRE">Héctor Julio Quintero</mark>, celular <mark class="e e-TELEFONO" title="TELEFONO">311 555 0142</mark>.
+Residencia: <mark class="e e-DIRECCION" title="DIRECCION">Calle 45 # 12-30 Apto 301, barrio Galerías</mark>.
+Motivo de consulta: dolor torácico de tres días de evolución. TA 140/90, FC 88.</pre>
+</div>
+<div class="pane">
+<div class="pane-title"><span data-l="es">Salida</span>
+<span data-l="en">Output</span>
+<div class="tabs" role="tablist" aria-label="Modo / Mode (salud)">
+<button type="button" role="tab" id="tab-out-salud-etiqueta" aria-selected="true" data-target="out-salud-etiqueta" data-group="mode"><span data-l="es">Etiqueta</span><span data-l="en">Label</span></button>
+<button type="button" role="tab" id="tab-out-salud-mascara" aria-selected="false" tabindex="-1" data-target="out-salud-mascara" data-group="mode"><span data-l="es">Máscara</span><span data-l="en">Mask</span></button>
+<button type="button" role="tab" id="tab-out-salud-seudonimo" aria-selected="false" tabindex="-1" data-target="out-salud-seudonimo" data-group="mode"><span data-l="es">Seudónimo</span><span data-l="en">Pseudonym</span></button>
+</div></div>
+<pre class="sample" id="out-salud-etiqueta" role="tabpanel" aria-labelledby="tab-out-salud-etiqueta">Paciente: <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE]</mark>, C.C. <mark class="e e-CEDULA" title="CEDULA">[CEDULA]</mark>, fecha de nacimiento: <mark class="e e-FECHA_NACIMIENTO" title="FECHA_NACIMIENTO">[FECHA_NACIMIENTO]</mark>.
+Acompañante: <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE]</mark>, celular <mark class="e e-TELEFONO" title="TELEFONO">[TELEFONO]</mark>.
+Residencia: <mark class="e e-DIRECCION" title="DIRECCION">[DIRECCION]</mark>.
+Motivo de consulta: dolor torácico de tres días de evolución. TA 140/90, FC 88.</pre>
+<pre class="sample" id="out-salud-mascara" role="tabpanel" aria-labelledby="tab-out-salud-mascara" hidden>Paciente: <mark class="e e-NOMBRE" title="NOMBRE">R*** E**** Q*******</mark>, C.C. <mark class="e e-CEDULA" title="CEDULA">**.***.222</mark>, fecha de nacimiento: <mark class="e e-FECHA_NACIMIENTO" title="FECHA_NACIMIENTO">**/**/****</mark>.
+Acompañante: <mark class="e e-NOMBRE" title="NOMBRE">H***** J**** Q*******</mark>, celular <mark class="e e-TELEFONO" title="TELEFONO">*** *** *142</mark>.
+Residencia: <mark class="e e-DIRECCION" title="DIRECCION">Calle ** # **-** **** ***, ****** ********</mark>.
+Motivo de consulta: dolor torácico de tres días de evolución. TA 140/90, FC 88.</pre>
+<pre class="sample" id="out-salud-seudonimo" role="tabpanel" aria-labelledby="tab-out-salud-seudonimo" hidden>Paciente: <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE_1]</mark>, C.C. <mark class="e e-CEDULA" title="CEDULA">[CEDULA_1]</mark>, fecha de nacimiento: <mark class="e e-FECHA_NACIMIENTO" title="FECHA_NACIMIENTO">[FECHA_NACIMIENTO_1]</mark>.
+Acompañante: <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE_2]</mark>, celular <mark class="e e-TELEFONO" title="TELEFONO">[TELEFONO_1]</mark>.
+Residencia: <mark class="e e-DIRECCION" title="DIRECCION">[DIRECCION_1]</mark>.
+Motivo de consulta: dolor torácico de tres días de evolución. TA 140/90, FC 88.</pre>
+</div></div></div>
+<div class="demo-scenario" id="sc-soporte" role="tabpanel" aria-labelledby="tab-sc-soporte" hidden>
+<div class="example-grid">
+<div class="pane">
+<div class="pane-title"><span data-l="es">Entrada · datos detectados</span><span data-l="en">Input · detected data</span></div>
+<pre class="sample" id="in-soporte">Cliente: Hola, soy <mark class="e e-NOMBRE" title="NOMBRE">Fabián Andrés Cárdenas</mark>. Me cobraron dos veces con la tarjeta <mark class="e e-TARJETA_CREDITO" title="TARJETA_CREDITO">4111 1111 1111 1111</mark>.
+Mi correo es <mark class="e e-CORREO" title="CORREO">fabian.cardenas@example.com</mark> y mi WhatsApp <mark class="e e-TELEFONO" title="TELEFONO">+57 300 555 0175</mark>.
+Agente: Ya escalamos el caso #45821; le responderemos en 24 horas.</pre>
+</div>
+<div class="pane">
+<div class="pane-title"><span data-l="es">Salida</span>
+<span data-l="en">Output</span>
+<div class="tabs" role="tablist" aria-label="Modo / Mode (soporte)">
+<button type="button" role="tab" id="tab-out-soporte-etiqueta" aria-selected="true" data-target="out-soporte-etiqueta" data-group="mode"><span data-l="es">Etiqueta</span><span data-l="en">Label</span></button>
+<button type="button" role="tab" id="tab-out-soporte-mascara" aria-selected="false" tabindex="-1" data-target="out-soporte-mascara" data-group="mode"><span data-l="es">Máscara</span><span data-l="en">Mask</span></button>
+<button type="button" role="tab" id="tab-out-soporte-seudonimo" aria-selected="false" tabindex="-1" data-target="out-soporte-seudonimo" data-group="mode"><span data-l="es">Seudónimo</span><span data-l="en">Pseudonym</span></button>
+</div></div>
+<pre class="sample" id="out-soporte-etiqueta" role="tabpanel" aria-labelledby="tab-out-soporte-etiqueta">Cliente: Hola, soy <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE]</mark>. Me cobraron dos veces con la tarjeta <mark class="e e-TARJETA_CREDITO" title="TARJETA_CREDITO">[TARJETA_CREDITO]</mark>.
+Mi correo es <mark class="e e-CORREO" title="CORREO">[CORREO]</mark> y mi WhatsApp <mark class="e e-TELEFONO" title="TELEFONO">[TELEFONO]</mark>.
+Agente: Ya escalamos el caso #45821; le responderemos en 24 horas.</pre>
+<pre class="sample" id="out-soporte-mascara" role="tabpanel" aria-labelledby="tab-out-soporte-mascara" hidden>Cliente: Hola, soy <mark class="e e-NOMBRE" title="NOMBRE">F***** A***** C*******</mark>. Me cobraron dos veces con la tarjeta <mark class="e e-TARJETA_CREDITO" title="TARJETA_CREDITO">**** **** **** 1111</mark>.
+Mi correo es <mark class="e e-CORREO" title="CORREO">f***@e***.com</mark> y mi WhatsApp <mark class="e e-TELEFONO" title="TELEFONO">+** *** *** *175</mark>.
+Agente: Ya escalamos el caso #45821; le responderemos en 24 horas.</pre>
+<pre class="sample" id="out-soporte-seudonimo" role="tabpanel" aria-labelledby="tab-out-soporte-seudonimo" hidden>Cliente: Hola, soy <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE_1]</mark>. Me cobraron dos veces con la tarjeta <mark class="e e-TARJETA_CREDITO" title="TARJETA_CREDITO">[TARJETA_CREDITO_1]</mark>.
+Mi correo es <mark class="e e-CORREO" title="CORREO">[CORREO_1]</mark> y mi WhatsApp <mark class="e e-TELEFONO" title="TELEFONO">[TELEFONO_1]</mark>.
+Agente: Ya escalamos el caso #45821; le responderemos en 24 horas.</pre>
+</div></div></div>
+<div class="demo-scenario" id="sc-proveedores" role="tabpanel" aria-labelledby="tab-sc-proveedores" hidden>
+<div class="example-grid">
+<div class="pane">
+<div class="pane-title"><span data-l="es">Entrada · datos detectados</span><span data-l="en">Input · detected data</span></div>
+<pre class="sample" id="in-proveedores">Proveedor: Insumos del Sur S.A.S., NIT <mark class="e e-NIT" title="NIT">900.123.456-8</mark>.
+Representante legal: <mark class="e e-NOMBRE" title="NOMBRE">Juan Sebastián Arango</mark>, C.C. <mark class="e e-CEDULA" title="CEDULA">80.123.456</mark>.
+Pagar a la cuenta de ahorros No. <mark class="e e-CUENTA_BANCARIA" title="CUENTA_BANCARIA">0123456789012</mark> antes del viernes.
+Notificaciones: <mark class="e e-DIRECCION" title="DIRECCION">Avenida Calle 26 # 69-76 Torre 3 Oficina 602</mark>.</pre>
+</div>
+<div class="pane">
+<div class="pane-title"><span data-l="es">Salida</span>
+<span data-l="en">Output</span>
+<div class="tabs" role="tablist" aria-label="Modo / Mode (proveedores)">
+<button type="button" role="tab" id="tab-out-proveedores-etiqueta" aria-selected="true" data-target="out-proveedores-etiqueta" data-group="mode"><span data-l="es">Etiqueta</span><span data-l="en">Label</span></button>
+<button type="button" role="tab" id="tab-out-proveedores-mascara" aria-selected="false" tabindex="-1" data-target="out-proveedores-mascara" data-group="mode"><span data-l="es">Máscara</span><span data-l="en">Mask</span></button>
+<button type="button" role="tab" id="tab-out-proveedores-seudonimo" aria-selected="false" tabindex="-1" data-target="out-proveedores-seudonimo" data-group="mode"><span data-l="es">Seudónimo</span><span data-l="en">Pseudonym</span></button>
+</div></div>
+<pre class="sample" id="out-proveedores-etiqueta" role="tabpanel" aria-labelledby="tab-out-proveedores-etiqueta">Proveedor: Insumos del Sur S.A.S., NIT <mark class="e e-NIT" title="NIT">[NIT]</mark>.
+Representante legal: <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE]</mark>, C.C. <mark class="e e-CEDULA" title="CEDULA">[CEDULA]</mark>.
+Pagar a la cuenta de ahorros No. <mark class="e e-CUENTA_BANCARIA" title="CUENTA_BANCARIA">[CUENTA_BANCARIA]</mark> antes del viernes.
+Notificaciones: <mark class="e e-DIRECCION" title="DIRECCION">[DIRECCION]</mark>.</pre>
+<pre class="sample" id="out-proveedores-mascara" role="tabpanel" aria-labelledby="tab-out-proveedores-mascara" hidden>Proveedor: Insumos del Sur S.A.S., NIT <mark class="e e-NIT" title="NIT">***.***.***-8</mark>.
+Representante legal: <mark class="e e-NOMBRE" title="NOMBRE">J*** S******** A*****</mark>, C.C. <mark class="e e-CEDULA" title="CEDULA">**.***.456</mark>.
+Pagar a la cuenta de ahorros No. <mark class="e e-CUENTA_BANCARIA" title="CUENTA_BANCARIA">*********9012</mark> antes del viernes.
+Notificaciones: <mark class="e e-DIRECCION" title="DIRECCION">Avenida ***** ** # **-** ***** * ******* ***</mark>.</pre>
+<pre class="sample" id="out-proveedores-seudonimo" role="tabpanel" aria-labelledby="tab-out-proveedores-seudonimo" hidden>Proveedor: Insumos del Sur S.A.S., NIT <mark class="e e-NIT" title="NIT">[NIT_1]</mark>.
+Representante legal: <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE_1]</mark>, C.C. <mark class="e e-CEDULA" title="CEDULA">[CEDULA_1]</mark>.
+Pagar a la cuenta de ahorros No. <mark class="e e-CUENTA_BANCARIA" title="CUENTA_BANCARIA">[CUENTA_BANCARIA_1]</mark> antes del viernes.
+Notificaciones: <mark class="e e-DIRECCION" title="DIRECCION">[DIRECCION_1]</mark>.</pre>
+</div></div></div>
+<div class="demo-scenario" id="sc-seguridad" role="tabpanel" aria-labelledby="tab-sc-seguridad" hidden>
+<div class="example-grid">
+<div class="pane">
+<div class="pane-title"><span data-l="es">Entrada · datos detectados</span><span data-l="en">Input · detected data</span></div>
+<pre class="sample" id="in-seguridad">02:13 login fallido usuario <mark class="e e-CORREO" title="CORREO">ana.ruiz@example.com</mark> desde la IP <mark class="e e-DIRECCION_IP" title="DIRECCION_IP">203.0.113.45</mark>
+02:14 bloqueo preventivo; origen IPv6 <mark class="e e-DIRECCION_IP" title="DIRECCION_IP">2001:db8:85a3::8a2e:370:7334</mark>
+02:20 versión 2.10.4 del agente reinició el servicio sin errores.</pre>
+</div>
+<div class="pane">
+<div class="pane-title"><span data-l="es">Salida</span>
+<span data-l="en">Output</span>
+<div class="tabs" role="tablist" aria-label="Modo / Mode (seguridad)">
+<button type="button" role="tab" id="tab-out-seguridad-etiqueta" aria-selected="true" data-target="out-seguridad-etiqueta" data-group="mode"><span data-l="es">Etiqueta</span><span data-l="en">Label</span></button>
+<button type="button" role="tab" id="tab-out-seguridad-mascara" aria-selected="false" tabindex="-1" data-target="out-seguridad-mascara" data-group="mode"><span data-l="es">Máscara</span><span data-l="en">Mask</span></button>
+<button type="button" role="tab" id="tab-out-seguridad-seudonimo" aria-selected="false" tabindex="-1" data-target="out-seguridad-seudonimo" data-group="mode"><span data-l="es">Seudónimo</span><span data-l="en">Pseudonym</span></button>
+</div></div>
+<pre class="sample" id="out-seguridad-etiqueta" role="tabpanel" aria-labelledby="tab-out-seguridad-etiqueta">02:13 login fallido usuario <mark class="e e-CORREO" title="CORREO">[CORREO]</mark> desde la IP <mark class="e e-DIRECCION_IP" title="DIRECCION_IP">[DIRECCION_IP]</mark>
+02:14 bloqueo preventivo; origen IPv6 <mark class="e e-DIRECCION_IP" title="DIRECCION_IP">[DIRECCION_IP]</mark>
+02:20 versión 2.10.4 del agente reinició el servicio sin errores.</pre>
+<pre class="sample" id="out-seguridad-mascara" role="tabpanel" aria-labelledby="tab-out-seguridad-mascara" hidden>02:13 login fallido usuario <mark class="e e-CORREO" title="CORREO">a***@e***.com</mark> desde la IP <mark class="e e-DIRECCION_IP" title="DIRECCION_IP">***.*.***.**</mark>
+02:14 bloqueo preventivo; origen IPv6 <mark class="e e-DIRECCION_IP" title="DIRECCION_IP">****:***:****::****:***:****</mark>
+02:20 versión 2.10.4 del agente reinició el servicio sin errores.</pre>
+<pre class="sample" id="out-seguridad-seudonimo" role="tabpanel" aria-labelledby="tab-out-seguridad-seudonimo" hidden>02:13 login fallido usuario <mark class="e e-CORREO" title="CORREO">[CORREO_1]</mark> desde la IP <mark class="e e-DIRECCION_IP" title="DIRECCION_IP">[DIRECCION_IP_1]</mark>
+02:14 bloqueo preventivo; origen IPv6 <mark class="e e-DIRECCION_IP" title="DIRECCION_IP">[DIRECCION_IP_2]</mark>
+02:20 versión 2.10.4 del agente reinició el servicio sin errores.</pre>
+</div></div></div>
+<!-- DEMO:END -->
+          <div class="legend" aria-label="Leyenda / Legend">
+            <mark class="e e-NOMBRE">NOMBRE</mark>
+            <mark class="e e-CEDULA">CEDULA</mark>
+            <mark class="e e-NIT">NIT</mark>
+            <mark class="e e-TELEFONO">TELEFONO</mark>
+            <mark class="e e-CORREO">CORREO</mark>
+            <mark class="e e-DIRECCION">DIRECCION</mark>
+            <mark class="e e-PLACA">PLACA</mark>
+            <mark class="e e-CUENTA_BANCARIA">CUENTA</mark>
+            <mark class="e e-TARJETA_CREDITO">TARJETA</mark>
+            <mark class="e e-DIRECCION_IP">IP</mark>
+            <mark class="e e-FECHA_NACIMIENTO">F. NACIMIENTO</mark>
           </div>
         </div>
+        <p class="note">
+          <span data-l="es">Fíjate en lo que <strong>no</strong> se toca: «versión 2.10.4», «caso #45821», «TA 140/90» o los montos. Precisión primero: un número solo se marca si su formato, su checksum o su contexto lo justifican.</span>
+          <span data-l="en">Notice what is <strong>not</strong> touched: “versión 2.10.4”, “case #45821”, “TA 140/90” or amounts. Precision first: a number is only flagged when its format, checksum or context justify it.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================== CSV ===================== -->
+    <section id="hojas" class="alt">
+      <div class="wrap">
+        <h2><span data-l="es">Tu hoja de cálculo, antes y después</span><span data-l="en">Your spreadsheet, before and after</span></h2>
+        <p class="section-lead">
+          <span data-l="es">Un solo comando procesa las columnas que elijas. Con <code>--tabla</code>, el mismo valor recibe siempre el mismo seudónimo en todo el archivo y puedes revertirlo con <code>pii-shield restaurar</code>.</span>
+          <span data-l="en">One command processes the columns you choose. With <code>--tabla</code>, the same value always gets the same pseudonym across the file, and <code>pii-shield restore</code> reverts it.</span>
+        </p>
+        <div class="code code-inline">
+          <span class="label"><span data-l="es">Terminal</span><span data-l="en">Terminal</span></span>
+          <button type="button" class="copy" data-copy="code-csv"><span data-l="es">Copiar</span><span data-l="en">Copy</span></button>
+          <pre id="code-csv">pii-shield anonimizar -f clientes.csv --columnas cliente,documento,contacto,nota -m seudonimo --tabla tabla.json -o clientes_anon.csv</pre>
+        </div>
+<!-- CSV:START -->
+<div class="csv-compare">
+<div class="table-wrap"><table class="csv csv-before"><caption><span data-l="es">clientes.csv (original)</span><span data-l="en">clientes.csv (original)</span></caption><thead><tr><th scope="col">id</th><th scope="col">cliente</th><th scope="col">documento</th><th scope="col">contacto</th><th scope="col">nota</th></tr></thead><tbody><tr><td>1</td><td><mark class="e e-NOMBRE" title="NOMBRE">Andrea Carolina Ruiz</mark></td><td>C.C. <mark class="e e-CEDULA" title="CEDULA">1.032.456.789</mark></td><td><mark class="e e-CORREO" title="CORREO">andrea.ruiz@example.com</mark></td><td>Pide factura a nombre de su empresa.</td></tr><tr><td>2</td><td><mark class="e e-NOMBRE" title="NOMBRE">Luis Carlos Mora</mark></td><td>C.C. <mark class="e e-CEDULA" title="CEDULA">79.111.222</mark></td><td><mark class="e e-TELEFONO" title="TELEFONO">315 555 0144</mark></td><td>Placa de su moto: <mark class="e e-PLACA" title="PLACA">KLM27B</mark>.</td></tr><tr><td>3</td><td><mark class="e e-NOMBRE" title="NOMBRE">Marcela Pineda Ríos</mark></td><td>C.C. <mark class="e e-CEDULA" title="CEDULA">52.345.678</mark></td><td><mark class="e e-CORREO" title="CORREO">marcela.p@example.org</mark></td><td>Pagó con tarjeta <mark class="e e-TARJETA_CREDITO" title="TARJETA_CREDITO">5555 5555 5555 4444</mark>.</td></tr></tbody></table></div>
+<div class="csv-arrow" aria-hidden="true">→</div>
+<div class="table-wrap"><table class="csv csv-after"><caption><span data-l="es">clientes_anon.csv (seudonimizado, reversible con la tabla)</span><span data-l="en">clientes_anon.csv (pseudonymized, reversible with the table)</span></caption><thead><tr><th scope="col">id</th><th scope="col">cliente</th><th scope="col">documento</th><th scope="col">contacto</th><th scope="col">nota</th></tr></thead><tbody><tr><td>1</td><td><mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE_1]</mark></td><td>C.C. <mark class="e e-CEDULA" title="CEDULA">[CEDULA_1]</mark></td><td><mark class="e e-CORREO" title="CORREO">[CORREO_1]</mark></td><td>Pide factura a nombre de su empresa.</td></tr><tr><td>2</td><td><mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE_2]</mark></td><td>C.C. <mark class="e e-CEDULA" title="CEDULA">[CEDULA_2]</mark></td><td><mark class="e e-TELEFONO" title="TELEFONO">[TELEFONO_1]</mark></td><td>Placa de su moto: <mark class="e e-PLACA" title="PLACA">[PLACA_1]</mark>.</td></tr><tr><td>3</td><td><mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE_3]</mark></td><td>C.C. <mark class="e e-CEDULA" title="CEDULA">[CEDULA_3]</mark></td><td><mark class="e e-CORREO" title="CORREO">[CORREO_2]</mark></td><td>Pagó con tarjeta <mark class="e e-TARJETA_CREDITO" title="TARJETA_CREDITO">[TARJETA_CREDITO_1]</mark>.</td></tr></tbody></table></div>
+</div>
+<!-- CSV:END -->
       </div>
     </section>
 
@@ -97,85 +342,174 @@
       <div class="wrap">
         <h2><span data-l="es">Cómo funciona</span><span data-l="en">How it works</span></h2>
         <p class="section-lead">
-          <span data-l="es">Cuatro pasos, todos deterministas y auditables.</span>
-          <span data-l="en">Four steps, all deterministic and auditable.</span>
+          <span data-l="es">Un proceso determinista y auditable: mismas entradas, mismas salidas, y cada decisión se puede explicar.</span>
+          <span data-l="en">A deterministic, auditable pipeline: same input, same output, and every decision can be explained.</span>
         </p>
-        <div class="grid grid-4">
-          <div class="card">
-            <span class="step-n" aria-hidden="true">1</span>
-            <h3><span data-l="es">Reglas y contexto</span><span data-l="en">Rules and context</span></h3>
-            <p><span data-l="es">Expresiones regulares y palabras clave («cédula», «NIT», «placa»…) localizan candidatos.</span><span data-l="en">Regular expressions and keywords (“cédula”, “NIT”, “placa”…) find candidates.</span></p>
-          </div>
-          <div class="card">
-            <span class="step-n" aria-hidden="true">2</span>
-            <h3><span data-l="es">Validación</span><span data-l="en">Validation</span></h3>
-            <p><span data-l="es">Dígito de verificación del NIT (DIAN), IBAN módulo 97 y CLABE descartan números que solo «se parecen».</span><span data-l="en">NIT check digit (DIAN), IBAN mod 97 and CLABE discard numbers that merely “look like” IDs.</span></p>
-          </div>
-          <div class="card">
-            <span class="step-n" aria-hidden="true">3</span>
-            <h3><span data-l="es">Resolución</span><span data-l="en">Resolution</span></h3>
-            <p><span data-l="es">Si dos detecciones se solapan, gana la de mayor confianza. Cada una trae su puntaje (heurístico).</span><span data-l="en">When two detections overlap, the higher-confidence one wins. Each carries a (heuristic) score.</span></p>
-          </div>
-          <div class="card">
-            <span class="step-n" aria-hidden="true">4</span>
-            <h3><span data-l="es">Reemplazo</span><span data-l="en">Replacement</span></h3>
-            <p><span data-l="es">Etiqueta, máscara parcial o seudónimo; con tabla local, la seudonimización es reversible.</span><span data-l="en">Label, partial mask or pseudonym; with a local table, pseudonymization is reversible.</span></p>
-          </div>
-        </div>
+        <figure class="pipeline">
+          <svg viewBox="0 0 1000 210" role="img" aria-labelledby="pipe-title">
+            <title id="pipe-title">Texto, detección por reglas y contexto, validación con checksum, resolución de solapamientos, reemplazo y texto seguro con tabla local opcional</title>
+            <g class="pipe-step">
+              <rect x="6" y="40" width="150" height="110" rx="16"/>
+              <text class="pipe-n" x="81" y="74">1</text>
+              <text class="pipe-t" x="81" y="102" data-l="es">Texto</text><text class="pipe-t" x="81" y="102" data-l="en">Text</text>
+              <text class="pipe-s" x="81" y="126">.txt · .csv · API</text>
+            </g>
+            <g class="pipe-step">
+              <rect x="208" y="40" width="150" height="110" rx="16"/>
+              <text class="pipe-n" x="283" y="74">2</text>
+              <text class="pipe-t" x="283" y="102" data-l="es">Regex + contexto</text><text class="pipe-t" x="283" y="102" data-l="en">Regex + context</text>
+              <text class="pipe-s" x="283" y="126">«cédula», «NIT»…</text>
+            </g>
+            <g class="pipe-step">
+              <rect x="410" y="40" width="150" height="110" rx="16"/>
+              <text class="pipe-n" x="485" y="74">3</text>
+              <text class="pipe-t" x="485" y="102">Checksums</text>
+              <text class="pipe-s" x="485" y="126">DIAN · mod 97 · Luhn</text>
+            </g>
+            <g class="pipe-step">
+              <rect x="612" y="40" width="150" height="110" rx="16"/>
+              <text class="pipe-n" x="687" y="74">4</text>
+              <text class="pipe-t" x="687" y="102" data-l="es">Resolución</text><text class="pipe-t" x="687" y="102" data-l="en">Resolution</text>
+              <text class="pipe-s" x="687" y="126">score · prioridad</text>
+            </g>
+            <g class="pipe-step pipe-final">
+              <rect x="814" y="40" width="180" height="110" rx="16"/>
+              <text class="pipe-n" x="904" y="74">5</text>
+              <text class="pipe-t" x="904" y="102" data-l="es">Texto seguro</text><text class="pipe-t" x="904" y="102" data-l="en">Safe text</text>
+              <text class="pipe-s" x="904" y="126">[NOMBRE] · J*** · [CC_1]</text>
+            </g>
+            <g class="pipe-arrows">
+              <path d="M160 95h42"/><path d="M362 95h42"/><path d="M564 95h42"/><path d="M766 95h42"/>
+            </g>
+            <g class="pipe-table">
+              <path d="M904 154v22"/>
+              <rect x="834" y="176" width="140" height="28" rx="8"/>
+              <text x="904" y="195">tabla.json (0600)</text>
+            </g>
+          </svg>
+          <figcaption>
+            <span data-l="es">Si dos detecciones se solapan gana la de mayor confianza. El texto con tildes descompuestas (NFD, típico al copiar de PDF) se normaliza internamente y los índices siguen apuntando al texto original.</span>
+            <span data-l="en">When two detections overlap, the higher-confidence one wins. Text with decomposed accents (NFD, common when copying from PDFs) is normalized internally, and offsets still point into the original text.</span>
+          </figcaption>
+        </figure>
 
-        <h3 id="ejemplo"><span data-l="es">Ejemplo: entrada y salida</span><span data-l="en">Example: input and output</span></h3>
-        <p class="section-lead">
-          <span data-l="es">Salida real de la librería sobre un texto inventado (los datos no pertenecen a nadie).</span>
-          <span data-l="en">Real library output on an invented text (the data belongs to no one).</span>
-        </p>
-        <div class="example">
-          <div class="example-grid">
-            <div class="pane">
-              <div class="pane-title"><span data-l="es">Entrada (con detecciones)</span><span data-l="en">Input (with detections)</span></div>
-              <pre class="sample" id="ex-input">Hola, soy <mark class="e e-NOMBRE" title="NOMBRE">Juan Camilo Pérez Gómez</mark>, C.C. <mark class="e e-CEDULA" title="CEDULA">1.023.456.789</mark>. Vivo en la <mark class="e e-DIRECCION" title="DIRECCION">Carrera 15 # 93-60, Apto 502</mark>, Bogotá. Mi celular es <mark class="e e-TELEFONO" title="TELEFONO">+57 300 123 4567</mark> y mi correo es <mark class="e e-CORREO" title="CORREO">juan.perez@example.com</mark>. El carro, placa <mark class="e e-PLACA" title="PLACA">ABC123</mark>, es de la empresa con NIT <mark class="e e-NIT" title="NIT">900.123.456-8</mark>.</pre>
-            </div>
-            <div class="pane">
-              <div class="pane-title">
-                <span data-l="es">Salida</span><span data-l="en">Output</span>
-                <div class="tabs" role="tablist" aria-label="Modo / Mode">
-                  <button type="button" role="tab" id="tab-etiqueta" aria-selected="true" data-target="ex-etiqueta"><span data-l="es">Etiqueta</span><span data-l="en">Label</span></button>
-                  <button type="button" role="tab" id="tab-mascara" aria-selected="false" tabindex="-1" data-target="ex-mascara"><span data-l="es">Máscara</span><span data-l="en">Mask</span></button>
-                  <button type="button" role="tab" id="tab-seudonimo" aria-selected="false" tabindex="-1" data-target="ex-seudonimo"><span data-l="es">Seudónimo</span><span data-l="en">Pseudonym</span></button>
-                </div>
-              </div>
-              <pre class="sample" id="ex-etiqueta" role="tabpanel" aria-labelledby="tab-etiqueta">Hola, soy <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE]</mark>, C.C. <mark class="e e-CEDULA" title="CEDULA">[CEDULA]</mark>. Vivo en la <mark class="e e-DIRECCION" title="DIRECCION">[DIRECCION]</mark>, Bogotá. Mi celular es <mark class="e e-TELEFONO" title="TELEFONO">[TELEFONO]</mark> y mi correo es <mark class="e e-CORREO" title="CORREO">[CORREO]</mark>. El carro, placa <mark class="e e-PLACA" title="PLACA">[PLACA]</mark>, es de la empresa con NIT <mark class="e e-NIT" title="NIT">[NIT]</mark>.</pre>
-              <pre class="sample" id="ex-mascara" role="tabpanel" aria-labelledby="tab-mascara" hidden>Hola, soy <mark class="e e-NOMBRE" title="NOMBRE">J*** C***** P**** G****</mark>, C.C. <mark class="e e-CEDULA" title="CEDULA">*.***.***.789</mark>. Vivo en la <mark class="e e-DIRECCION" title="DIRECCION">Carrera ** # **-**, **** ***</mark>, Bogotá. Mi celular es <mark class="e e-TELEFONO" title="TELEFONO">+** *** *** *567</mark> y mi correo es <mark class="e e-CORREO" title="CORREO">j***@e***.com</mark>. El carro, placa <mark class="e e-PLACA" title="PLACA">******</mark>, es de la empresa con NIT <mark class="e e-NIT" title="NIT">***.***.***-8</mark>.</pre>
-              <pre class="sample" id="ex-seudonimo" role="tabpanel" aria-labelledby="tab-seudonimo" hidden>Hola, soy <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE_1]</mark>, C.C. <mark class="e e-CEDULA" title="CEDULA">[CEDULA_1]</mark>. Vivo en la <mark class="e e-DIRECCION" title="DIRECCION">[DIRECCION_1]</mark>, Bogotá. Mi celular es <mark class="e e-TELEFONO" title="TELEFONO">[TELEFONO_1]</mark> y mi correo es <mark class="e e-CORREO" title="CORREO">[CORREO_1]</mark>. El carro, placa <mark class="e e-PLACA" title="PLACA">[PLACA_1]</mark>, es de la empresa con NIT <mark class="e e-NIT" title="NIT">[NIT_1]</mark>.</pre>
-            </div>
-          </div>
-          <div class="legend" aria-label="Leyenda / Legend">
-            <mark class="e e-NOMBRE">NOMBRE</mark>
-            <mark class="e e-CEDULA">CEDULA</mark>
-            <mark class="e e-DIRECCION">DIRECCION</mark>
-            <mark class="e e-TELEFONO">TELEFONO</mark>
-            <mark class="e e-CORREO">CORREO</mark>
-            <mark class="e e-PLACA">PLACA</mark>
-            <mark class="e e-NIT">NIT</mark>
-          </div>
+        <h3 id="tipos"><span data-l="es">Qué detecta y cómo lo valida</span><span data-l="en">What it detects and how it validates</span></h3>
+        <div class="types">
+          <div class="type"><mark class="e e-CEDULA">CEDULA</mark><code>C.C. 1.023.456.789</code><small><span data-l="es">palabra clave</span><span data-l="en">keyword</span></small></div>
+          <div class="type"><mark class="e e-CEDULA_EXTRANJERIA">CEDULA_EXTRANJERIA</mark><code>C.E. 654321</code><small><span data-l="es">palabra clave</span><span data-l="en">keyword</span></small></div>
+          <div class="type"><mark class="e e-NIT">NIT</mark><code>900.123.456-8</code><small><span data-l="es">dígito de verificación DIAN</span><span data-l="en">DIAN check digit</span></small></div>
+          <div class="type"><mark class="e e-PASAPORTE">PASAPORTE</mark><code>AQ123456</code><small><span data-l="es">palabra clave</span><span data-l="en">keyword</span></small></div>
+          <div class="type"><mark class="e e-TELEFONO">TELEFONO</mark><code>+57 300 555 0175</code><small><span data-l="es">formatos colombianos</span><span data-l="en">Colombian formats</span></small></div>
+          <div class="type"><mark class="e e-CORREO">CORREO</mark><code>ana(at)example.com</code><small><span data-l="es">también ofuscados</span><span data-l="en">obfuscated too</span></small></div>
+          <div class="type"><mark class="e e-DIRECCION">DIRECCION</mark><code>Kra 10 # 20-30</code><small><span data-l="es">vía N # N-N, manzana/casa</span><span data-l="en">street N # N-N, block/house</span></small></div>
+          <div class="type"><mark class="e e-PLACA">PLACA</mark><code>KLM27B</code><small><span data-l="es">contexto + formato</span><span data-l="en">context + format</span></small></div>
+          <div class="type"><mark class="e e-CUENTA_BANCARIA">CUENTA_BANCARIA</mark><code>IBAN · CLABE</code><small><span data-l="es">mod 97 · checksum CLABE</span><span data-l="en">mod 97 · CLABE checksum</span></small></div>
+          <div class="type type-new"><mark class="e e-TARJETA_CREDITO">TARJETA_CREDITO</mark><code>4111 1111 1111 1111</code><small><span data-l="es">marca (IIN) + Luhn</span><span data-l="en">brand (IIN) + Luhn</span></small></div>
+          <div class="type type-new"><mark class="e e-DIRECCION_IP">DIRECCION_IP</mark><code>203.0.113.45 · 2001:db8::1</code><small><span data-l="es">IPv4/IPv6 válidas</span><span data-l="en">valid IPv4/IPv6</span></small></div>
+          <div class="type type-new"><mark class="e e-FECHA_NACIMIENTO">FECHA_NACIMIENTO</mark><code>3 de mayo de 1990</code><small><span data-l="es">contexto + fecha real</span><span data-l="en">context + real date</span></small></div>
+          <div class="type"><mark class="e e-NOMBRE">NOMBRE</mark><code>Ana-María Restrepo</code><small><span data-l="es">listas + contexto</span><span data-l="en">word lists + context</span></small></div>
         </div>
-        <p class="section-lead">
-          <span data-l="es">Observa que «Bogotá» no se toca: las ciudades no son uno de los tipos cubiertos. El resultado siempre debe revisarse.</span>
-          <span data-l="en">Note that “Bogotá” is left alone: cities are not among the covered types. Always review the result.</span>
-        </p>
+      </div>
+    </section>
 
-        <h3><span data-l="es">Qué detecta</span><span data-l="en">What it detects</span></h3>
-        <ul class="chips">
-          <li><span data-l="es">Cédula de ciudadanía</span><span data-l="en">National ID (cédula)</span></li>
-          <li><span data-l="es">Cédula de extranjería</span><span data-l="en">Foreigner ID</span></li>
-          <li>NIT <small data-l="es">(con DV)</small><small data-l="en">(with check digit)</small></li>
-          <li><span data-l="es">Pasaporte</span><span data-l="en">Passport</span></li>
-          <li><span data-l="es">Teléfonos (+57, móvil y fijo)</span><span data-l="en">Phones (+57, mobile and landline)</span></li>
-          <li><span data-l="es">Correos</span><span data-l="en">Emails</span></li>
-          <li><span data-l="es">Direcciones</span><span data-l="en">Addresses</span></li>
-          <li><span data-l="es">Placas</span><span data-l="en">Vehicle plates</span></li>
-          <li><span data-l="es">Cuentas bancarias / IBAN / CLABE</span><span data-l="en">Bank accounts / IBAN / CLABE</span></li>
-          <li><span data-l="es">Nombres propios (reglas y listas)</span><span data-l="en">Proper names (rules and lists)</span></li>
-        </ul>
+    <!-- ===================== RESULTADOS ===================== -->
+    <section id="resultados" class="alt">
+      <div class="wrap">
+        <h2><span data-l="es">Resultados medidos, no prometidos</span><span data-l="en">Measured results, not promises</span></h2>
+        <p class="section-lead">
+          <span data-l="es">Las cifras salen de <code>python eval/evaluate.py</code> sobre un conjunto <strong>ciego</strong> escrito antes de los cambios de la v0.2, con coincidencia exacta de tipo y rango. Es pequeño y sintético: úsalo como referencia, no como garantía.</span>
+          <span data-l="en">Figures come from <code>python eval/evaluate.py</code> on a <strong>blind</strong> set written before the v0.2 changes, with exact type and span match. It is small and synthetic: treat it as a reference, not a guarantee.</span>
+        </p>
+        <div class="charts">
+          <figure class="chart-card chart-wide">
+            <figcaption>
+              <strong><span data-l="es">F1 por tipo (v0.2, conjunto ciego v2)</span><span data-l="en">F1 per type (v0.2, blind set v2)</span></strong>
+              <span data-l="es">Generada automáticamente; el CI falla si no coincide con lo medido.</span>
+              <span data-l="en">Generated automatically; CI fails if it drifts from what is measured.</span>
+            </figcaption>
+<!-- CHART:START -->
+<svg class="chart" viewBox="0 0 610 432" role="img" aria-labelledby="chart-title chart-desc">
+<title id="chart-title">F1 por tipo — ciego v2 / blind hold-out v2</title>
+<desc id="chart-desc">89 muestras, 79 entidades; coincidencia exacta de tipo y rango.</desc>
+<line class="ch-grid" x1="170" y1="26" x2="170" y2="424"/><text class="ch-tick" x="170" y="20">0.00</text>
+<line class="ch-grid" x1="252" y1="26" x2="252" y2="424"/><text class="ch-tick" x="252" y="20">0.25</text>
+<line class="ch-grid" x1="335" y1="26" x2="335" y2="424"/><text class="ch-tick" x="335" y="20">0.50</text>
+<line class="ch-grid" x1="418" y1="26" x2="418" y2="424"/><text class="ch-tick" x="418" y="20">0.75</text>
+<line class="ch-grid" x1="500" y1="26" x2="500" y2="424"/><text class="ch-tick" x="500" y="20">1.00</text>
+<text class="ch-label" x="160" y="49">CEDULA</text><rect class="ch-track" x="170" y="37" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="37" width="330.0" height="16" rx="3"><title>CEDULA: F1 1.00 · P 1.00 · R 1.00 · n=6</title></rect><text class="ch-value" x="510" y="49">1.00</text><text class="ch-n" x="550" y="49">n=6</text>
+<text class="ch-label" x="160" y="79">NIT</text><rect class="ch-track" x="170" y="67" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="67" width="330.0" height="16" rx="3"><title>NIT: F1 1.00 · P 1.00 · R 1.00 · n=2</title></rect><text class="ch-value" x="510" y="79">1.00</text><text class="ch-n" x="550" y="79">n=2</text>
+<text class="ch-label" x="160" y="109">PASAPORTE</text><rect class="ch-track" x="170" y="97" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="97" width="330.0" height="16" rx="3"><title>PASAPORTE: F1 1.00 · P 1.00 · R 1.00 · n=1</title></rect><text class="ch-value" x="510" y="109">1.00</text><text class="ch-n" x="550" y="109">n=1</text>
+<text class="ch-label" x="160" y="139">TELEFONO</text><rect class="ch-track" x="170" y="127" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="127" width="330.0" height="16" rx="3"><title>TELEFONO: F1 1.00 · P 1.00 · R 1.00 · n=9</title></rect><text class="ch-value" x="510" y="139">1.00</text><text class="ch-n" x="550" y="139">n=9</text>
+<text class="ch-label" x="160" y="169">CORREO</text><rect class="ch-track" x="170" y="157" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="157" width="330.0" height="16" rx="3"><title>CORREO: F1 1.00 · P 1.00 · R 1.00 · n=7</title></rect><text class="ch-value" x="510" y="169">1.00</text><text class="ch-n" x="550" y="169">n=7</text>
+<text class="ch-label" x="160" y="199">DIRECCION</text><rect class="ch-track" x="170" y="187" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="187" width="330.0" height="16" rx="3"><title>DIRECCION: F1 1.00 · P 1.00 · R 1.00 · n=6</title></rect><text class="ch-value" x="510" y="199">1.00</text><text class="ch-n" x="550" y="199">n=6</text>
+<text class="ch-label" x="160" y="229">PLACA</text><rect class="ch-track" x="170" y="217" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="217" width="330.0" height="16" rx="3"><title>PLACA: F1 1.00 · P 1.00 · R 1.00 · n=4</title></rect><text class="ch-value" x="510" y="229">1.00</text><text class="ch-n" x="550" y="229">n=4</text>
+<text class="ch-label" x="160" y="259">CUENTA_BANCARIA</text><rect class="ch-track" x="170" y="247" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="247" width="330.0" height="16" rx="3"><title>CUENTA_BANCARIA: F1 1.00 · P 1.00 · R 1.00 · n=3</title></rect><text class="ch-value" x="510" y="259">1.00</text><text class="ch-n" x="550" y="259">n=3</text>
+<text class="ch-label" x="160" y="289">TARJETA_CREDITO</text><rect class="ch-track" x="170" y="277" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="277" width="330.0" height="16" rx="3"><title>TARJETA_CREDITO: F1 1.00 · P 1.00 · R 1.00 · n=4</title></rect><text class="ch-value" x="510" y="289">1.00</text><text class="ch-n" x="550" y="289">n=4</text>
+<text class="ch-label" x="160" y="319">DIRECCION_IP</text><rect class="ch-track" x="170" y="307" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="307" width="330.0" height="16" rx="3"><title>DIRECCION_IP: F1 1.00 · P 1.00 · R 1.00 · n=5</title></rect><text class="ch-value" x="510" y="319">1.00</text><text class="ch-n" x="550" y="319">n=5</text>
+<text class="ch-label" x="160" y="349">FECHA_NACIMIENTO</text><rect class="ch-track" x="170" y="337" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="337" width="330.0" height="16" rx="3"><title>FECHA_NACIMIENTO: F1 1.00 · P 1.00 · R 1.00 · n=5</title></rect><text class="ch-value" x="510" y="349">1.00</text><text class="ch-n" x="550" y="349">n=5</text>
+<text class="ch-label" x="160" y="379">NOMBRE</text><rect class="ch-track" x="170" y="367" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="367" width="303.6" height="16" rx="3"><title>NOMBRE: F1 0.92 · P 1.00 · R 0.85 · n=27</title></rect><text class="ch-value" x="510" y="379">0.92</text><text class="ch-n" x="550" y="379">n=27</text>
+<text class="ch-label ch-strong" x="160" y="409">TOTAL</text><rect class="ch-track" x="170" y="397" width="330" height="16" rx="3"/><rect class="ch-bar ch-total" x="170" y="397" width="321.4" height="16" rx="3"><title>TOTAL: F1 0.97 · P 1.00 · R 0.95 · n=79</title></rect><text class="ch-value" x="510" y="409">0.97</text><text class="ch-n" x="550" y="409">n=79</text>
+</svg>
+<!-- CHART:END -->
+          </figure>
+
+          <figure class="chart-card">
+            <figcaption>
+              <strong><span data-l="es">v0.1 vs v0.2 en el mismo conjunto ciego</span><span data-l="en">v0.1 vs v0.2 on the same blind set</span></strong>
+              <span data-l="es">79 entidades, 89 muestras.</span><span data-l="en">79 entities, 89 samples.</span>
+            </figcaption>
+            <svg class="chart" viewBox="0 0 420 220" role="img" aria-labelledby="cmp-title">
+              <title id="cmp-title">Precisión 0,95 a 1,00; recall 0,67 a 0,95; F1 0,79 a 0,97</title>
+              <g class="ch-axis"><line x1="40" y1="180" x2="410" y2="180"/></g>
+              <g>
+                <text class="ch-tick" x="34" y="184">0</text><text class="ch-tick" x="34" y="34">1</text>
+                <line class="ch-grid" x1="40" y1="30" x2="410" y2="30"/><line class="ch-grid" x1="40" y1="105" x2="410" y2="105"/>
+              </g>
+              <!-- precisión -->
+              <rect class="ch-old" x="62" y="37.5" width="44" height="142.5" rx="4"><title>v0.1 · 0.95</title></rect>
+              <rect class="ch-new" x="112" y="30" width="44" height="150" rx="4"><title>v0.2 · 1.00</title></rect>
+              <text class="ch-value" x="84" y="31">0.95</text><text class="ch-value ch-strong" x="134" y="24">1.00</text>
+              <text class="ch-cat" x="109" y="200" data-l="es">Precisión</text><text class="ch-cat" x="109" y="200" data-l="en">Precision</text>
+              <!-- recall -->
+              <rect class="ch-old" x="182" y="79.5" width="44" height="100.5" rx="4"><title>v0.1 · 0.67</title></rect>
+              <rect class="ch-new" x="232" y="37.5" width="44" height="142.5" rx="4"><title>v0.2 · 0.95</title></rect>
+              <text class="ch-value" x="204" y="73">0.67</text><text class="ch-value ch-strong" x="254" y="31">0.95</text>
+              <text class="ch-cat" x="229" y="200">Recall</text>
+              <!-- F1 -->
+              <rect class="ch-old" x="302" y="61.5" width="44" height="118.5" rx="4"><title>v0.1 · 0.79</title></rect>
+              <rect class="ch-new" x="352" y="34.5" width="44" height="145.5" rx="4"><title>v0.2 · 0.97</title></rect>
+              <text class="ch-value" x="324" y="55">0.79</text><text class="ch-value ch-strong" x="374" y="28">0.97</text>
+              <text class="ch-cat" x="349" y="200">F1</text>
+            </svg>
+            <div class="ch-legend"><span class="sw sw-old"></span>v0.1 <span class="sw sw-new"></span>v0.2</div>
+          </figure>
+
+          <figure class="chart-card">
+            <figcaption>
+              <strong><span data-l="es">Tiempo para analizar un texto</span><span data-l="en">Time to scan a text</span></strong>
+              <span data-l="es">Segundos (menos es mejor). Python 3.13, un núcleo.</span><span data-l="en">Seconds (lower is better). Python 3.13, one core.</span>
+            </figcaption>
+            <svg class="chart" viewBox="0 0 420 220" role="img" aria-labelledby="perf-title">
+              <title id="perf-title">31 KB: 0,049 s a 0,041 s; 156 KB: 0,51 s a 0,21 s; 624 KB: 6,06 s a 0,88 s</title>
+              <g class="ch-axis"><line x1="40" y1="180" x2="410" y2="180"/></g>
+              <line class="ch-grid" x1="40" y1="30" x2="410" y2="30"/><line class="ch-grid" x1="40" y1="105" x2="410" y2="105"/>
+              <text class="ch-tick" x="34" y="184">0</text><text class="ch-tick" x="34" y="109">3</text><text class="ch-tick" x="34" y="34">6</text>
+              <rect class="ch-old" x="62" y="178.8" width="44" height="1.2" rx="1"><title>v0.1 · 0.049 s</title></rect>
+              <rect class="ch-new" x="112" y="179" width="44" height="1" rx="1"><title>v0.2 · 0.041 s</title></rect>
+              <text class="ch-value" x="109" y="170">≈0.04 s</text>
+              <text class="ch-cat" x="109" y="200">31 KB</text>
+              <rect class="ch-old" x="182" y="167.3" width="44" height="12.7" rx="2"><title>v0.1 · 0.51 s</title></rect>
+              <rect class="ch-new" x="232" y="174.7" width="44" height="5.3" rx="2"><title>v0.2 · 0.21 s</title></rect>
+              <text class="ch-value" x="204" y="160">0.51</text><text class="ch-value ch-strong" x="254" y="168">0.21</text>
+              <text class="ch-cat" x="229" y="200">156 KB</text>
+              <rect class="ch-old" x="302" y="28.5" width="44" height="151.5" rx="4"><title>v0.1 · 6.06 s</title></rect>
+              <rect class="ch-new" x="352" y="158" width="44" height="22" rx="3"><title>v0.2 · 0.88 s</title></rect>
+              <text class="ch-value" x="324" y="22">6.06</text><text class="ch-value ch-strong" x="374" y="151">0.88</text>
+              <text class="ch-cat" x="349" y="200">624 KB</text>
+            </svg>
+            <div class="ch-legend"><span class="sw sw-old"></span>v0.1 <span class="sw sw-new"></span>v0.2 <span class="ch-note"><span data-l="es">≈7× más rápido en textos grandes: ahora escala de forma lineal (≈0,7 MB/s).</span><span data-l="en">≈7× faster on large text: it now scales linearly (≈0.7 MB/s).</span></span></div>
+          </figure>
+        </div>
       </div>
     </section>
 
@@ -187,38 +521,95 @@
           <span data-l="es">Requiere Python 3.10 o superior. Aún no está en PyPI; se instala desde GitHub.</span>
           <span data-l="en">Requires Python 3.10+. Not on PyPI yet; install it from GitHub.</span>
         </p>
-
         <div class="code">
           <span class="label"><span data-l="es">Instalar</span><span data-l="en">Install</span></span>
           <button type="button" class="copy" data-copy="code-install"><span data-l="es">Copiar</span><span data-l="en">Copy</span></button>
           <pre id="code-install">pip install "git+https://github.com/neurodeveloper11/pii-shield-es.git"</pre>
         </div>
-
-        <div class="code">
-          <span class="label"><span data-l="es">Desde Python</span><span data-l="en">From Python</span></span>
-          <button type="button" class="copy" data-copy="code-python"><span data-l="es">Copiar</span><span data-l="en">Copy</span></button>
-          <pre id="code-python">from pii_shield_es import detect, anonymize, PseudonymTable
+        <div class="code-stack">
+          <div class="code">
+            <span class="label"><span data-l="es">Desde Python</span><span data-l="en">From Python</span></span>
+            <button type="button" class="copy" data-copy="code-python"><span data-l="es">Copiar</span><span data-l="en">Copy</span></button>
+            <pre id="code-python">from pii_shield_es import detect, anonymize, PseudonymTable
 
 texto = "Mi cédula es 1.023.456.789 y mi correo es a@example.com"
 
 detect(texto)                         # entidades con tipo, rango y puntaje
-anonymize(texto)                      # "Mi cédula es [CEDULA] y mi correo es [CORREO]"
+anonymize(texto)
+# "Mi cédula es [CEDULA] y mi correo es [CORREO]"
 anonymize(texto, modo="mascara")      # enmascarado parcial
 
 tabla = PseudonymTable()              # seudonimización reversible
 anon = anonymize(texto, modo="seudonimo", tabla=tabla)
 assert tabla.restore(anon) == texto</pre>
+          </div>
+          <div class="code">
+            <span class="label"><span data-l="es">Desde la terminal</span><span data-l="en">From the terminal</span></span>
+            <button type="button" class="copy" data-copy="code-cli"><span data-l="es">Copiar</span><span data-l="en">Copy</span></button>
+            <pre id="code-cli">pii-shield tipos                      # qué se detecta
+pii-shield anonimizar "Mi cédula es 1.023.456.789"
+pii-shield anonimizar -f chat.txt -m mascara -o chat_anon.txt
+pii-shield detectar -f clientes.csv --resumen
+pii-shield anonimizar -f datos.csv -m seudonimo \
+    --tabla tabla.json -o datos_anon.csv
+pii-shield restaurar -f datos_anon.csv --tabla tabla.json</pre>
+          </div>
         </div>
+      </div>
+    </section>
 
-        <div class="code">
-          <span class="label"><span data-l="es">Desde la terminal (texto, .txt y .csv)</span><span data-l="en">From the terminal (text, .txt and .csv)</span></span>
-          <button type="button" class="copy" data-copy="code-cli"><span data-l="es">Copiar</span><span data-l="en">Copy</span></button>
-          <pre id="code-cli">pii-shield anonimizar "Mi cédula es 1.023.456.789"
-pii-shield anonimizar -f clientes.csv --columnas nota -m mascara -o clientes_anon.csv
-pii-shield anonimizar -f datos.csv -m seudonimo --tabla tabla.json -o datos_anon.csv
-pii-shield restaurar -f datos_anon.csv --tabla tabla.json
-pii-shield detectar -f clientes.csv --json</pre>
+    <!-- ===================== COMPARACIÓN ===================== -->
+    <section id="comparar" class="alt">
+      <div class="wrap">
+        <h2><span data-l="es">¿Por qué no hacerlo de otra forma?</span><span data-l="en">Why not do it another way?</span></h2>
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col"><span data-l="es">Revisión manual</span><span data-l="en">Manual review</span></th>
+                <th scope="col"><span data-l="es">Servicio en la nube</span><span data-l="en">Cloud service</span></th>
+                <th scope="col" class="us">pii-shield-es</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row"><span data-l="es">Los datos salen de tu equipo</span><span data-l="en">Data leaves your computer</span></th>
+                <td><span data-l="es">A veces</span><span data-l="en">Sometimes</span></td>
+                <td class="bad"><span data-l="es">Sí</span><span data-l="en">Yes</span></td>
+                <td class="good us"><span data-l="es">Nunca</span><span data-l="en">Never</span></td>
+              </tr>
+              <tr>
+                <th scope="row"><span data-l="es">Formatos colombianos (cédula, NIT con DV, «Cra 15 # 93-60»)</span><span data-l="en">Colombian formats (cédula, NIT check digit, “Cra 15 # 93-60”)</span></th>
+                <td><span data-l="es">Depende de la persona</span><span data-l="en">Depends on the person</span></td>
+                <td><span data-l="es">Variable</span><span data-l="en">Varies</span></td>
+                <td class="good us"><span data-l="es">Diseñado para ellos</span><span data-l="en">Built for them</span></td>
+              </tr>
+              <tr>
+                <th scope="row"><span data-l="es">Velocidad sobre miles de registros</span><span data-l="en">Speed over thousands of records</span></th>
+                <td class="bad"><span data-l="es">Horas o días</span><span data-l="en">Hours or days</span></td>
+                <td><span data-l="es">Rápida, con costo por uso</span><span data-l="en">Fast, pay per use</span></td>
+                <td class="good us"><span data-l="es">Segundos, gratis</span><span data-l="en">Seconds, free</span></td>
+              </tr>
+              <tr>
+                <th scope="row"><span data-l="es">Reversible (seudónimos)</span><span data-l="en">Reversible (pseudonyms)</span></th>
+                <td class="bad">—</td>
+                <td><span data-l="es">A veces</span><span data-l="en">Sometimes</span></td>
+                <td class="good us"><span data-l="es">Sí, con tabla local</span><span data-l="en">Yes, with a local table</span></td>
+              </tr>
+              <tr>
+                <th scope="row"><span data-l="es">Comprensión del contexto</span><span data-l="en">Understanding of context</span></th>
+                <td class="good"><span data-l="es">Alta</span><span data-l="en">High</span></td>
+                <td><span data-l="es">Variable</span><span data-l="en">Varies</span></td>
+                <td class="us"><span data-l="es">Limitada (reglas)</span><span data-l="en">Limited (rules)</span></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+        <p class="note">
+          <span data-l="es">Lo recomendable es combinar: pii-shield-es hace el grueso del trabajo localmente y una persona revisa el resultado.</span>
+          <span data-l="en">Best practice is to combine both: pii-shield-es does the bulk of the work locally and a person reviews the result.</span>
+        </p>
       </div>
     </section>
 
@@ -234,15 +625,13 @@ pii-shield detectar -f clientes.csv --json</pre>
           </p>
           <ul>
             <li><span data-l="es">Son reglas y listas, no un modelo de lenguaje: habrá falsos negativos y positivos.</span><span data-l="en">It is rules and word lists, not a language model: expect false negatives and positives.</span></li>
-            <li><span data-l="es">Un nombre fuera de las listas solo se detecta con contexto («señor…», «nombre:»).</span><span data-l="en">A name outside the word lists is only detected with context (“señor…”, “nombre:”).</span></li>
+            <li><span data-l="es">Los nombres son el punto más débil: un nombre fuera de las listas, en minúsculas o en formato «Apellido, Nombre» puede pasar de largo si no hay contexto.</span><span data-l="en">Names are the weakest spot: a name outside the lists, in lowercase or in “Surname, Name” format can be missed without context.</span></li>
             <li><span data-l="es">Un número de identificación sin palabra clave cerca no se marca (para no confundirlo con montos).</span><span data-l="en">An ID number with no nearby keyword is not flagged (to avoid confusing it with amounts).</span></li>
             <li><span data-l="es">La tabla de seudónimos contiene los datos originales: protégela. Los datos seudonimizados siguen siendo datos personales.</span><span data-l="en">The pseudonym table contains the original data: protect it. Pseudonymized data generally remains personal data.</span></li>
           </ul>
           <p>
-            <span data-l="es">Las métricas (precisión y recall por tipo) se miden con un script sobre un conjunto <strong>sintético</strong> y están en el README, junto con la lista completa de limitaciones:</span>
-            <span data-l="en">Per-type precision and recall are measured by a script on a <strong>synthetic</strong> set and published in the README, along with the full list of limitations:</span>
-            <a href="https://github.com/neurodeveloper11/pii-shield-es#métricas-medidas--measured-metrics" target="_blank" rel="noopener noreferrer"><span data-l="es">ver métricas</span><span data-l="en">see metrics</span></a> ·
-            <a href="https://github.com/neurodeveloper11/pii-shield-es#limitaciones" target="_blank" rel="noopener noreferrer"><span data-l="es">ver limitaciones</span><span data-l="en">see limitations</span></a>
+            <a href="https://github.com/neurodeveloper11/pii-shield-es#métricas-medidas--measured-metrics" target="_blank" rel="noopener noreferrer"><span data-l="es">Métricas completas</span><span data-l="en">Full metrics</span></a> ·
+            <a href="https://github.com/neurodeveloper11/pii-shield-es#limitaciones" target="_blank" rel="noopener noreferrer"><span data-l="es">todas las limitaciones</span><span data-l="en">all limitations</span></a>
           </p>
         </div>
       </div>

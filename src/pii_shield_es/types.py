@@ -18,6 +18,9 @@ class PIIType(str, Enum):
     DIRECCION = "DIRECCION"
     PLACA = "PLACA"
     CUENTA_BANCARIA = "CUENTA_BANCARIA"
+    TARJETA_CREDITO = "TARJETA_CREDITO"
+    DIRECCION_IP = "DIRECCION_IP"
+    FECHA_NACIMIENTO = "FECHA_NACIMIENTO"
     NOMBRE = "NOMBRE"
 
     def __str__(self) -> str:  # pragma: no cover - trivial
@@ -27,11 +30,14 @@ class PIIType(str, Enum):
 # Orden de desempate cuando dos detecciones solapan con el mismo puntaje.
 PRIORITY: tuple[PIIType, ...] = (
     PIIType.CORREO,
+    PIIType.TARJETA_CREDITO,
     PIIType.CUENTA_BANCARIA,
     PIIType.NIT,
     PIIType.CEDULA_EXTRANJERIA,
     PIIType.CEDULA,
     PIIType.PASAPORTE,
+    PIIType.DIRECCION_IP,
+    PIIType.FECHA_NACIMIENTO,
     PIIType.TELEFONO,
     PIIType.PLACA,
     PIIType.DIRECCION,
