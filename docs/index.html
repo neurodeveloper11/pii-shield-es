@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self'; img-src 'self' blob:; base-uri 'none'; form-action 'none'">
   <meta name="color-scheme" content="light dark">
   <title>DataShield · Anonimiza datos personales en español, 100 % local</title>
   <meta name="description" content="DataShield detecta y anonimiza datos personales en textos en español de Colombia y LatAm: cédulas, NIT, teléfonos, correos, direcciones, placas, cuentas, tarjetas, IP, fechas de nacimiento y nombres. 100 % local, código abierto.">
@@ -12,7 +12,7 @@
   <meta property="og:locale" content="es_CO">
   <meta property="og:url" content="https://neurodeveloper11.github.io/pii-shield-es/">
   <meta property="og:title" content="DataShield · Comparte tus textos, no los datos de tus usuarios">
-  <meta property="og:description" content="Anonimiza cédulas, NIT, teléfonos, tarjetas, direcciones y nombres en textos en español. 100 % local y de código abierto.">
+  <meta property="og:description" content="Arrastra tu Word o Excel y descárgalo sin cédulas, celulares, tarjetas ni nombres. Se procesa en tu navegador: no se sube a ningún servidor. Gratis y de código abierto.">
   <meta property="og:image" content="https://neurodeveloper11.github.io/pii-shield-es/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="627">
@@ -34,6 +34,7 @@
         DataShield
       </a>
       <nav class="nav" aria-label="Secciones">
+        <a href="#probar"><span data-l="es">Pruébalo</span><span data-l="en">Try it</span></a>
         <a href="#casos"><span data-l="es">Casos de uso</span><span data-l="en">Use cases</span></a>
         <a href="#demo"><span data-l="es">Demo</span><span data-l="en">Demo</span></a>
         <a href="#resultados"><span data-l="es">Resultados</span><span data-l="en">Results</span></a>
@@ -56,21 +57,21 @@
     <div class="hero" id="top">
       <div class="wrap hero-grid">
         <div class="hero-copy">
-          <span class="eyebrow"><span data-l="es">Código abierto · MIT · Python 3.10+ · v0.4</span><span data-l="en">Open source · MIT · Python 3.10+ · v0.4</span></span>
+          <span class="eyebrow"><span data-l="es">Código abierto · MIT · Python 3.10+ · v0.5</span><span data-l="en">Open source · MIT · Python 3.10+ · v0.5</span></span>
           <h1>
             <span data-l="es">Comparte tus textos, <em>no los datos de tus usuarios</em></span>
             <span data-l="en">Share your text, <em>not your users’ data</em></span>
           </h1>
           <p class="lead">
-            <span data-l="es">DataShield encuentra y anonimiza cédulas, NIT, teléfonos, correos, direcciones, placas, cuentas, tarjetas, IP, fechas de nacimiento y nombres en textos en español de Colombia y LatAm. Todo corre en tu máquina: sin APIs, sin red, sin modelos pesados.</span>
-            <span data-l="en">DataShield finds and anonymizes Colombian/LatAm IDs, tax IDs, phones, emails, addresses, plates, bank accounts, cards, IPs, birth dates and names in Spanish text. Everything runs on your machine: no APIs, no network, no heavy models.</span>
+            <span data-l="es">Arrastra un Word, un Excel o un CSV y DataShield reemplaza cédulas, NIT, teléfonos, correos, direcciones, placas, cuentas, tarjetas, IP, fechas de nacimiento y nombres, conservando el formato. Todo corre en tu navegador o en tu máquina: el archivo no se sube a ningún servidor.</span>
+            <span data-l="en">Drop a Word, Excel or CSV file and DataShield replaces Colombian/LatAm IDs, tax IDs, phones, emails, addresses, plates, bank accounts, cards, IPs, birth dates and names, keeping the formatting. Everything runs in your browser or on your machine: the file is never uploaded.</span>
           </p>
           <div class="cta-row">
             <a class="btn btn-primary" href="https://github.com/neurodeveloper11/pii-shield-es" target="_blank" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="5" r="2.2"/><circle cx="6" cy="19" r="2.2"/><circle cx="18" cy="9" r="2.2"/><path d="M6 7.2v9.6M18 11.2c0 4-6 3-12 6"/></svg>
               <span data-l="es">Ver el código en GitHub</span><span data-l="en">View the code on GitHub</span>
             </a>
-            <a class="btn btn-ghost" href="#demo"><span data-l="es">Ver la demo</span><span data-l="en">See the demo</span></a>
+            <a class="btn btn-ghost" href="#probar"><span data-l="es">Probar con mi archivo</span><span data-l="en">Try it with my file</span></a>
           </div>
         </div>
 
@@ -135,6 +136,52 @@
       </div>
     </div>
 
+    <!-- ===================== PROBAR CON TU ARCHIVO ===================== -->
+    <section id="probar" class="tool-section">
+      <div class="wrap">
+        <h2><span data-l="es">Pruébalo con tu archivo</span><span data-l="en">Try it with your own file</span></h2>
+        <p class="section-lead">
+          <span data-l="es">Arrastra un Word, un Excel, un CSV o un texto y descarga la versión anonimizada, con el mismo formato. <strong>El archivo se procesa dentro de tu navegador: no se sube a ningún servidor.</strong> Puedes comprobarlo: después de que cargue la herramienta, desconecta el internet y sigue funcionando.</span>
+          <span data-l="en">Drop a Word, Excel, CSV or text file and download the anonymized version, same format. <strong>The file is processed inside your browser: it is never uploaded to any server.</strong> You can check: once the tool has loaded, disconnect from the internet and it keeps working.</span>
+        </p>
+        <div class="tool">
+          <label class="drop" id="drop" for="file-input">
+            <input type="file" id="file-input" class="visually-hidden" accept=".docx,.xlsx,.csv,.tsv,.txt,.md">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 30V8M15 17l9-9 9 9"/><path d="M8 30v6a4 4 0 0 0 4 4h24a4 4 0 0 0 4-4v-6"/></svg>
+            <strong><span data-l="es">Arrastra tu archivo aquí o haz clic para elegirlo</span><span data-l="en">Drop your file here or click to choose it</span></strong>
+            <small>Word (.docx) · Excel (.xlsx) · .csv · .txt · .md</small>
+          </label>
+          <div class="tool-options">
+            <fieldset>
+              <legend><span data-l="es">Cómo reemplazar los datos</span><span data-l="en">How to replace the data</span></legend>
+              <label><input type="radio" name="modo" value="etiqueta" checked> <span data-l="es">Etiqueta: <code>[NOMBRE]</code></span><span data-l="en">Label: <code>[NOMBRE]</code></span></label>
+              <label><input type="radio" name="modo" value="mascara"> <span data-l="es">Máscara: <code>J*** P****</code></span><span data-l="en">Mask: <code>J*** P****</code></span></label>
+              <label><input type="radio" name="modo" value="seudonimo"> <span data-l="es">Seudónimo reversible: <code>[NOMBRE_1]</code></span><span data-l="en">Reversible pseudonym: <code>[NOMBRE_1]</code></span></label>
+            </fieldset>
+            <label class="check"><input type="checkbox" id="opt-meta" checked> <span data-l="es">Borrar también el autor, la empresa y los autores de comentarios (Word y Excel)</span><span data-l="en">Also remove author, company and comment authors (Word and Excel)</span></label>
+          </div>
+          <div class="tool-status" id="tool-status" role="status" aria-live="polite"></div>
+          <div class="tool-result" id="tool-result" hidden>
+            <h3 id="tool-title"></h3>
+            <ul class="chips" id="tool-counts"></ul>
+            <ul class="tool-warn" id="tool-warn"></ul>
+            <div class="cta-row">
+              <a class="btn btn-download" id="tool-download" href="#probar"><span data-l="es">Descargar archivo anonimizado</span><span data-l="en">Download anonymized file</span></a>
+              <a class="btn btn-ghost" id="tool-table" href="#probar" hidden><span data-l="es">Descargar tabla de seudónimos</span><span data-l="en">Download pseudonym table</span></a>
+            </div>
+            <p class="note"><span data-l="es">Revisa siempre el resultado antes de compartirlo. La tabla de seudónimos contiene los datos originales: guárdala en un lugar seguro.</span><span data-l="en">Always review the output before sharing it. The pseudonym table contains the original data: keep it somewhere safe.</span></p>
+          </div>
+          <details class="paste">
+            <summary><span data-l="es">¿Prefieres pegar un texto?</span><span data-l="en">Prefer to paste text?</span></summary>
+            <label class="visually-hidden" for="paste-in">Texto</label>
+            <textarea id="paste-in" rows="5" placeholder="Hola, soy Carolina Mejía, C.C. 52.345.678. Mi cel es 300 555 0175."></textarea>
+            <button type="button" class="btn btn-ghost" id="paste-go"><span data-l="es">Anonimizar texto</span><span data-l="en">Anonymize text</span></button>
+            <pre class="sample paste-out" id="paste-out" hidden></pre>
+          </details>
+        </div>
+      </div>
+    </section>
+
     <!-- ===================== CASOS DE USO ===================== -->
     <section id="casos">
       <div class="wrap">
@@ -167,7 +214,7 @@
           <article class="card case">
             <svg class="case-ico" viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="10" width="36" height="28" rx="5"/><path d="M6 19h36M18 19v19M30 19v19"/></svg>
             <h3><span data-l="es">Datos y analítica</span><span data-l="en">Data and analytics</span></h3>
-            <p><span data-l="es">Archivos CSV de clientes o encuestas: procesa solo las columnas de texto libre y conserva el resto intacto.</span><span data-l="en">Customer or survey CSV files: process only free-text columns and keep the rest untouched.</span></p>
+            <p><span data-l="es">Bases de clientes en Excel o CSV: entiende las columnas por su encabezado («Cédula», «Celular»), respeta las fórmulas y deja intactos los montos.</span><span data-l="en">Customer bases in Excel or CSV: understands columns by their header (“Cédula”, “Celular”), keeps formulas and leaves amounts untouched.</span></p>
           </article>
           <article class="card case">
             <svg class="case-ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6 10 11v10c0 9.5 6 16.5 14 21 8-4.5 14-11.5 14-21V11z"/><path d="M18 24l4.5 4.5L31 20"/></svg>
@@ -364,8 +411,8 @@ Notificaciones: <mark class="e e-DIRECCION" title="DIRECCION">[DIRECCION_1]</mar
       <div class="wrap">
         <h2><span data-l="es">Tu hoja de cálculo, antes y después</span><span data-l="en">Your spreadsheet, before and after</span></h2>
         <p class="section-lead">
-          <span data-l="es">Un solo comando procesa las columnas que elijas. Con <code>--tabla</code>, el mismo valor recibe siempre el mismo seudónimo en todo el archivo y puedes revertirlo con <code>datashield restaurar</code>.</span>
-          <span data-l="en">One command processes the columns you choose. With <code>--tabla</code>, the same value always gets the same pseudonym across the file, and <code>datashield restore</code> reverts it.</span>
+          <span data-l="es">Arrastra el Excel o el CSV en <a href="#probar">Pruébalo</a> o usa la terminal. Con el modo seudónimo, el mismo valor recibe siempre el mismo seudónimo en todo el archivo y puedes revertirlo con la tabla.</span>
+          <span data-l="en">Drop the Excel or CSV file in <a href="#probar">Try it</a> or use the terminal. In pseudonym mode the same value always gets the same pseudonym across the file, and the table reverts it.</span>
         </p>
         <div class="code code-inline">
           <span class="label"><span data-l="es">Terminal</span><span data-l="en">Terminal</span></span>
@@ -621,6 +668,12 @@ datashield restaurar -f datos_anon.csv --tabla tabla.json</pre>
                 <td class="good us"><span data-l="es">Segundos, gratis</span><span data-l="en">Seconds, free</span></td>
               </tr>
               <tr>
+                <th scope="row"><span data-l="es">Word y Excel con su formato</span><span data-l="en">Word and Excel, formatting kept</span></th>
+                <td><span data-l="es">Lento y propenso a errores</span><span data-l="en">Slow and error-prone</span></td>
+                <td><span data-l="es">Hay que subir el archivo</span><span data-l="en">You must upload the file</span></td>
+                <td class="good us"><span data-l="es">Arrastrar y descargar, sin subirlo</span><span data-l="en">Drop and download, no upload</span></td>
+              </tr>
+              <tr>
                 <th scope="row"><span data-l="es">Reversible (seudónimos)</span><span data-l="en">Reversible (pseudonyms)</span></th>
                 <td class="bad">—</td>
                 <td><span data-l="es">A veces</span><span data-l="en">Sometimes</span></td>
@@ -692,5 +745,6 @@ datashield restaurar -f datos_anon.csv --tabla tabla.json</pre>
   </footer>
 
   <script src="app.js"></script>
+  <script src="tool.js"></script>
 </body>
 </html>

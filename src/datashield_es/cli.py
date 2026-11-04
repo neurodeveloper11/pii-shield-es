@@ -12,8 +12,16 @@ from collections.abc import Sequence
 from pathlib import Path
 
 from . import __version__
-from .anonymize import MODES, PseudonymTable, anonymize, normalize_mode
+from .anonymize import MODES, PseudonymTable, anonymize, normalize_mode, replace_entities
 from .detectors import detect
+from .files import (
+    UnsupportedFileError,
+    anonymize_bytes,
+    default_output_path,
+    detect_bytes,
+    restore_bytes,
+    scan_cell,
+)
 from .types import PIIType, coerce_types
 
 _AVISO = (
@@ -64,7 +72,11 @@ def _build_parser() -> argparse.ArgumentParser:
 
     def add_input(p: argparse.ArgumentParser) -> None:
         p.add_argument("texto", nargs="?", help="texto a procesar (si se omite, se lee stdin)")
-        p.add_argument("-f", "--archivo", help="archivo .txt o .csv de entrada")
+        p.add_argument(
+            "-f",
+            "--archivo",
+            help="archivo de entrada: .txt, .md, .csv, .tsv, .docx (Word) o .xlsx (Excel)",
+        )
         p.add_argument("-o", "--salida", help="archivo de salida (por defecto, stdout)")
         p.add_argument(
             "--tipos",
@@ -86,6 +98,11 @@ def _build_parser() -> argparse.ArgumentParser:
     add_input(anon)
     anon.add_argument(
         "-m", "--modo", default="etiqueta", choices=MODES, help="modo de anonimización"
+    )
+    anon.add_argument(
+        "--conservar-metadatos",
+        action="store_true",
+        help="solo .docx/.xlsx: no borrar autor, empresa ni autores de comentarios",
     )
     anon.add_argument(
         "--tabla",
@@ -122,11 +139,32 @@ def _read_text(path: str) -> str:
         raise CLIError(f"{path} no es UTF-8 válido") from exc
 
 
+OFFICE = (".docx", ".xlsx")
+
+
+def _is_office(args: argparse.Namespace) -> bool:
+    return bool(getattr(args, "archivo", None)) and Path(args.archivo).suffix.lower() in OFFICE
+
+
+def _read_bytes(path: str) -> bytes:
+    try:
+        return Path(path).read_bytes()
+    except OSError as exc:
+        raise CLIError(f"No se pudo leer {path}: {exc.strerror or exc}") from exc
+
+
+def _write_bytes(path: Path, data: bytes) -> None:
+    try:
+        path.write_bytes(data)
+    except OSError as exc:
+        raise CLIError(f"No se pudo escribir {path}: {exc.strerror or exc}") from exc
+
+
 def _load_input(args: argparse.Namespace) -> tuple[str, bool]:
     """Devuelve ``(contenido, es_csv)``."""
     if args.archivo:
         content = _read_text(args.archivo)
-        return content, Path(args.archivo).suffix.lower() == ".csv"
+        return content, Path(args.archivo).suffix.lower() in (".csv", ".tsv")
     if args.texto is not None and args.texto != "-":
         return args.texto, False
     if sys.stdin.isatty():
@@ -204,7 +242,9 @@ def _process_csv(  # type: ignore[no-untyped-def]
             continue
         out.append(
             [
-                cell_fn(cell, i, j) if (columns is None or j in columns) else cell
+                cell_fn(cell, i, j, header[j] if header is not None and j < len(header) else None)
+                if (columns is None or j in columns)
+                else cell
                 for j, cell in enumerate(row)
             ]
         )
@@ -244,14 +284,20 @@ def _cmd_anonymize(args: argparse.Namespace) -> int:
     table = _load_table(args.tabla, modo)
     if modo == "seudonimo" and table is None:
         table = PseudonymTable()
+    if _is_office(args):
+        return _anonymize_office(args, modo, tipos, table)
     content, is_csv = _load_input(args)
 
     def run(cell: str) -> str:
         return anonymize(cell, modo, tipos=tipos, tabla=table, min_score=args.min_score)
 
+    def run_cell(cell: str, _i: int, _j: int, head: str | None) -> str:
+        ents = scan_cell(cell, head, tipos=tipos, min_score=args.min_score)
+        return replace_entities(cell, ents, modo, table) if ents else cell
+
     if is_csv:
         rows, dialect = _read_csv(args, content)
-        result = _write_csv(_process_csv(args, rows, lambda cell, _i, _j: run(cell)), dialect)
+        result = _write_csv(_process_csv(args, rows, run_cell), dialect)
     else:
         result = run(content)
     # La tabla se guarda ANTES que la salida: si algo falla después, no queda un archivo
@@ -271,14 +317,84 @@ def _cmd_anonymize(args: argparse.Namespace) -> int:
     return 0
 
 
+def _anonymize_office(
+    args: argparse.Namespace, modo: str, tipos: object, table: PseudonymTable | None
+) -> int:
+    source = Path(args.archivo)
+    try:
+        data, report = anonymize_bytes(
+            _read_bytes(args.archivo),
+            source.name,
+            modo,
+            tipos=tipos,  # type: ignore[arg-type]
+            tabla=table,
+            min_score=args.min_score,
+            limpiar_metadatos=not args.conservar_metadatos,
+        )
+    except UnsupportedFileError as exc:
+        raise CLIError(str(exc)) from exc
+    target = Path(args.salida) if args.salida else default_output_path(source)
+    if table is not None and args.tabla:
+        try:
+            table.save(args.tabla)
+        except OSError as exc:
+            raise CLIError(f"No se pudo guardar la tabla {args.tabla}: {exc}") from exc
+    _write_bytes(target, data)
+    resumen = ", ".join(f"{k}={v}" for k, v in report.conteo.items()) or "sin hallazgos"
+    print(f"Archivo anonimizado: {target} ({resumen})", file=sys.stderr)
+    if report.metadatos_limpiados:
+        print(f"Metadatos limpiados: {', '.join(report.metadatos_limpiados)}", file=sys.stderr)
+    for warning in report.advertencias:
+        print(f"Advertencia: {warning}", file=sys.stderr)
+    if table is not None and args.tabla:
+        print(
+            f"Tabla de seudónimos guardada en {args.tabla} ({len(table)} entradas). "
+            "Contiene datos originales: protégela.",
+            file=sys.stderr,
+        )
+    return 0
+
+
+def _detect_office(args: argparse.Namespace, tipos: object) -> int:
+    try:
+        report = detect_bytes(
+            _read_bytes(args.archivo),
+            Path(args.archivo).name,
+            tipos=tipos,  # type: ignore[arg-type]
+            min_score=args.min_score,
+        )
+    except UnsupportedFileError as exc:
+        raise CLIError(str(exc)) from exc
+    if args.resumen:
+        if args.json:
+            _write_output(args, json.dumps(report.conteo, ensure_ascii=False, indent=2))
+        else:
+            lines = [f"{k:<20} {v:>6}" for k, v in report.conteo.items()]
+            lines.append(f"{'TOTAL':<20} {report.total:>6}")
+            _write_output(args, "\n".join(lines))
+        return 0
+    if args.json:
+        _write_output(args, json.dumps(report.to_dict(), ensure_ascii=False, indent=2))
+        return 0
+    lines = [f"{h['tipo']:<20} score={h['score']:.2f}  {h['ubicacion']}" for h in report.hallazgos]
+    lines += [f"Advertencia: {w}" for w in report.advertencias]
+    lines.append("")
+    conteo = ", ".join(f"{k}={v}" for k, v in report.conteo.items())
+    lines.append("Total: " + (conteo or "sin hallazgos"))
+    _write_output(args, "\n".join(lines))
+    return 0
+
+
 def _cmd_detect(args: argparse.Namespace) -> int:
     tipos = _types(args)
+    if _is_office(args):
+        return _detect_office(args, tipos)
     content, is_csv = _load_input(args)
     findings: list[dict[str, object]] = []
     if is_csv:
 
-        def collect(cell: str, i: int, j: int) -> str:
-            for ent in detect(cell, tipos=tipos, min_score=args.min_score):
+        def collect(cell: str, i: int, j: int, head: str | None) -> str:
+            for ent in scan_cell(cell, head, tipos=tipos, min_score=args.min_score):
                 findings.append({"fila": i, "columna": j, **ent.to_dict()})
             return cell
 
@@ -318,6 +434,20 @@ def _cmd_restore(args: argparse.Namespace) -> int:
         table = PseudonymTable.load(args.tabla)
     except (ValueError, OSError) as exc:
         raise CLIError(f"Tabla inválida {args.tabla}: {exc}") from exc
+    if args.archivo and Path(args.archivo).suffix.lower() in OFFICE:
+        source = Path(args.archivo)
+        target = (
+            Path(args.salida)
+            if args.salida
+            else source.with_name(f"{source.stem}_restaurado{source.suffix}")
+        )
+        try:
+            data = restore_bytes(_read_bytes(args.archivo), source.name, table)
+        except Exception as exc:  # zip inválido u otro error de formato
+            raise CLIError(f"No se pudo restaurar {source}: {exc}") from exc
+        _write_bytes(target, data)
+        print(f"Archivo restaurado: {target}", file=sys.stderr)
+        return 0
     if args.archivo:
         content = _read_text(args.archivo)
     elif args.texto is not None and args.texto != "-":
