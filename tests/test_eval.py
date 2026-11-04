@@ -66,12 +66,11 @@ def test_dataset_no_contiene_correos_reales():
         if not dataset.jsonl_path(name).exists():
             continue
         for s in dataset.load(name):
-            for m in re.finditer(r"@([A-Za-z0-9.-]+)", s["text"]):
-                host = m.group(1).rstrip(".")
-                assert host.endswith(("example.com", "example.org", "example.net")) or host in {
-                    "usuario",
-                    "usuario_ejemplo",
-                }, host
+            for m in re.finditer(r"@([A-Za-z0-9._-]+)", s["text"]):
+                host = m.group(1).rstrip(".").lower()
+                reserved = host.endswith(("example.com", "example.org", "example.net"))
+                version_like = re.fullmatch(r"[\d.]+", host) is not None  # p. ej. left-pad@1.3.0
+                assert reserved or version_like or host in {"usuario", "usuario_ejemplo"}, host
 
 
 def test_metricas_sobre_muestras_controladas():
