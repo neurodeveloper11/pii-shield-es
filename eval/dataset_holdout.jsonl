@@ -1,0 +1,124 @@
+{"text": "Yo, Hernán Darío Vélez, identificado con la C.C. 71.234.567 de Envigado, certifico lo anterior.", "entities": [{"type": "NOMBRE", "start": 4, "end": 22, "text": "Hernán Darío Vélez"}, {"type": "CEDULA", "start": 49, "end": 59, "text": "71.234.567"}], "id": "holdout-001"}
+{"text": "Número de cédula: 1001234567", "entities": [{"type": "CEDULA", "start": 18, "end": 28, "text": "1001234567"}], "id": "holdout-002"}
+{"text": "Aportó su cédula de ciudadanía No 1.152.333.444 y un recibo de servicios.", "entities": [{"type": "CEDULA", "start": 34, "end": 47, "text": "1.152.333.444"}], "id": "holdout-003"}
+{"text": "Su CC es la 52.987.654 según el formulario.", "entities": [{"type": "CEDULA", "start": 12, "end": 22, "text": "52.987.654"}], "id": "holdout-004"}
+{"text": "Registramos C.C. 98765432 y C.C. 1.045.666.777 como codeudores.", "entities": [{"type": "CEDULA", "start": 17, "end": 25, "text": "98765432"}, {"type": "CEDULA", "start": 33, "end": 46, "text": "1.045.666.777"}], "id": "holdout-005"}
+{"text": "Doc: 1020304050 en la planilla de ingreso.", "entities": [{"type": "CEDULA", "start": 5, "end": 15, "text": "1020304050"}], "id": "holdout-006"}
+{"text": "Cédula 1020 304 050 copiada del carné.", "entities": [{"type": "CEDULA", "start": 7, "end": 19, "text": "1020 304 050"}], "id": "holdout-007"}
+{"text": "El usuario con ID 1.234.567 no existe en la tabla.", "entities": [], "id": "holdout-008"}
+{"text": "La tarjeta de identidad del menor es la 1.100.222.333.", "entities": [{"type": "CEDULA", "start": 40, "end": 53, "text": "1.100.222.333"}], "id": "holdout-009"}
+{"text": "Presentar documento de identidad vigente (cédula original) en ventanilla.", "entities": [], "id": "holdout-010"}
+{"text": "Se anexa fotocopia de la cédula de ciudadanía del solicitante.", "entities": [], "id": "holdout-011"}
+{"text": "CE 1.234.567 (cédula de extranjería) vigente.", "entities": [{"type": "CEDULA_EXTRANJERIA", "start": 3, "end": 12, "text": "1.234.567"}], "id": "holdout-012"}
+{"text": "El extranjero con cédula de extranjería número 654321 pidió prórroga.", "entities": [{"type": "CEDULA_EXTRANJERIA", "start": 47, "end": 53, "text": "654321"}], "id": "holdout-013"}
+{"text": "Cédula de extranjería: 3456789", "entities": [{"type": "CEDULA_EXTRANJERIA", "start": 23, "end": 30, "text": "3456789"}], "id": "holdout-014"}
+{"text": "C.E. No. 876543 del empleado.", "entities": [{"type": "CEDULA_EXTRANJERIA", "start": 9, "end": 15, "text": "876543"}], "id": "holdout-015"}
+{"text": "Cobrar a Distribuciones La Esperanza Ltda., NIT 830.456.789-0, por los servicios prestados.", "entities": [{"type": "NIT", "start": 48, "end": 61, "text": "830.456.789-0"}], "id": "holdout-016"}
+{"text": "Nit: 900876543-1", "entities": [{"type": "NIT", "start": 5, "end": 16, "text": "900876543-1"}], "id": "holdout-017"}
+{"text": "Su NIT es 1020304050-8 como persona natural.", "entities": [{"type": "NIT", "start": 10, "end": 22, "text": "1020304050-8"}], "id": "holdout-018"}
+{"text": "NIT 900.555.666 (el DV se omitió en la factura).", "entities": [{"type": "NIT", "start": 4, "end": 15, "text": "900.555.666"}], "id": "holdout-019"}
+{"text": "Identificación tributaria 901.222.333-9 de la sociedad.", "entities": [{"type": "NIT", "start": 26, "end": 39, "text": "901.222.333-9"}], "id": "holdout-020"}
+{"text": "Factura No. 000123456-6 emitida el mes pasado.", "entities": [], "id": "holdout-021"}
+{"text": "El consecutivo 987654321-0 corresponde a una orden interna.", "entities": [], "id": "holdout-022"}
+{"text": "Pago a nombre de Servicios Integrales del Caribe S.A.S., N.I.T. 802.333.444-5.", "entities": [{"type": "NIT", "start": 64, "end": 77, "text": "802.333.444-5"}], "id": "holdout-023"}
+{"text": "Pasaporte colombiano AQ123456 expedido en Bogotá.", "entities": [{"type": "PASAPORTE", "start": 21, "end": 29, "text": "AQ123456"}], "id": "holdout-024"}
+{"text": "El pasaporte (No. AR555777) fue enviado por mensajería.", "entities": [{"type": "PASAPORTE", "start": 18, "end": 26, "text": "AR555777"}], "id": "holdout-025"}
+{"text": "Passport No. PA9876543", "entities": [{"type": "PASAPORTE", "start": 13, "end": 22, "text": "PA9876543"}], "id": "holdout-026"}
+{"text": "Núm. pasaporte: AT111222", "entities": [{"type": "PASAPORTE", "start": 16, "end": 24, "text": "AT111222"}], "id": "holdout-027"}
+{"text": "El pasaporte venció y debe renovarse en la cancillería.", "entities": [], "id": "holdout-028"}
+{"text": "Mi WhatsApp es el 301 555 0166, escríbeme.", "entities": [{"type": "TELEFONO", "start": 18, "end": 30, "text": "301 555 0166"}], "id": "holdout-029"}
+{"text": "Tel: (1) 555-0177", "entities": [{"type": "TELEFONO", "start": 5, "end": 17, "text": "(1) 555-0177"}], "id": "holdout-030"}
+{"text": "WhatsApp: +57 3105550166", "entities": [{"type": "TELEFONO", "start": 10, "end": 24, "text": "+57 3105550166"}], "id": "holdout-031"}
+{"text": "Contacto alterno (57) 3215550123 por la tarde.", "entities": [{"type": "TELEFONO", "start": 17, "end": 32, "text": "(57) 3215550123"}], "id": "holdout-032"}
+{"text": "Tel 6015550100 ext 22 en horario de oficina.", "entities": [{"type": "TELEFONO", "start": 4, "end": 14, "text": "6015550100"}], "id": "holdout-033"}
+{"text": "Contactos: 3001112223 / 3001112224.", "entities": [{"type": "TELEFONO", "start": 11, "end": 21, "text": "3001112223"}, {"type": "TELEFONO", "start": 24, "end": 34, "text": "3001112224"}], "id": "holdout-034"}
+{"text": "Cel 315-555-0144.", "entities": [{"type": "TELEFONO", "start": 4, "end": 16, "text": "315-555-0144"}], "id": "holdout-035"}
+{"text": "Línea de atención 018000 123 456 gratuita desde cualquier celular.", "entities": [], "id": "holdout-036"}
+{"text": "Código de verificación 4829 3017 enviado por mensaje.", "entities": [], "id": "holdout-037"}
+{"text": "Llame al (602) 555 0111 para agendar su cita.", "entities": [{"type": "TELEFONO", "start": 9, "end": 23, "text": "(602) 555 0111"}], "id": "holdout-038"}
+{"text": "Reserva confirmada para 4 personas el 2 de agosto a las 7:30.", "entities": [], "id": "holdout-039"}
+{"text": "Mi número de celular cambió: ahora es 320 555 0188.", "entities": [{"type": "TELEFONO", "start": 38, "end": 50, "text": "320 555 0188"}], "id": "holdout-040"}
+{"text": "Mi correo es CARLOS.RUIZ@EXAMPLE.COM desde siempre.", "entities": [{"type": "CORREO", "start": 13, "end": 36, "text": "CARLOS.RUIZ@EXAMPLE.COM"}], "id": "holdout-041"}
+{"text": "Enviar a <ventas@empresa.example.org> con copia al área jurídica.", "entities": [{"type": "CORREO", "start": 10, "end": 36, "text": "ventas@empresa.example.org"}], "id": "holdout-042"}
+{"text": "Correo electrónico: lucia.m@mail.example.net; teléfono pendiente.", "entities": [{"type": "CORREO", "start": 20, "end": 44, "text": "lucia.m@mail.example.net"}], "id": "holdout-043"}
+{"text": "Escriba a ana@example.com o a luis@example.org según el caso.", "entities": [{"type": "CORREO", "start": 10, "end": 25, "text": "ana@example.com"}, {"type": "CORREO", "start": 30, "end": 46, "text": "luis@example.org"}], "id": "holdout-044"}
+{"text": "Instale el paquete con npm install left-pad@1.3.0 y reinicie.", "entities": [], "id": "holdout-045"}
+{"text": "Responder a info(at)example.com para más información.", "entities": [{"type": "CORREO", "start": 12, "end": 31, "text": "info(at)example.com"}], "id": "holdout-046"}
+{"text": "Cuenta de correo corporativo creada para el nuevo empleado.", "entities": [], "id": "holdout-047"}
+{"text": "Dirección de residencia: Carrera 70 # 45-120 Apto 1504 Torre 2", "entities": [{"type": "DIRECCION", "start": 25, "end": 62, "text": "Carrera 70 # 45-120 Apto 1504 Torre 2"}], "id": "holdout-048"}
+{"text": "Mi oficina está en la Av. Carrera 9 # 115-06 Oficina 1203 desde 2021.", "entities": [{"type": "DIRECCION", "start": 22, "end": 57, "text": "Av. Carrera 9 # 115-06 Oficina 1203"}], "id": "holdout-049"}
+{"text": "Visítenos en Calle 53 # 21 - 40 de lunes a sábado.", "entities": [{"type": "DIRECCION", "start": 13, "end": 31, "text": "Calle 53 # 21 - 40"}], "id": "holdout-050"}
+{"text": "Notificaciones a Carrera 43A # 1 Sur-100 de Medellín.", "entities": [{"type": "DIRECCION", "start": 17, "end": 40, "text": "Carrera 43A # 1 Sur-100"}], "id": "holdout-051"}
+{"text": "Recoger en Cl. 93B # 11A-27 con el portero.", "entities": [{"type": "DIRECCION", "start": 11, "end": 27, "text": "Cl. 93B # 11A-27"}], "id": "holdout-052"}
+{"text": "Reside en Calle 8 sur # 50 - 15 (barrio Villa Nueva) hace años.", "entities": [{"type": "DIRECCION", "start": 10, "end": 31, "text": "Calle 8 sur # 50 - 15"}], "id": "holdout-053"}
+{"text": "Enviar a Kra 10 # 20-30 antes del mediodía.", "entities": [{"type": "DIRECCION", "start": 9, "end": 23, "text": "Kra 10 # 20-30"}], "id": "holdout-054"}
+{"text": "Queda sobre la Autopista Norte # 152-30 en Usaquén.", "entities": [{"type": "DIRECCION", "start": 15, "end": 39, "text": "Autopista Norte # 152-30"}], "id": "holdout-055"}
+{"text": "Vive en Manzana 5 Casa 12 barrio El Prado.", "entities": [{"type": "DIRECCION", "start": 8, "end": 41, "text": "Manzana 5 Casa 12 barrio El Prado"}], "id": "holdout-056"}
+{"text": "Nos vemos en la calle 80 con carrera 30 a las cinco.", "entities": [], "id": "holdout-057"}
+{"text": "La carrera 15 es una de las vías principales del norte.", "entities": [], "id": "holdout-058"}
+{"text": "Las calles 10 y 11 estarán cerradas por obras.", "entities": [], "id": "holdout-059"}
+{"text": "El plan de pagos 10-20-30 se aplica a todos.", "entities": [], "id": "holdout-060"}
+{"text": "Horario de atención de 8-5 de lunes a viernes.", "entities": [], "id": "holdout-061"}
+{"text": "Se registró el vehículo con placa SPQ482 en el peaje.", "entities": [{"type": "PLACA", "start": 34, "end": 40, "text": "SPQ482"}], "id": "holdout-062"}
+{"text": "Taxi TXT-905 reportado por el usuario.", "entities": [{"type": "PLACA", "start": 5, "end": 12, "text": "TXT-905"}], "id": "holdout-063"}
+{"text": "Le robaron la moto, placa KLM27B, el sábado.", "entities": [{"type": "PLACA", "start": 26, "end": 32, "text": "KLM27B"}], "id": "holdout-064"}
+{"text": "El carro de placas ZZZ111 y YYY222 está en el patio.", "entities": [{"type": "PLACA", "start": 19, "end": 25, "text": "ZZZ111"}, {"type": "PLACA", "start": 28, "end": 34, "text": "YYY222"}], "id": "holdout-065"}
+{"text": "Bus SMT 340 de la ruta alimentadora.", "entities": [{"type": "PLACA", "start": 4, "end": 11, "text": "SMT 340"}], "id": "holdout-066"}
+{"text": "Referencia del pedido PED123 entregada ayer.", "entities": [], "id": "holdout-067"}
+{"text": "Sala B-204 reservada para la reunión.", "entities": [], "id": "holdout-068"}
+{"text": "Vuelo en Boeing 747-400 con escala en Panamá.", "entities": [], "id": "holdout-069"}
+{"text": "Se compró una RTX 4090 para la estación de trabajo.", "entities": [], "id": "holdout-070"}
+{"text": "Pista 007 del disco original.", "entities": [], "id": "holdout-071"}
+{"text": "Habitación ABC 123 disponible desde el lunes.", "entities": [], "id": "holdout-072"}
+{"text": "Banco Davivienda, cuenta de ahorros No. 0123456789012 a nombre del proveedor.", "entities": [{"type": "CUENTA_BANCARIA", "start": 40, "end": 53, "text": "0123456789012"}], "id": "holdout-073"}
+{"text": "Pagos a la cuenta corriente 456-123456-78 de Bancolombia.", "entities": [{"type": "CUENTA_BANCARIA", "start": 28, "end": 41, "text": "456-123456-78"}], "id": "holdout-074"}
+{"text": "Giro a la CLABE 032180000118359719 desde México.", "entities": [{"type": "CUENTA_BANCARIA", "start": 16, "end": 34, "text": "032180000118359719"}], "id": "holdout-075"}
+{"text": "IBAN: GB07 MYBK 6016 1331 9268 19", "entities": [{"type": "CUENTA_BANCARIA", "start": 6, "end": 33, "text": "GB07 MYBK 6016 1331 9268 19"}], "id": "holdout-076"}
+{"text": "Consignar a Bancolombia 123456789 antes del viernes.", "entities": [{"type": "CUENTA_BANCARIA", "start": 24, "end": 33, "text": "123456789"}], "id": "holdout-077"}
+{"text": "IBAN inválido GB10 MYBK 6016 1331 9268 19 reportado por el banco.", "entities": [], "id": "holdout-078"}
+{"text": "Las cuentas por cobrar de 2024 suman varios millones.", "entities": [], "id": "holdout-079"}
+{"text": "Número de cuenta pendiente de asignar por el área contable.", "entities": [], "id": "holdout-080"}
+{"text": "¿Quién es Mariana Cortés? Es la gerente comercial.", "entities": [{"type": "NOMBRE", "start": 10, "end": 24, "text": "Mariana Cortés"}], "id": "holdout-081"}
+{"text": "El abogado Santiago Villamizar presentó el recurso ayer.", "entities": [{"type": "NOMBRE", "start": 11, "end": 30, "text": "Santiago Villamizar"}], "id": "holdout-082"}
+{"text": "Se llama Dayana Lucía Bohórquez y es la nueva contadora.", "entities": [{"type": "NOMBRE", "start": 9, "end": 31, "text": "Dayana Lucía Bohórquez"}], "id": "holdout-083"}
+{"text": "Según el testimonio de Wilson Arturo Gallego, la entrega fue puntual.", "entities": [{"type": "NOMBRE", "start": 23, "end": 44, "text": "Wilson Arturo Gallego"}], "id": "holdout-084"}
+{"text": "Contrato entre ACME S.A.S. y Roberto Carlos Zuluaga firmado en enero.", "entities": [{"type": "NOMBRE", "start": 29, "end": 51, "text": "Roberto Carlos Zuluaga"}], "id": "holdout-085"}
+{"text": "ELIANA MARCELA RESTREPO DÍAZ firmó el acta de entrega.", "entities": [{"type": "NOMBRE", "start": 0, "end": 28, "text": "ELIANA MARCELA RESTREPO DÍAZ"}], "id": "holdout-086"}
+{"text": "Mi mamá, Gladys, trabaja en la tienda.", "entities": [{"type": "NOMBRE", "start": 9, "end": 15, "text": "Gladys"}], "id": "holdout-087"}
+{"text": "Atte. Jhon Fredy Ramírez", "entities": [{"type": "NOMBRE", "start": 6, "end": 24, "text": "Jhon Fredy Ramírez"}], "id": "holdout-088"}
+{"text": "Sr. Fernando Cano por favor acercarse a la caja.", "entities": [{"type": "NOMBRE", "start": 4, "end": 17, "text": "Fernando Cano"}], "id": "holdout-089"}
+{"text": "Paciente: Mariela Duarte", "entities": [{"type": "NOMBRE", "start": 10, "end": 24, "text": "Mariela Duarte"}], "id": "holdout-090"}
+{"text": "Querida abuela María Eugenia, te mando un abrazo.", "entities": [{"type": "NOMBRE", "start": 15, "end": 28, "text": "María Eugenia"}], "id": "holdout-091"}
+{"text": "Duarte Ramírez, Mariela aparece en el listado.", "entities": [{"type": "NOMBRE", "start": 0, "end": 14, "text": "Duarte Ramírez"}, {"type": "NOMBRE", "start": 16, "end": 23, "text": "Mariela"}], "id": "holdout-092"}
+{"text": "Reunión con Ximena Alarcón y Cristian Bedoya el jueves.", "entities": [{"type": "NOMBRE", "start": 12, "end": 26, "text": "Ximena Alarcón"}, {"type": "NOMBRE", "start": 29, "end": 44, "text": "Cristian Bedoya"}], "id": "holdout-093"}
+{"text": "Te escribió Laurita Mendieta preguntando por el pedido.", "entities": [{"type": "NOMBRE", "start": 12, "end": 28, "text": "Laurita Mendieta"}], "id": "holdout-094"}
+{"text": "La Calle Santa Fe es conocida por su comercio.", "entities": [], "id": "holdout-095"}
+{"text": "Quedamos en la Plaza de Bolívar a las tres.", "entities": [], "id": "holdout-096"}
+{"text": "Visité el Parque Simón Bolívar con mi familia.", "entities": [], "id": "holdout-097"}
+{"text": "Tomamos café en Juan Valdez cerca del parque.", "entities": [], "id": "holdout-098"}
+{"text": "Reservó el Hotel Marriott para dos noches.", "entities": [], "id": "holdout-099"}
+{"text": "El Teatro Colón abrió su temporada.", "entities": [], "id": "holdout-100"}
+{"text": "Viajamos a El Carmen de Bolívar en bus.", "entities": [], "id": "holdout-101"}
+{"text": "Mercedes Benz presentó su nuevo modelo eléctrico.", "entities": [], "id": "holdout-102"}
+{"text": "Estudia en la Universidad Francisco José de Caldas desde 2022.", "entities": [], "id": "holdout-103"}
+{"text": "Pasamos por San Pedro Claver y luego por la plaza.", "entities": [], "id": "holdout-104"}
+{"text": "Resumen: ingresos por $12.450.000, gastos por $9.870.500 y utilidad de $2.579.500.", "entities": [], "id": "holdout-105"}
+{"text": "El 30/11/2024 vence el plazo para presentar la declaración.", "entities": [], "id": "holdout-106"}
+{"text": "Subió 4,2 % la inflación en octubre según el DANE.", "entities": [], "id": "holdout-107"}
+{"text": "Compré 2 boletas por $180.000 para el concierto del sábado.", "entities": [], "id": "holdout-108"}
+{"text": "Mañana a las 9:00 hay reunión sobre el proyecto Atlas.", "entities": [], "id": "holdout-109"}
+{"text": "Bitcoin cerró en 98.250 dólares y Ethereum en 3.420.", "entities": [], "id": "holdout-110"}
+{"text": "Visite www.example.com para conocer los términos y condiciones.", "entities": [], "id": "holdout-111"}
+{"text": "Se aprobó la Ley 2300 de 2023 sobre cobranza de deudas.", "entities": [], "id": "holdout-112"}
+{"text": "Datos del estudio: n = 1.200 encuestados y margen de error de 3 %.", "entities": [], "id": "holdout-113"}
+{"text": "La habitación 305 está lista para el huésped.", "entities": [], "id": "holdout-114"}
+{"text": "Pedido 784512 despachado, guía 99887766 en tránsito.", "entities": [], "id": "holdout-115"}
+{"text": "Usa el código QWERTY2024 al pagar.", "entities": [], "id": "holdout-116"}
+{"text": "El indicador RSI está en 68 y el MACD cruzó al alza.", "entities": [], "id": "holdout-117"}
+{"text": "La clave del wifi la tiene recepción.", "entities": [], "id": "holdout-118"}
+{"text": "El tratamiento de datos se rige por la política de privacidad vigente.", "entities": [], "id": "holdout-119"}
+{"text": "Solicitud 2025-1180: Andrea Carolina Ruiz Mora, C.C. 1.032.456.789, correo andrea.ruiz@example.com, celular 3125550190, reside en Calle 127 # 15-30 Apto 402.", "entities": [{"type": "NOMBRE", "start": 21, "end": 46, "text": "Andrea Carolina Ruiz Mora"}, {"type": "CEDULA", "start": 53, "end": 66, "text": "1.032.456.789"}, {"type": "CORREO", "start": 75, "end": 98, "text": "andrea.ruiz@example.com"}, {"type": "TELEFONO", "start": 108, "end": 118, "text": "3125550190"}, {"type": "DIRECCION", "start": 130, "end": 156, "text": "Calle 127 # 15-30 Apto 402"}], "id": "holdout-120"}
+{"text": "Proveedor Insumos del Sur S.A.S., NIT 900.777.888-2, cuenta de ahorros 0034-5678-9012, contacto Ricardo Peña.", "entities": [{"type": "NIT", "start": 38, "end": 51, "text": "900.777.888-2"}, {"type": "CUENTA_BANCARIA", "start": 71, "end": 85, "text": "0034-5678-9012"}, {"type": "NOMBRE", "start": 96, "end": 108, "text": "Ricardo Peña"}], "id": "holdout-121"}
+{"text": "El conductor Luis Carlos Mora manejaba la camioneta NBC456 con cédula 79.111.222.", "entities": [{"type": "NOMBRE", "start": 13, "end": 29, "text": "Luis Carlos Mora"}, {"type": "PLACA", "start": 52, "end": 58, "text": "NBC456"}, {"type": "CEDULA", "start": 70, "end": 80, "text": "79.111.222"}], "id": "holdout-122"}
+{"text": "Estimada Claudia Marcela Pineda: recibimos su pasaporte AS4455667 y su cédula de extranjería 445566.", "entities": [{"type": "NOMBRE", "start": 9, "end": 31, "text": "Claudia Marcela Pineda"}, {"type": "PASAPORTE", "start": 56, "end": 65, "text": "AS4455667"}, {"type": "CEDULA_EXTRANJERIA", "start": 93, "end": 99, "text": "445566"}], "id": "holdout-123"}
+{"text": "El comité se reunió el martes y aprobó el presupuesto de 2025 sin objeciones.", "entities": [], "id": "holdout-124"}
