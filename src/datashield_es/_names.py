@@ -8,8 +8,10 @@ con contexto (por ejemplo, tras «señor», «nombre:» o «me llamo»).
 from __future__ import annotations
 
 import unicodedata
+from functools import lru_cache
 
 
+@lru_cache(maxsize=65536)
 def normalize(token: str) -> str:
     """Minúsculas y sin tildes (conserva la ñ como «n» para tolerar escritura sin tilde)."""
     decomposed = unicodedata.normalize("NFD", token.casefold())

@@ -1,5 +1,27 @@
 # Cambios / Changelog
 
+## 0.4.0
+
+### Nombres (el punto más débil)
+
+- Un nombre de pila conocido arrastra hasta dos apellidos fuera de las listas
+  («Kevin Arley Mosquera», «Edwin Ararat»).
+- Formato de listados `Apellido Apellido, Nombre` → dos entidades («Restrepo Gómez, Juliana»).
+- Nombres en minúscula con contexto («me llamo carlos andrés gómez», «gracias camila») o dos
+  nombres listados seguidos; se excluyen palabras comunes («tomas el bus», «la rosa»).
+- Un solo nombre tras preposición («Saludos a Hernán») o tratamiento («doña Ofelia»).
+- Menos falsos positivos: santos y lugares («San Diego», «Santo Tomás»), instituciones en
+  cualquier posición («El Hospital Pablo Tobón Uribe», «parque Jaime Duque»), marcas («Juan Valdez»).
+- Normalización de palabras en caché: el rendimiento se mantiene pese a la pasada extra.
+
+### Otros
+
+- Cuentas tras el nombre del banco («Bancolombia 24567891234»).
+- Cédulas con la palabra clave lejos («la tarjeta de identidad del niño … es la 1.234.567.890»).
+- Conjunto **ciego v3** centrado en nombres, escrito antes de los cambios (commit 6c4b5b1):
+  F1 0,49 → 0,96 (nombres: recall 0,26 → 0,95). Ciego v2: 0,97 → 0,99.
+- Web: escenario de demo «Chat informal», gráfica de evolución por versión y límites actualizados.
+
 ## 0.3.0
 
 - **Nuevo nombre: DataShield.** Paquete `datashield-es`, módulo `datashield_es`, comando

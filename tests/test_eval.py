@@ -37,14 +37,14 @@ def test_macros_generan_digitos_de_control_validos_e_invalidos():
         dataset.parse_line("{NOPE:1}")
 
 
-@pytest.mark.parametrize("name", ["dev", "holdout", "holdout2"])
+@pytest.mark.parametrize("name", ["dev", "holdout", "holdout2", "holdout3"])
 def test_jsonl_esta_sincronizado_con_la_fuente(name):
     if not (EVAL / f"{name}.txt").exists():
         pytest.skip("conjunto no presente")
     assert dataset.jsonl_path(name).read_text(encoding="utf-8") == dataset.render_jsonl(name)
 
 
-@pytest.mark.parametrize("name", ["dev", "holdout", "holdout2"])
+@pytest.mark.parametrize("name", ["dev", "holdout", "holdout2", "holdout3"])
 def test_dataset_bien_formado_y_con_negativos(name):
     if not dataset.jsonl_path(name).exists():
         pytest.skip("conjunto no presente")
@@ -62,7 +62,7 @@ def test_dataset_no_contiene_correos_reales():
     # Solo dominios reservados para ejemplos (RFC 2606) o claramente ficticios.
     import re
 
-    for name in ("dev", "holdout", "holdout2"):
+    for name in ("dev", "holdout", "holdout2", "holdout3"):
         if not dataset.jsonl_path(name).exists():
             continue
         for s in dataset.load(name):
@@ -86,8 +86,8 @@ def test_metricas_sobre_muestras_controladas():
         {"id": "b", "text": "Pagó 1 cuenta", "entities": []},
         {  # FN: nombre que no se detecta
             "id": "c",
-            "text": "escribió juan perez",
-            "entities": [{"type": "NOMBRE", "start": 9, "end": 19, "text": "juan perez"}],
+            "text": "escribió luz dary",
+            "entities": [{"type": "NOMBRE", "start": 9, "end": 17, "text": "luz dary"}],
         },
         {  # FP: correo no esperado
             "id": "d",

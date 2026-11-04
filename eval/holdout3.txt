@@ -1,0 +1,90 @@
+# Conjunto CIEGO v3 (sintético). Se redactó ANTES de los cambios de la v0.4 (sobre el commit
+# 1244857) y no se usa para ajustar los detectores. Se centra en NOMBRES (el tipo más débil):
+# apellidos fuera de las listas, minúsculas, formato «Apellido, Nombre», nombres de una palabra,
+# y muchas trampas de falsos positivos (marcas, lugares, santos, instituciones, palabras comunes).
+# Incluye además cuentas con nombre de banco y cédulas alejadas de su palabra clave.
+# Única corrección posterior: «doña Ofelia» se re-anotó sin el tratamiento («doña»), que es la
+# convención del proyecto (igual que en v2); no fue un ajuste del detector.
+# Formato: ver eval/dataset.py. Todos los datos son inventados.
+
+# ---------------- nombres con apellidos poco comunes ----------------
+Ayer llamó [[NOMBRE|Kevin Arley Mosquera]] para confirmar la cita.
+La propuesta la presentó [[NOMBRE|Diana Marcela Cuastumal]] en el comité.
+Hablé con [[NOMBRE|Jhon Edison Quiñones]] sobre el inventario.
+El reporte lo firmó [[NOMBRE|Yamile Pertuz]] desde Barranquilla.
+Mi compañero [[NOMBRE|Brayan Stiven Quimbayo]] no vino hoy.
+Le entregué los documentos a [[NOMBRE|Edwin Ararat]] en la portería.
+[[NOMBRE|Luz Dary Guarín]] es la nueva coordinadora de la sede.
+La beca se la ganó [[NOMBRE|Sharon Valentina Ibargüen]].
+El proveedor [[NOMBRE|Wilmer Ospitia]] envió la cotización tarde.
+Visité a doña [[NOMBRE|Ofelia]] en el hospital.
+
+# ---------------- minúsculas (chats y formularios informales) ----------------
+hola, me llamo [[NOMBRE|carlos andrés gómez]] y necesito ayuda con mi pedido
+mi nombre es [[NOMBRE|daniela torres]], escribo por la factura
+soy [[NOMBRE|andrés felipe rojas]] del área de compras
+nombre: [[NOMBRE|maría josé cárdenas]]
+buenas, habla [[NOMBRE|luis fernando castro]], el del apartamento 302
+le pregunté a [[NOMBRE|sandra milena]] y no sabía nada
+ok gracias [[NOMBRE|camila]], quedo pendiente
+el señor [[NOMBRE|jorge eliécer]] dejó el paquete en recepción
+
+# ---------------- formato Apellido, Nombre ----------------
+[[NOMBRE|Restrepo Gómez]], [[NOMBRE|Juliana]] — aprobada.
+[[NOMBRE|Cárdenas Vargas]], [[NOMBRE|Andrés Felipe]]: pendiente de documentos.
+Inscritos: [[NOMBRE|Martínez López]], [[NOMBRE|Sofía]]; [[NOMBRE|Ortiz Ramírez]], [[NOMBRE|Mateo]].
+[[NOMBRE|GÓMEZ PÉREZ]], [[NOMBRE|LAURA]] figura en la lista de admitidos.
+
+# ---------------- nombres de una palabra con contexto ----------------
+Gracias, [[NOMBRE|Patricia]], por la información.
+Saludos a [[NOMBRE|Hernán]] y a toda la familia.
+Le dije a [[NOMBRE|Mónica]] que llegaba tarde.
+Pregúntale a [[NOMBRE|Esteban]] por las llaves de la bodega.
+Estimado [[NOMBRE|Rodrigo]]: adjunto el contrato.
+
+# ---------------- nombres comunes (deben seguir funcionando) ----------------
+El cliente [[NOMBRE|Juan Carlos Rodríguez]] solicitó un reembolso.
+Asistieron [[NOMBRE|Ana María López]] y [[NOMBRE|Pedro Pablo Jiménez]].
+[[NOMBRE|Natalia Gutiérrez]] envió la hoja de vida por correo.
+
+# ---------------- falsos positivos: marcas, lugares, santos, instituciones ----------------
+Compré café Juan Valdez para la oficina.
+Vivo cerca de la estación San Diego del metro.
+La iglesia de San José queda en el centro.
+El Santo Tomás de Aquino es patrono de los estudiantes.
+Viajamos a San Andrés y Providencia en diciembre.
+El Colegio Mayor de Nuestra Señora del Rosario abrió convocatoria.
+La Clínica Shaio atiende cardiología.
+El Hospital Pablo Tobón Uribe recibió una donación.
+El Estadio Atanasio Girardot se llenó el domingo.
+Compré un Renault Logan usado.
+Me gusta la música de Carlos Vives.
+El aeropuerto El Dorado tuvo retrasos por niebla.
+Los Andes atraviesan el país de sur a norte.
+Fuimos al parque Jaime Duque el fin de semana.
+Leímos Cien años de soledad en el colegio.
+La avenida Jiménez estaba congestionada.
+
+# ---------------- falsos positivos: palabras comunes en minúscula ----------------
+tomas el bus en la esquina y te bajas en la plaza
+la rosa del jardín se marchitó con el verano
+había mucha luz en la sala por la mañana
+el pastor cuida a las ovejas en el páramo
+mercedes y dolores son nombres antiguos, dijo la profesora
+salvador de la patria es un título que nadie merece
+en la ruta hay un león de piedra en la entrada
+la paz es un derecho fundamental
+
+# ---------------- cuentas y cédulas ----------------
+Consignar en Bancolombia [[CUENTA_BANCARIA|24567891234]] a nombre de la empresa.
+Le transferí a su Nequi [[TELEFONO|3105550199]] el valor acordado.
+Davivienda ahorros [[CUENTA_BANCARIA|0550 1234 5678]] para los pagos.
+El número de identificación del estudiante es [[CEDULA|1.098.234.567]].
+La tarjeta de identidad del niño que vino ayer es la [[CEDULA|1.234.567.890]].
+Banco de Bogotá informa que la tasa subió a 12,5 %.
+Bancolombia cumple 150 años de historia.
+
+# ---------------- párrafos mixtos ----------------
+Acta: [[NOMBRE|Fredy Alexander Cuesta]], C.C. [[CEDULA|1.077.888.999]], y [[NOMBRE|Leidy Tatiana Moreno]] firmaron el acuerdo en la sede de Quibdó.
+chat: hola soy [[NOMBRE|valentina]] mi cel es [[TELEFONO|3125550177]] y mi correo [[CORREO|vale.r@example.com]]
+Referencia: [[NOMBRE|Palacios Mena]], [[NOMBRE|Yeison]]. Tel. [[TELEFONO|604 555 0188]].

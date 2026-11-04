@@ -42,7 +42,7 @@
     <div class="hero" id="top">
       <div class="wrap hero-grid">
         <div class="hero-copy">
-          <span class="eyebrow"><span data-l="es">Código abierto · MIT · Python 3.10+ · v0.3</span><span data-l="en">Open source · MIT · Python 3.10+ · v0.3</span></span>
+          <span class="eyebrow"><span data-l="es">Código abierto · MIT · Python 3.10+ · v0.4</span><span data-l="en">Open source · MIT · Python 3.10+ · v0.4</span></span>
           <h1>
             <span data-l="es">Comparte tus textos, <em>no los datos de tus usuarios</em></span>
             <span data-l="en">Share your text, <em>not your users’ data</em></span>
@@ -177,6 +177,7 @@
 <div class="tabs tabs-scenario" role="tablist" aria-label="Escenario / Scenario">
 <button type="button" role="tab" id="tab-sc-salud" aria-selected="true" data-target="sc-salud" data-group="scenario"><span data-l="es">Historia clínica</span><span data-l="en">Medical record</span></button>
 <button type="button" role="tab" id="tab-sc-soporte" aria-selected="false" tabindex="-1" data-target="sc-soporte" data-group="scenario"><span data-l="es">Chat de soporte</span><span data-l="en">Support chat</span></button>
+<button type="button" role="tab" id="tab-sc-informal" aria-selected="false" tabindex="-1" data-target="sc-informal" data-group="scenario"><span data-l="es">Chat informal</span><span data-l="en">Informal chat</span></button>
 <button type="button" role="tab" id="tab-sc-proveedores" aria-selected="false" tabindex="-1" data-target="sc-proveedores" data-group="scenario"><span data-l="es">Proveedores y pagos</span><span data-l="en">Vendors and payments</span></button>
 <button type="button" role="tab" id="tab-sc-seguridad" aria-selected="false" tabindex="-1" data-target="sc-seguridad" data-group="scenario"><span data-l="es">Registro de seguridad</span><span data-l="en">Security log</span></button>
 </div>
@@ -235,6 +236,36 @@ Agente: Ya escalamos el caso #45821; le responderemos en 24 horas.</pre>
 <pre class="sample" id="out-soporte-seudonimo" role="tabpanel" aria-labelledby="tab-out-soporte-seudonimo" hidden>Cliente: Hola, soy <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE_1]</mark>. Me cobraron dos veces con la tarjeta <mark class="e e-TARJETA_CREDITO" title="TARJETA_CREDITO">[TARJETA_CREDITO_1]</mark>.
 Mi correo es <mark class="e e-CORREO" title="CORREO">[CORREO_1]</mark> y mi WhatsApp <mark class="e e-TELEFONO" title="TELEFONO">[TELEFONO_1]</mark>.
 Agente: Ya escalamos el caso #45821; le responderemos en 24 horas.</pre>
+</div></div></div>
+<div class="demo-scenario" id="sc-informal" role="tabpanel" aria-labelledby="tab-sc-informal" hidden>
+<div class="example-grid">
+<div class="pane">
+<div class="pane-title"><span data-l="es">Entrada · datos detectados</span><span data-l="en">Input · detected data</span></div>
+<pre class="sample" id="in-informal">cliente: hola, me llamo <mark class="e e-NOMBRE" title="NOMBRE">carlos andrés gómez</mark> y mi cel es <mark class="e e-TELEFONO" title="TELEFONO">3125550177</mark>
+agente: con gusto. ¿me confirma su cédula?
+cliente: claro, cédula <mark class="e e-CEDULA" title="CEDULA">1.023.456.789</mark>. gracias <mark class="e e-NOMBRE" title="NOMBRE">camila</mark>
+Lista de espera: <mark class="e e-NOMBRE" title="NOMBRE">Restrepo Gómez</mark>, <mark class="e e-NOMBRE" title="NOMBRE">Juliana</mark>; <mark class="e e-NOMBRE" title="NOMBRE">Ortiz Ramírez</mark>, <mark class="e e-NOMBRE" title="NOMBRE">Mateo</mark>.</pre>
+</div>
+<div class="pane">
+<div class="pane-title"><span data-l="es">Salida</span>
+<span data-l="en">Output</span>
+<div class="tabs" role="tablist" aria-label="Modo / Mode (informal)">
+<button type="button" role="tab" id="tab-out-informal-etiqueta" aria-selected="true" data-target="out-informal-etiqueta" data-group="mode"><span data-l="es">Etiqueta</span><span data-l="en">Label</span></button>
+<button type="button" role="tab" id="tab-out-informal-mascara" aria-selected="false" tabindex="-1" data-target="out-informal-mascara" data-group="mode"><span data-l="es">Máscara</span><span data-l="en">Mask</span></button>
+<button type="button" role="tab" id="tab-out-informal-seudonimo" aria-selected="false" tabindex="-1" data-target="out-informal-seudonimo" data-group="mode"><span data-l="es">Seudónimo</span><span data-l="en">Pseudonym</span></button>
+</div></div>
+<pre class="sample" id="out-informal-etiqueta" role="tabpanel" aria-labelledby="tab-out-informal-etiqueta">cliente: hola, me llamo <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE]</mark> y mi cel es <mark class="e e-TELEFONO" title="TELEFONO">[TELEFONO]</mark>
+agente: con gusto. ¿me confirma su cédula?
+cliente: claro, cédula <mark class="e e-CEDULA" title="CEDULA">[CEDULA]</mark>. gracias <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE]</mark>
+Lista de espera: <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE]</mark>, <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE]</mark>; <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE]</mark>, <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE]</mark>.</pre>
+<pre class="sample" id="out-informal-mascara" role="tabpanel" aria-labelledby="tab-out-informal-mascara" hidden>cliente: hola, me llamo <mark class="e e-NOMBRE" title="NOMBRE">c***** a***** g****</mark> y mi cel es <mark class="e e-TELEFONO" title="TELEFONO">*******177</mark>
+agente: con gusto. ¿me confirma su cédula?
+cliente: claro, cédula <mark class="e e-CEDULA" title="CEDULA">*.***.***.789</mark>. gracias <mark class="e e-NOMBRE" title="NOMBRE">c*****</mark>
+Lista de espera: <mark class="e e-NOMBRE" title="NOMBRE">R******* G****</mark>, <mark class="e e-NOMBRE" title="NOMBRE">J******</mark>; <mark class="e e-NOMBRE" title="NOMBRE">O**** R******</mark>, <mark class="e e-NOMBRE" title="NOMBRE">M****</mark>.</pre>
+<pre class="sample" id="out-informal-seudonimo" role="tabpanel" aria-labelledby="tab-out-informal-seudonimo" hidden>cliente: hola, me llamo <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE_1]</mark> y mi cel es <mark class="e e-TELEFONO" title="TELEFONO">[TELEFONO_1]</mark>
+agente: con gusto. ¿me confirma su cédula?
+cliente: claro, cédula <mark class="e e-CEDULA" title="CEDULA">[CEDULA_1]</mark>. gracias <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE_2]</mark>
+Lista de espera: <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE_3]</mark>, <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE_4]</mark>; <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE_5]</mark>, <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE_6]</mark>.</pre>
 </div></div></div>
 <div class="demo-scenario" id="sc-proveedores" role="tabpanel" aria-labelledby="tab-sc-proveedores" hidden>
 <div class="example-grid">
@@ -404,10 +435,10 @@ Notificaciones: <mark class="e e-DIRECCION" title="DIRECCION">[DIRECCION_1]</mar
           <div class="type"><mark class="e e-DIRECCION">DIRECCION</mark><code>Kra 10 # 20-30</code><small><span data-l="es">vía N # N-N, manzana/casa</span><span data-l="en">street N # N-N, block/house</span></small></div>
           <div class="type"><mark class="e e-PLACA">PLACA</mark><code>KLM27B</code><small><span data-l="es">contexto + formato</span><span data-l="en">context + format</span></small></div>
           <div class="type"><mark class="e e-CUENTA_BANCARIA">CUENTA_BANCARIA</mark><code>IBAN · CLABE</code><small><span data-l="es">mod 97 · checksum CLABE</span><span data-l="en">mod 97 · CLABE checksum</span></small></div>
-          <div class="type type-new"><mark class="e e-TARJETA_CREDITO">TARJETA_CREDITO</mark><code>4111 1111 1111 1111</code><small><span data-l="es">marca (IIN) + Luhn</span><span data-l="en">brand (IIN) + Luhn</span></small></div>
-          <div class="type type-new"><mark class="e e-DIRECCION_IP">DIRECCION_IP</mark><code>203.0.113.45 · 2001:db8::1</code><small><span data-l="es">IPv4/IPv6 válidas</span><span data-l="en">valid IPv4/IPv6</span></small></div>
-          <div class="type type-new"><mark class="e e-FECHA_NACIMIENTO">FECHA_NACIMIENTO</mark><code>3 de mayo de 1990</code><small><span data-l="es">contexto + fecha real</span><span data-l="en">context + real date</span></small></div>
-          <div class="type"><mark class="e e-NOMBRE">NOMBRE</mark><code>Ana-María Restrepo</code><small><span data-l="es">listas + contexto</span><span data-l="en">word lists + context</span></small></div>
+          <div class="type type-new" data-new="v0.2"><mark class="e e-TARJETA_CREDITO">TARJETA_CREDITO</mark><code>4111 1111 1111 1111</code><small><span data-l="es">marca (IIN) + Luhn</span><span data-l="en">brand (IIN) + Luhn</span></small></div>
+          <div class="type type-new" data-new="v0.2"><mark class="e e-DIRECCION_IP">DIRECCION_IP</mark><code>203.0.113.45 · 2001:db8::1</code><small><span data-l="es">IPv4/IPv6 válidas</span><span data-l="en">valid IPv4/IPv6</span></small></div>
+          <div class="type type-new" data-new="v0.2"><mark class="e e-FECHA_NACIMIENTO">FECHA_NACIMIENTO</mark><code>3 de mayo de 1990</code><small><span data-l="es">contexto + fecha real</span><span data-l="en">context + real date</span></small></div>
+          <div class="type type-new" data-new="v0.4"><mark class="e e-NOMBRE">NOMBRE</mark><code>Restrepo Gómez, Juliana · carlos andrés gómez</code><small><span data-l="es">listas + contexto + formatos</span><span data-l="en">lists + context + formats</span></small></div>
         </div>
       </div>
     </section>
@@ -417,71 +448,55 @@ Notificaciones: <mark class="e e-DIRECCION" title="DIRECCION">[DIRECCION_1]</mar
       <div class="wrap">
         <h2><span data-l="es">Resultados medidos, no prometidos</span><span data-l="en">Measured results, not promises</span></h2>
         <p class="section-lead">
-          <span data-l="es">Las cifras salen de <code>python eval/evaluate.py</code> sobre un conjunto <strong>ciego</strong> escrito antes de los cambios de la v0.2, con coincidencia exacta de tipo y rango. Es pequeño y sintético: úsalo como referencia, no como garantía.</span>
-          <span data-l="en">Figures come from <code>python eval/evaluate.py</code> on a <strong>blind</strong> set written before the v0.2 changes, with exact type and span match. It is small and synthetic: treat it as a reference, not a guarantee.</span>
+          <span data-l="es">Las cifras salen de <code>python eval/evaluate.py</code> sobre conjuntos <strong>ciegos</strong>: cada uno se escribió antes de los cambios que mide, con coincidencia exacta de tipo y rango. Son pequeños y sintéticos: úsalos como referencia, no como garantía.</span>
+          <span data-l="en">Figures come from <code>python eval/evaluate.py</code> on <strong>blind</strong> sets, each written before the changes it measures, with exact type and span match. They are small and synthetic: treat them as a reference, not a guarantee.</span>
         </p>
         <div class="charts">
           <figure class="chart-card chart-wide">
             <figcaption>
-              <strong><span data-l="es">F1 por tipo (v0.2, conjunto ciego v2)</span><span data-l="en">F1 per type (v0.2, blind set v2)</span></strong>
+              <strong><span data-l="es">F1 por tipo (v0.4, conjunto ciego v3, centrado en nombres)</span><span data-l="en">F1 per type (v0.4, blind set v3, name-focused)</span></strong>
               <span data-l="es">Generada automáticamente; el CI falla si no coincide con lo medido.</span>
               <span data-l="en">Generated automatically; CI fails if it drifts from what is measured.</span>
             </figcaption>
 <!-- CHART:START -->
-<svg class="chart" viewBox="0 0 610 432" role="img" aria-labelledby="chart-title chart-desc">
-<title id="chart-title">F1 por tipo — ciego v2 / blind hold-out v2</title>
-<desc id="chart-desc">89 muestras, 79 entidades; coincidencia exacta de tipo y rango.</desc>
-<line class="ch-grid" x1="170" y1="26" x2="170" y2="424"/><text class="ch-tick" x="170" y="20">0.00</text>
-<line class="ch-grid" x1="252" y1="26" x2="252" y2="424"/><text class="ch-tick" x="252" y="20">0.25</text>
-<line class="ch-grid" x1="335" y1="26" x2="335" y2="424"/><text class="ch-tick" x="335" y="20">0.50</text>
-<line class="ch-grid" x1="418" y1="26" x2="418" y2="424"/><text class="ch-tick" x="418" y="20">0.75</text>
-<line class="ch-grid" x1="500" y1="26" x2="500" y2="424"/><text class="ch-tick" x="500" y="20">1.00</text>
-<text class="ch-label" x="160" y="49">CEDULA</text><rect class="ch-track" x="170" y="37" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="37" width="330.0" height="16" rx="3"><title>CEDULA: F1 1.00 · P 1.00 · R 1.00 · n=6</title></rect><text class="ch-value" x="510" y="49">1.00</text><text class="ch-n" x="550" y="49">n=6</text>
-<text class="ch-label" x="160" y="79">NIT</text><rect class="ch-track" x="170" y="67" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="67" width="330.0" height="16" rx="3"><title>NIT: F1 1.00 · P 1.00 · R 1.00 · n=2</title></rect><text class="ch-value" x="510" y="79">1.00</text><text class="ch-n" x="550" y="79">n=2</text>
-<text class="ch-label" x="160" y="109">PASAPORTE</text><rect class="ch-track" x="170" y="97" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="97" width="330.0" height="16" rx="3"><title>PASAPORTE: F1 1.00 · P 1.00 · R 1.00 · n=1</title></rect><text class="ch-value" x="510" y="109">1.00</text><text class="ch-n" x="550" y="109">n=1</text>
-<text class="ch-label" x="160" y="139">TELEFONO</text><rect class="ch-track" x="170" y="127" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="127" width="330.0" height="16" rx="3"><title>TELEFONO: F1 1.00 · P 1.00 · R 1.00 · n=9</title></rect><text class="ch-value" x="510" y="139">1.00</text><text class="ch-n" x="550" y="139">n=9</text>
-<text class="ch-label" x="160" y="169">CORREO</text><rect class="ch-track" x="170" y="157" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="157" width="330.0" height="16" rx="3"><title>CORREO: F1 1.00 · P 1.00 · R 1.00 · n=7</title></rect><text class="ch-value" x="510" y="169">1.00</text><text class="ch-n" x="550" y="169">n=7</text>
-<text class="ch-label" x="160" y="199">DIRECCION</text><rect class="ch-track" x="170" y="187" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="187" width="330.0" height="16" rx="3"><title>DIRECCION: F1 1.00 · P 1.00 · R 1.00 · n=6</title></rect><text class="ch-value" x="510" y="199">1.00</text><text class="ch-n" x="550" y="199">n=6</text>
-<text class="ch-label" x="160" y="229">PLACA</text><rect class="ch-track" x="170" y="217" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="217" width="330.0" height="16" rx="3"><title>PLACA: F1 1.00 · P 1.00 · R 1.00 · n=4</title></rect><text class="ch-value" x="510" y="229">1.00</text><text class="ch-n" x="550" y="229">n=4</text>
-<text class="ch-label" x="160" y="259">CUENTA_BANCARIA</text><rect class="ch-track" x="170" y="247" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="247" width="330.0" height="16" rx="3"><title>CUENTA_BANCARIA: F1 1.00 · P 1.00 · R 1.00 · n=3</title></rect><text class="ch-value" x="510" y="259">1.00</text><text class="ch-n" x="550" y="259">n=3</text>
-<text class="ch-label" x="160" y="289">TARJETA_CREDITO</text><rect class="ch-track" x="170" y="277" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="277" width="330.0" height="16" rx="3"><title>TARJETA_CREDITO: F1 1.00 · P 1.00 · R 1.00 · n=4</title></rect><text class="ch-value" x="510" y="289">1.00</text><text class="ch-n" x="550" y="289">n=4</text>
-<text class="ch-label" x="160" y="319">DIRECCION_IP</text><rect class="ch-track" x="170" y="307" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="307" width="330.0" height="16" rx="3"><title>DIRECCION_IP: F1 1.00 · P 1.00 · R 1.00 · n=5</title></rect><text class="ch-value" x="510" y="319">1.00</text><text class="ch-n" x="550" y="319">n=5</text>
-<text class="ch-label" x="160" y="349">FECHA_NACIMIENTO</text><rect class="ch-track" x="170" y="337" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="337" width="330.0" height="16" rx="3"><title>FECHA_NACIMIENTO: F1 1.00 · P 1.00 · R 1.00 · n=5</title></rect><text class="ch-value" x="510" y="349">1.00</text><text class="ch-n" x="550" y="349">n=5</text>
-<text class="ch-label" x="160" y="379">NOMBRE</text><rect class="ch-track" x="170" y="367" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="367" width="303.6" height="16" rx="3"><title>NOMBRE: F1 0.92 · P 1.00 · R 0.85 · n=27</title></rect><text class="ch-value" x="510" y="379">0.92</text><text class="ch-n" x="550" y="379">n=27</text>
-<text class="ch-label ch-strong" x="160" y="409">TOTAL</text><rect class="ch-track" x="170" y="397" width="330" height="16" rx="3"/><rect class="ch-bar ch-total" x="170" y="397" width="321.4" height="16" rx="3"><title>TOTAL: F1 0.97 · P 1.00 · R 0.95 · n=79</title></rect><text class="ch-value" x="510" y="409">0.97</text><text class="ch-n" x="550" y="409">n=79</text>
+<svg class="chart" viewBox="0 0 610 222" role="img" aria-labelledby="chart-title chart-desc">
+<title id="chart-title">F1 por tipo — ciego v3, centrado en nombres / blind hold-out v3, name-focused</title>
+<desc id="chart-desc">64 muestras, 51 entidades; coincidencia exacta de tipo y rango.</desc>
+<line class="ch-grid" x1="170" y1="26" x2="170" y2="214"/><text class="ch-tick" x="170" y="20">0.00</text>
+<line class="ch-grid" x1="252" y1="26" x2="252" y2="214"/><text class="ch-tick" x="252" y="20">0.25</text>
+<line class="ch-grid" x1="335" y1="26" x2="335" y2="214"/><text class="ch-tick" x="335" y="20">0.50</text>
+<line class="ch-grid" x1="418" y1="26" x2="418" y2="214"/><text class="ch-tick" x="418" y="20">0.75</text>
+<line class="ch-grid" x1="500" y1="26" x2="500" y2="214"/><text class="ch-tick" x="500" y="20">1.00</text>
+<text class="ch-label" x="160" y="49">CEDULA</text><rect class="ch-track" x="170" y="37" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="37" width="330.0" height="16" rx="3"><title>CEDULA: F1 1.00 · P 1.00 · R 1.00 · n=3</title></rect><text class="ch-value" x="510" y="49">1.00</text><text class="ch-n" x="550" y="49">n=3</text>
+<text class="ch-label" x="160" y="79">TELEFONO</text><rect class="ch-track" x="170" y="67" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="67" width="330.0" height="16" rx="3"><title>TELEFONO: F1 1.00 · P 1.00 · R 1.00 · n=3</title></rect><text class="ch-value" x="510" y="79">1.00</text><text class="ch-n" x="550" y="79">n=3</text>
+<text class="ch-label" x="160" y="109">CORREO</text><rect class="ch-track" x="170" y="97" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="97" width="330.0" height="16" rx="3"><title>CORREO: F1 1.00 · P 1.00 · R 1.00 · n=1</title></rect><text class="ch-value" x="510" y="109">1.00</text><text class="ch-n" x="550" y="109">n=1</text>
+<text class="ch-label" x="160" y="139">CUENTA_BANCARIA</text><rect class="ch-track" x="170" y="127" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="127" width="330.0" height="16" rx="3"><title>CUENTA_BANCARIA: F1 1.00 · P 1.00 · R 1.00 · n=2</title></rect><text class="ch-value" x="510" y="139">1.00</text><text class="ch-n" x="550" y="139">n=2</text>
+<text class="ch-label" x="160" y="169">NOMBRE</text><rect class="ch-track" x="170" y="157" width="330" height="16" rx="3"/><rect class="ch-bar" x="170" y="157" width="314.3" height="16" rx="3"><title>NOMBRE: F1 0.95 · P 0.95 · R 0.95 · n=42</title></rect><text class="ch-value" x="510" y="169">0.95</text><text class="ch-n" x="550" y="169">n=42</text>
+<text class="ch-label ch-strong" x="160" y="199">TOTAL</text><rect class="ch-track" x="170" y="187" width="330" height="16" rx="3"/><rect class="ch-bar ch-total" x="170" y="187" width="317.1" height="16" rx="3"><title>TOTAL: F1 0.96 · P 0.96 · R 0.96 · n=51</title></rect><text class="ch-value" x="510" y="199">0.96</text><text class="ch-n" x="550" y="199">n=51</text>
 </svg>
 <!-- CHART:END -->
           </figure>
 
           <figure class="chart-card">
             <figcaption>
-              <strong><span data-l="es">v0.1 vs v0.2 en el mismo conjunto ciego</span><span data-l="en">v0.1 vs v0.2 on the same blind set</span></strong>
-              <span data-l="es">79 entidades, 89 muestras.</span><span data-l="en">79 entities, 89 samples.</span>
+              <strong><span data-l="es">Evolución del F1 por versión</span><span data-l="en">F1 across versions</span></strong>
+              <span data-l="es">Ciego v2: documentos generales (79 entidades). Ciego v3: centrado en nombres (51).</span><span data-l="en">Blind v2: general documents (79 entities). Blind v3: name-focused (51).</span>
             </figcaption>
             <svg class="chart" viewBox="0 0 420 220" role="img" aria-labelledby="cmp-title">
-              <title id="cmp-title">Precisión 0,95 a 1,00; recall 0,67 a 0,95; F1 0,79 a 0,97</title>
+              <title id="cmp-title">Ciego v2: 0,80 en v0.1, 0,97 en v0.2 y v0.3, 0,99 en v0.4. Ciego v3: 0,49 en v0.1, 0,49 en v0.3, 0,96 en v0.4</title>
               <g class="ch-axis"><line x1="40" y1="180" x2="410" y2="180"/></g>
-              <g>
-                <text class="ch-tick" x="34" y="184">0</text><text class="ch-tick" x="34" y="34">1</text>
-                <line class="ch-grid" x1="40" y1="30" x2="410" y2="30"/><line class="ch-grid" x1="40" y1="105" x2="410" y2="105"/>
-              </g>
-              <!-- precisión -->
-              <rect class="ch-old" x="62" y="37.5" width="44" height="142.5" rx="4"><title>v0.1 · 0.95</title></rect>
-              <rect class="ch-new" x="112" y="30" width="44" height="150" rx="4"><title>v0.2 · 1.00</title></rect>
-              <text class="ch-value" x="84" y="31">0.95</text><text class="ch-value ch-strong" x="134" y="24">1.00</text>
-              <text class="ch-cat" x="109" y="200" data-l="es">Precisión</text><text class="ch-cat" x="109" y="200" data-l="en">Precision</text>
-              <!-- recall -->
-              <rect class="ch-old" x="182" y="79.5" width="44" height="100.5" rx="4"><title>v0.1 · 0.67</title></rect>
-              <rect class="ch-new" x="232" y="37.5" width="44" height="142.5" rx="4"><title>v0.2 · 0.95</title></rect>
-              <text class="ch-value" x="204" y="73">0.67</text><text class="ch-value ch-strong" x="254" y="31">0.95</text>
-              <text class="ch-cat" x="229" y="200">Recall</text>
-              <!-- F1 -->
-              <rect class="ch-old" x="302" y="61.5" width="44" height="118.5" rx="4"><title>v0.1 · 0.79</title></rect>
-              <rect class="ch-new" x="352" y="34.5" width="44" height="145.5" rx="4"><title>v0.2 · 0.97</title></rect>
-              <text class="ch-value" x="324" y="55">0.79</text><text class="ch-value ch-strong" x="374" y="28">0.97</text>
-              <text class="ch-cat" x="349" y="200">F1</text>
+              <line class="ch-grid" x1="40" y1="30" x2="410" y2="30"/><line class="ch-grid" x1="40" y1="105" x2="410" y2="105"/>
+              <text class="ch-tick" x="34" y="184">0</text><text class="ch-tick" x="34" y="109">0.5</text><text class="ch-tick" x="34" y="34">1</text>
+              <rect class="ch-old" x="64" y="60.0" width="34" height="120.0" rx="4"><title>v0.1 · F1 0.80</title></rect><text class="ch-value" x="81" y="54.0">0.80</text>
+              <rect class="ch-mid" x="102" y="34.5" width="34" height="145.5" rx="4"><title>v0.2–v0.3 · F1 0.97</title></rect><text class="ch-value" x="119" y="28.5">0.97</text>
+              <rect class="ch-new" x="140" y="31.5" width="34" height="148.5" rx="4"><title>v0.4 · F1 0.99</title></rect><text class="ch-value ch-strong" x="157" y="25.5">0.99</text>
+              <rect class="ch-old" x="246" y="106.5" width="34" height="73.5" rx="4"><title>v0.1 · F1 0.49</title></rect><text class="ch-value" x="263" y="100.5">0.49</text>
+              <rect class="ch-mid" x="284" y="106.5" width="34" height="73.5" rx="4"><title>v0.2–v0.3 · F1 0.49</title></rect><text class="ch-value" x="301" y="100.5">0.49</text>
+              <rect class="ch-new" x="322" y="36.0" width="34" height="144.0" rx="4"><title>v0.4 · F1 0.96</title></rect><text class="ch-value ch-strong" x="339" y="30.0">0.96</text>
+              <text class="ch-cat" x="115" y="200" data-l="es">Ciego v2 (general)</text><text class="ch-cat" x="115" y="200" data-l="en">Blind v2 (general)</text>
+              <text class="ch-cat" x="297" y="200" data-l="es">Ciego v3 (nombres)</text><text class="ch-cat" x="297" y="200" data-l="en">Blind v3 (names)</text>
             </svg>
-            <div class="ch-legend"><span class="sw sw-old"></span>v0.1 <span class="sw sw-new"></span>v0.2</div>
+            <div class="ch-legend"><span class="sw sw-old"></span>v0.1 <span class="sw sw-mid"></span>v0.2–v0.3 <span class="sw sw-new"></span>v0.4</div>
           </figure>
 
           <figure class="chart-card">
@@ -490,24 +505,24 @@ Notificaciones: <mark class="e e-DIRECCION" title="DIRECCION">[DIRECCION_1]</mar
               <span data-l="es">Segundos (menos es mejor). Python 3.13, un núcleo.</span><span data-l="en">Seconds (lower is better). Python 3.13, one core.</span>
             </figcaption>
             <svg class="chart" viewBox="0 0 420 220" role="img" aria-labelledby="perf-title">
-              <title id="perf-title">31 KB: 0,049 s a 0,041 s; 156 KB: 0,51 s a 0,21 s; 624 KB: 6,06 s a 0,88 s</title>
+              <title id="perf-title">31 KB: 0,049 s a 0,049 s; 156 KB: 0,51 s a 0,21 s; 624 KB: 6,06 s a 0,92 s</title>
               <g class="ch-axis"><line x1="40" y1="180" x2="410" y2="180"/></g>
               <line class="ch-grid" x1="40" y1="30" x2="410" y2="30"/><line class="ch-grid" x1="40" y1="105" x2="410" y2="105"/>
               <text class="ch-tick" x="34" y="184">0</text><text class="ch-tick" x="34" y="109">3</text><text class="ch-tick" x="34" y="34">6</text>
               <rect class="ch-old" x="62" y="178.8" width="44" height="1.2" rx="1"><title>v0.1 · 0.049 s</title></rect>
-              <rect class="ch-new" x="112" y="179" width="44" height="1" rx="1"><title>v0.2 · 0.041 s</title></rect>
+              <rect class="ch-new" x="112" y="179" width="44" height="1" rx="1"><title>v0.4 · 0.049 s</title></rect>
               <text class="ch-value" x="109" y="170">≈0.04 s</text>
               <text class="ch-cat" x="109" y="200">31 KB</text>
               <rect class="ch-old" x="182" y="167.3" width="44" height="12.7" rx="2"><title>v0.1 · 0.51 s</title></rect>
-              <rect class="ch-new" x="232" y="174.7" width="44" height="5.3" rx="2"><title>v0.2 · 0.21 s</title></rect>
+              <rect class="ch-new" x="232" y="174.7" width="44" height="5.3" rx="2"><title>v0.4 · 0.21 s</title></rect>
               <text class="ch-value" x="204" y="160">0.51</text><text class="ch-value ch-strong" x="254" y="168">0.21</text>
               <text class="ch-cat" x="229" y="200">156 KB</text>
               <rect class="ch-old" x="302" y="28.5" width="44" height="151.5" rx="4"><title>v0.1 · 6.06 s</title></rect>
-              <rect class="ch-new" x="352" y="158" width="44" height="22" rx="3"><title>v0.2 · 0.88 s</title></rect>
-              <text class="ch-value" x="324" y="22">6.06</text><text class="ch-value ch-strong" x="374" y="151">0.88</text>
+              <rect class="ch-new" x="352" y="157" width="44" height="23" rx="3"><title>v0.4 · 0.92 s</title></rect>
+              <text class="ch-value" x="324" y="22">6.06</text><text class="ch-value ch-strong" x="374" y="150">0.92</text>
               <text class="ch-cat" x="349" y="200">624 KB</text>
             </svg>
-            <div class="ch-legend"><span class="sw sw-old"></span>v0.1 <span class="sw sw-new"></span>v0.2 <span class="ch-note"><span data-l="es">≈7× más rápido en textos grandes: ahora escala de forma lineal (≈0,7 MB/s).</span><span data-l="en">≈7× faster on large text: it now scales linearly (≈0.7 MB/s).</span></span></div>
+            <div class="ch-legend"><span class="sw sw-old"></span>v0.1 <span class="sw sw-new"></span>v0.4 <span class="ch-note"><span data-l="es">≈6,6× más rápido en textos grandes: ahora escala de forma lineal (≈0,7 MB/s), aun con más detectores.</span><span data-l="en">≈6.6× faster on large text: it now scales linearly (≈0.7 MB/s), even with more detectors.</span></span></div>
           </figure>
         </div>
       </div>
@@ -625,7 +640,7 @@ datashield restaurar -f datos_anon.csv --tabla tabla.json</pre>
           </p>
           <ul>
             <li><span data-l="es">Son reglas y listas, no un modelo de lenguaje: habrá falsos negativos y positivos.</span><span data-l="en">It is rules and word lists, not a language model: expect false negatives and positives.</span></li>
-            <li><span data-l="es">Los nombres son el punto más débil: un nombre fuera de las listas, en minúsculas o en formato «Apellido, Nombre» puede pasar de largo si no hay contexto.</span><span data-l="en">Names are the weakest spot: a name outside the lists, in lowercase or in “Surname, Name” format can be missed without context.</span></li>
+            <li><span data-l="es">Los nombres siguen siendo lo más difícil: un nombre de pila ambiguo («Luz», «Rosa») seguido de apellidos poco comunes, o un nombre suelto en minúscula sin contexto, puede pasar de largo. Y el nombre de una figura pública también se marca.</span><span data-l="en">Names are still the hardest part: an ambiguous given name (“Luz”, “Rosa”) followed by rare surnames, or a lone lowercase name without context, can be missed. Public figures’ names are flagged too.</span></li>
             <li><span data-l="es">Un número de identificación sin palabra clave cerca no se marca (para no confundirlo con montos).</span><span data-l="en">An ID number with no nearby keyword is not flagged (to avoid confusing it with amounts).</span></li>
             <li><span data-l="es">La tabla de seudónimos contiene los datos originales: protégela. Los datos seudonimizados siguen siendo datos personales.</span><span data-l="en">The pseudonym table contains the original data: protect it. Pseudonymized data generally remains personal data.</span></li>
           </ul>

@@ -52,6 +52,14 @@ _CC_KEYWORD = (
     r"|\bdoc(?:umento)?\b\.?(?=\s*(?:[:#]|n[uú]mero|n[oº°]|nro|\d)))"
 )
 _CC_RE = re.compile(_CC_KEYWORD + _NUM_PREFIX + _ID_NUMBER, re.IGNORECASE)
+# Palabra clave separada del número por una frase corta que termina en «es (el|la)»:
+# «la tarjeta de identidad del niño que vino ayer es la 1.234.567.890».
+_CC_FAR_RE = re.compile(
+    r"(?:c[eé]dula(?:\s+de\s+ciudadan[ií]a)?(?!\s+de\s+extranjer[ií]a)|documento\s+de\s+identidad"
+    r"|tarjeta\s+de\s+identidad|(?:n[uú]mero\s+de\s+)?identificaci[oó]n)"
+    r"(?:\s+[a-záéíóúñ]+){1,6}?\s+(?:es|era|fue)(?:\s+(?:el|la))?\s*:?\s*" + _ID_NUMBER,
+    re.IGNORECASE,
+)
 
 _CE_KEYWORD = r"(?:(?i:c[eé]dula\s+de\s+extranjer[ií]a)|\bC\.\s?E\b\.?|\bCE\b)"
 _CE_RE = re.compile(
@@ -66,6 +74,11 @@ def detect_cedula(text: str) -> list[Entity]:
         if 6 <= len(_digits(m["num"])) <= 10:
             found.append(
                 _entity(PIIType.CEDULA, text, m.start("num"), m.end("num"), 0.92, "cc_ctx")
+            )
+    for m in _CC_FAR_RE.finditer(text):
+        if 6 <= len(_digits(m["num"])) <= 10:
+            found.append(
+                _entity(PIIType.CEDULA, text, m.start("num"), m.end("num"), 0.85, "cc_lejos")
             )
     return found
 
@@ -352,6 +365,13 @@ _ACCOUNT_KW_RE = re.compile(
     r"[\s:#.-]{0,4}" + _IS + r"(?:(?i:n[uú]mero|no\.?|nro\.?|n[°º])[\s:#.-]{0,3})?"
     r"(?P<num>\d[\d \t-]{6,24}\d)(?!\d)"
 )
+# Nombre del banco seguido del número: «Consignar en Bancolombia 24567891234».
+_BANK_RE = re.compile(
+    r"(?i:bancolombia|davivienda|bbva|colpatria|scotiabank|ita[uú]|banco\s+(?:de\s+bogot[aá]"
+    r"|popular|de\s+occidente|agrario|caja\s+social|av\s+villas|falabella|pichincha|w)"
+    r"|av\s+villas)"
+    r"[\s:#.,-]{1,4}(?P<num>\d[\d \t-]{6,24}\d)(?!\d|[.,]\d)"
+)
 _IBAN_RE = re.compile(
     r"(?<![A-Za-z0-9])[A-Z]{2}\d{2}(?:[ -]?[A-Z0-9]{4}){2,8}(?:[ -]?[A-Z0-9]{1,3})?(?![A-Za-z0-9])"
 )
@@ -381,6 +401,19 @@ def detect_cuenta_bancaria(text: str) -> list[Entity]:
     for m in _CLABE_RE.finditer(text):
         if is_valid_clabe(m.group()):
             found.append(_entity(PIIType.CUENTA_BANCARIA, text, m.start(), m.end(), 0.8, "clabe"))
+    for m in _BANK_RE.finditer(text):
+        num = m["num"].rstrip(" \t-")
+        if 8 <= len(_digits(num)) <= 20:
+            found.append(
+                _entity(
+                    PIIType.CUENTA_BANCARIA,
+                    text,
+                    m.start("num"),
+                    m.start("num") + len(num),
+                    0.8,
+                    "banco_ctx",
+                )
+            )
     for m in _ACCOUNT_KW_RE.finditer(text):
         num = m["num"].rstrip(" \t-")
         if 8 <= len(_digits(num)) <= 20:
@@ -570,10 +603,22 @@ _INSTITUTION = frozenset(
 _INSTITUTION_BEFORE = re.compile(
     r"(?i:universidad|colegio|escuela|instituto|fundaci[oó]n|hospital|cl[ií]nica|parque|plaza"
     r"|teatro|hotel|edificio|conjunto|estadio|aeropuerto|biblioteca|museo|corporaci[oó]n|liceo"
-    r"|iglesia|parroquia)\s+$"
+    r"|iglesia|parroquia|estaci[oó]n|terminal|avenida|calle|carrera|barrio|almac[eé]n"
+    r"|restaurante|caf[eé]|marca|empresa|compa[ñn][ií]a)\s+$"
 )
+# Prefijos de lugares y santos: «San Diego», «Santo Tomás», «Nuestra Señora».
+_SAINT = frozenset(["san", "santo", "santa", "santisima", "santisimo", "nuestra", "virgen"])
+# Marcas y lugares muy conocidos con forma de nombre de persona.
+_NON_PERSON = frozenset(["juan valdez"])
+# Una preposición justo antes de un nombre de pila conocido es contexto débil («Saludos a
+# Hernán», «Habló con Mónica»).
+_TITLE_BEFORE = re.compile(
+    r"(?<![\w])(?i:se[ñn]or(?:a)?|sr\.?|sra\.?|don|do[ñn]a|doctor(?:a)?|dr\.?|dra\.?)\s+$"
+)
+_PREP_CTX = re.compile(r"(?<![\w])(?i:a|con|para|de\s+parte\s+de)\s+$")
 _SENTENCE_END = frozenset('.!?¡¿\n:;"“(-•*')
 _LISTED = _names.FIRST_NAMES | _names.SURNAMES
+_STRONG_FIRST = _names.FIRST_NAMES - _names.AMBIGUOUS - _names.STOPWORDS
 _MAX_NAME_WORDS = 5
 
 
@@ -606,15 +651,25 @@ def _evaluate_run(text: str, run_start: int, run_end: int) -> Entity | None:
         for w in _WORD_RE.finditer(text[run_start:run_end])
     ]
     before = _line_before(text, run_start, 40)
-    if _INSTITUTION_BEFORE.search(before) or (words and words[0].norm in _INSTITUTION):
+    if _INSTITUTION_BEFORE.search(before):
+        return None
+    leading = [
+        w.norm
+        for w in words[: next((i for i, w in enumerate(words) if w.norm in _LISTED), len(words))]
+    ]
+    if any(n in _INSTITUTION or n in _SAINT for n in leading):
         return None
     strict = bool(_STRICT_CTX.search(before))
     trigger = strict or bool(_WEAK_CTX.search(before))
     sentence_start = _is_sentence_start(text, run_start)
+    titled = bool(_TITLE_BEFORE.search(before))
+    if not trigger and words and words[0].norm in _STRONG_FIRST and _PREP_CTX.search(before):
+        trigger = True
 
     while words and words[0].norm in _names.TITLES:
         words.pop(0)
         trigger = True
+        titled = True
         sentence_start = False
 
     while words and words[0].norm not in _LISTED:
@@ -630,9 +685,16 @@ def _evaluate_run(text: str, run_start: int, run_end: int) -> Entity | None:
         words.pop(0)
         sentence_start = False
 
+    # Sin contexto, un nombre de pila conocido (no ambiguo) al inicio arrastra hasta dos
+    # apellidos desconocidos: «Kevin Arley Mosquera», «Edwin Ararat».
+    head_first = bool(words) and words[0].norm in _STRONG_FIRST
     while words and words[-1].norm not in _LISTED:
         prev = words[-2].norm if len(words) > 1 else None
-        if words[-1].norm in _names.STOPWORDS or (not trigger and prev not in _LISTED):
+        unknown_tail = sum(1 for w in words[1:] if w.norm not in _LISTED)
+        keep_tail = head_first and len(words) > 1 and unknown_tail <= 2
+        if words[-1].norm in _names.STOPWORDS or (
+            not trigger and prev not in _LISTED and not keep_tail
+        ):
             words.pop()
         else:
             break
@@ -640,29 +702,152 @@ def _evaluate_run(text: str, run_start: int, run_end: int) -> Entity | None:
     words = words[:_MAX_NAME_WORDS]
     if not words:
         return None
+    if " ".join(w.norm for w in words) in _NON_PERSON:
+        return None
 
     listed = [w for w in words if w.norm in _LISTED]
     firsts = [w for w in words if w.norm in _names.FIRST_NAMES]
     strong = [w for w in listed if w.norm not in _names.AMBIGUOUS]
 
     if trigger:
-        accepted = len(words) >= 2 or bool(listed) or strict
+        accepted = len(words) >= 2 or bool(listed) or strict or titled
         score = 0.85 if listed else 0.7
     else:
-        accepted = bool(firsts) and len(listed) >= 2 and bool(strong)
+        accepted = (
+            bool(firsts)
+            and bool(strong)
+            and (len(listed) >= 2 or (len(words) >= 2 and words[0].norm in _STRONG_FIRST))
+        )
         score = 0.8 if len(strong) >= 2 else 0.7
     if not accepted:
         return None
     return _entity(PIIType.NOMBRE, text, words[0].start, words[-1].end, score, "nombre")
 
 
+# --------------------------------------------------------------------------- nombres: formatos
+
+# «Apellido Apellido, Nombre Nombre» (listados, actas, planillas): dos entidades.
+_SURNAME_FIRST_RE = re.compile(
+    rf"(?<![\w])(?P<sur>{_NAME_WORD}(?:[ \t]+{_NAME_WORD})?)[ \t]*,[ \t]*"
+    rf"(?P<first>{_NAME_WORD}(?:[ \t]+{_NAME_WORD}){{0,2}})"
+)
+
+
+def _surname_first(text: str) -> list[Entity]:
+    found = []
+    for m in _SURNAME_FIRST_RE.finditer(text):
+        sur = [_names.normalize(w) for w in m["sur"].split()]
+        if not any(s in _names.SURNAMES for s in sur) or any(
+            s in _names.STOPWORDS or s in _names.FIRST_NAMES for s in sur
+        ):
+            continue
+        firsts = list(_WORD_RE.finditer(m["first"]))
+        n = 0
+        while n < len(firsts) and _names.normalize(firsts[n].group()) in _names.FIRST_NAMES:
+            n += 1
+        if n == 0 or _names.normalize(firsts[0].group()) in _names.AMBIGUOUS:
+            continue
+        base = m.start("first")
+        found.append(
+            _entity(PIIType.NOMBRE, text, m.start("sur"), m.end("sur"), 0.82, "apellido_nombre")
+        )
+        found.append(
+            _entity(
+                PIIType.NOMBRE,
+                text,
+                base + firsts[0].start(),
+                base + firsts[n - 1].end(),
+                0.82,
+                "apellido_nombre",
+            )
+        )
+    return found
+
+
+# Nombres en minúscula (chats, formularios informales). Muy conservador: el primer nombre debe
+# estar en la lista, no ser una palabra común, y hace falta contexto o dos nombres listados.
+_LOWER_WORD_RE = re.compile(r"(?<![\w])[a-záéíóúüñ]+(?![\w])")
+_LOWER_CTX = re.compile(
+    r"(?i:me\s+llamo|mi\s+nombre\s+es|nombres?\s*:|soy|habla|le\s+habla|gracias|hola"
+    r"|se[ñn]or(?:a)?|sr\.?|sra\.?|don|do[ñn]a|estimad[oa]|querid[oa])\s*[:,]?\s*$"
+)
+_LOWER_UNSAFE = _names.AMBIGUOUS | frozenset(
+    [
+        "tomas",
+        "salvador",
+        "rosario",
+        "rocio",
+        "armando",
+        "marco",
+        "marcos",
+        "francia",
+        "margarita",
+        "lucero",
+        "piedad",
+        "estela",
+        "clemente",
+        "florencia",
+        "leon",
+        "angel",
+        "pastor",
+        "nieves",
+        "milagros",
+        "remedios",
+        "socorro",
+        "reyes",
+        "ramos",
+        "gracia",
+        "santiago",
+        "victoria",
+    ]
+)
+
+
+def _lowercase_names(text: str) -> list[Entity]:
+    found = []
+    words = list(_LOWER_WORD_RE.finditer(text))
+    i = 0
+    while i < len(words):
+        head = words[i]
+        norm = _names.normalize(head.group())
+        if norm not in _names.FIRST_NAMES or norm in _LOWER_UNSAFE or norm in _names.STOPWORDS:
+            i += 1
+            continue
+        j = i
+        while (
+            j + 1 < len(words)
+            and j - i < 3
+            and text[words[j].end() : words[j + 1].start()] == " "
+            and _names.normalize(words[j + 1].group()) in _LISTED
+            and _names.normalize(words[j + 1].group()) not in _names.STOPWORDS
+        ):
+            j += 1
+        context = bool(_LOWER_CTX.search(_line_before(text, head.start(), 40)))
+        strong = [
+            w
+            for w in words[i : j + 1]
+            if _names.normalize(w.group()) in _LISTED
+            and _names.normalize(w.group()) not in _LOWER_UNSAFE
+        ]
+        if context or (j > i and len(strong) >= 2):
+            score = 0.8 if context else 0.6
+            found.append(
+                _entity(PIIType.NOMBRE, text, head.start(), words[j].end(), score, "minuscula")
+            )
+        i = j + 1
+    return found
+
+
 def detect_nombre(text: str) -> list[Entity]:
-    """Nombres propios por listas (nombres/apellidos frecuentes) y contexto («señor», «nombre:»)."""
+    """Nombres propios: listas de nombres/apellidos, contexto («señor», «me llamo», «a»...),
+    formato «Apellido, Nombre» y nombres en minúscula con contexto."""
     found = []
     for m in _RUN_RE.finditer(text):
         entity = _evaluate_run(text, m.start(), m.end())
         if entity is not None:
             found.append(entity)
+    found += _surname_first(text)
+    found += _lowercase_names(text)
     return found
 
 

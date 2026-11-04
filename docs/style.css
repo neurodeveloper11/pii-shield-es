@@ -676,6 +676,7 @@ footer {
   --violet: #7c3aed;
   --chart-old: #9aa6b8;
   --chart-new: var(--accent);
+  --chart-mid: rgb(10 108 116 / 45%);
   --art-doc: #ffffff;
   --art-line: #d5dbe5;
   --hero-glow: rgb(10 108 116 / 14%);
@@ -683,6 +684,7 @@ footer {
 
 :root[data-theme="dark"] {
   --chart-old: #4b5668;
+  --chart-mid: rgb(90 209 200 / 45%);
   --art-doc: #1b2330;
   --art-line: #334052;
   --hero-glow: rgb(90 209 200 / 12%);
@@ -691,6 +693,7 @@ footer {
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --chart-old: #4b5668;
+    --chart-mid: rgb(90 209 200 / 45%);
     --art-doc: #1b2330;
     --art-line: #334052;
     --hero-glow: rgb(90 209 200 / 12%);
@@ -1139,7 +1142,7 @@ table.csv td {
 }
 
 .type-new::after {
-  content: "v0.2";
+  content: attr(data-new);
   position: absolute;
   top: 0.7rem;
   right: 0.8rem;
@@ -1298,6 +1301,14 @@ svg.chart rect + text.ch-value,
 
 .sw-new {
   background: var(--chart-new);
+}
+
+.sw-mid {
+  background: var(--chart-mid);
+}
+
+.ch-mid {
+  fill: var(--chart-mid);
 }
 
 .ch-note {
