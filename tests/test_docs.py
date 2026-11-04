@@ -105,3 +105,17 @@ def test_todos_los_ids_referenciados_existen():
     ids = set(re.findall(r'\bid="([^"]+)"', INDEX))
     for ref in re.findall(r'(?:href="#|data-target="|data-copy=")([^"]+)"', INDEX):
         assert ref in ids, ref
+
+
+def test_vista_previa_para_redes_sociales():
+    import struct
+
+    pages = "https://neurodeveloper11.github.io/pii-shield-es/"
+    for prop in ("og:title", "og:description", "og:url", "og:image", "twitter:card"):
+        assert f'"{prop}"' in INDEX, prop
+    assert f'content="{pages}og-image.png"' in INDEX
+    png = (DOCS / "og-image.png").read_bytes()
+    assert png[:8] == b"\x89PNG\r\n\x1a\n"
+    width, height = struct.unpack(">II", png[16:24])
+    assert (width, height) == (1200, 627)
+    assert len(png) < 1_000_000  # LinkedIn recomienda imágenes livianas

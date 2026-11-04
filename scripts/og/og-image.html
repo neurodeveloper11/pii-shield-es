@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>DataShield · imagen para redes</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { width: 1200px; height: 627px; font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+         background: radial-gradient(70% 90% at 90% 20%, #0f4f55 0%, transparent 60%), linear-gradient(135deg, #0b1220 0%, #0d1b26 100%);
+         color: #e8ecf2; overflow: hidden; position: relative; }
+  .wrap { position: absolute; inset: 0; padding: 56px 64px; display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: center; }
+  .brand { display: flex; align-items: center; gap: 14px; font-weight: 800; font-size: 30px; letter-spacing: -0.01em; }
+  .brand svg { width: 46px; height: 46px; color: #5ad1c8; }
+  .tag { display: inline-block; margin-top: 26px; padding: 6px 14px; border: 1px solid #2d5e63; border-radius: 999px; color: #8fe6df; font-size: 17px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  h1 { margin-top: 16px; font-size: 52px; line-height: 1.05; letter-spacing: -0.03em; font-weight: 850; }
+  h1 em { font-style: normal; color: #5ad1c8; }
+  .sub { margin-top: 16px; font-size: 21px; line-height: 1.4; color: #aab4c3; max-width: 30ch; }
+  .chips { margin-top: 22px; display: flex; flex-wrap: nowrap; gap: 8px; }
+  .chip { font-size: 15px; font-weight: 700; padding: 6px 11px; border-radius: 10px; background: #152330; border: 1px solid #263646; }
+  .chip b { color: #5ad1c8; }
+  .card { background: #f7f9fb; color: #121821; border-radius: 22px; padding: 26px 28px; box-shadow: 0 30px 60px rgb(0 0 0 / 45%); font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace; font-size: 19px; line-height: 1.75; }
+  .lbl { font-family: system-ui, sans-serif; font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #5b6676; margin-bottom: 8px; }
+  .m { padding: 1px 6px; border-radius: 6px; border-bottom: 2px solid; }
+  .n { background: rgb(139 92 246 / 22%); border-color: rgb(139 92 246 / 80%); }
+  .c { background: rgb(236 72 153 / 20%); border-color: rgb(236 72 153 / 80%); }
+  .t { background: rgb(59 130 246 / 22%); border-color: rgb(37 99 235 / 85%); }
+  .k { background: rgb(220 38 38 / 18%); border-color: rgb(220 38 38 / 80%); }
+  .arrow { text-align: center; color: #0a6c74; font-size: 30px; font-weight: 900; line-height: 1; margin: 10px 0; font-family: system-ui; }
+  .out .m { background: #0a6c74; color: #fff; border-color: #0a6c74; font-weight: 700; }
+  .foot { position: absolute; left: 64px; right: 64px; bottom: 30px; display: flex; justify-content: space-between; color: #7f8ba0; font-size: 18px; }
+  .foot b { color: #e8ecf2; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div>
+      <div class="brand">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 5 6v8c0 7.2 4.6 12.8 11 16 6.4-3.2 11-8.8 11-16V6z" fill="currentColor" opacity=".22"/><path d="M16 2 5 6v8c0 7.2 4.6 12.8 11 16 6.4-3.2 11-8.8 11-16V6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M11 15.5l3.6 3.6L21.5 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        DataShield
+      </div>
+      <span class="tag">Código abierto · 100 % local</span>
+      <h1>Comparte tus textos, <em>no los datos de tus usuarios</em></h1>
+      <p class="sub">Anonimiza cédulas, NIT, teléfonos, tarjetas, direcciones y nombres en español. Sin nube, sin APIs.</p>
+      <div class="chips">
+        <span class="chip"><b>13</b> tipos de datos</span>
+        <span class="chip"><b>0</b> dependencias</span>
+        <span class="chip">F1 <b>0,99</b> en prueba ciega</span>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="lbl">Antes</div>
+        Hola, soy <span class="m n">Carolina Mejía</span>, C.C. <span class="m c">52.345.678</span>. Mi cel es <span class="m t">300 555 0175</span> y pagué con la <span class="m k">4111 1111 1111 1111</span>.
+        <div class="arrow">↓</div>
+        <div class="lbl">Después</div>
+        <div class="out">Hola, soy <span class="m">[NOMBRE]</span>, C.C. <span class="m">[CEDULA]</span>. Mi cel es <span class="m">[TELEFONO]</span> y pagué con la <span class="m">[TARJETA_CREDITO]</span>.</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span><b>Python</b> · Colombia y LatAm · licencia MIT</span><span>github.com/neurodeveloper11</span></div>
+</body>
+</html>
