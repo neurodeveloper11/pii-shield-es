@@ -1,0 +1,304 @@
+"""CLI ``pii-shield``: procesa texto, archivos ``.txt`` y ``.csv`` (todo local)."""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import io
+import json
+import sys
+from collections import Counter
+from collections.abc import Sequence
+from pathlib import Path
+
+from . import __version__
+from .anonymize import MODES, PseudonymTable, anonymize, normalize_mode
+from .detectors import detect
+from .types import PIIType, coerce_types
+
+_AVISO = (
+    "pii-shield-es es una ayuda técnica: no sustituye una revisión de cumplimiento "
+    "(Ley 1581 de 2012 / Habeas Data)."
+)
+
+
+class CLIError(Exception):
+    """Error de uso: se imprime en stderr y termina con código 2."""
+
+
+def _build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="pii-shield",
+        description="Detecta y anonimiza datos personales en español (Colombia/LatAm), 100 % local",
+        epilog=_AVISO,
+    )
+    parser.add_argument("--version", action="version", version=f"pii-shield-es {__version__}")
+    sub = parser.add_subparsers(dest="command", required=True, metavar="COMANDO")
+
+    def add_input(p: argparse.ArgumentParser) -> None:
+        p.add_argument("texto", nargs="?", help="texto a procesar (si se omite, se lee stdin)")
+        p.add_argument("-f", "--archivo", help="archivo .txt o .csv de entrada")
+        p.add_argument("-o", "--salida", help="archivo de salida (por defecto, stdout)")
+        p.add_argument(
+            "--tipos",
+            help="tipos separados por coma (p. ej. CEDULA,NIT,CORREO). Por defecto, todos",
+        )
+        p.add_argument(
+            "--min-score", type=float, default=0.0, help="umbral mínimo de confianza (0 a 1)"
+        )
+        p.add_argument(
+            "--columnas",
+            help="solo CSV: columnas a procesar (nombres o índices desde 0, separados por coma)",
+        )
+        p.add_argument(
+            "--sin-encabezado", action="store_true", help="solo CSV: sin fila de cabecera"
+        )
+        p.add_argument("--delimitador", help="solo CSV: delimitador (por defecto se autodetecta)")
+
+    anon = sub.add_parser("anonimizar", aliases=["anonymize"], help="anonimiza el texto")
+    add_input(anon)
+    anon.add_argument(
+        "-m", "--modo", default="etiqueta", choices=MODES, help="modo de anonimización"
+    )
+    anon.add_argument(
+        "--tabla",
+        help="archivo JSON local de seudónimos (modo seudonimo). Se crea o se amplía. "
+        "CONTIENE LOS DATOS ORIGINALES: protégelo",
+    )
+
+    det = sub.add_parser("detectar", aliases=["detect"], help="lista las entidades detectadas")
+    add_input(det)
+    det.add_argument("--json", action="store_true", help="salida en JSON")
+
+    res = sub.add_parser("restaurar", aliases=["restore"], help="revierte una seudonimización")
+    res.add_argument("texto", nargs="?", help="texto seudonimizado (si se omite, se lee stdin)")
+    res.add_argument("-f", "--archivo", help="archivo de entrada")
+    res.add_argument("-o", "--salida", help="archivo de salida (por defecto, stdout)")
+    res.add_argument("--tabla", required=True, help="archivo JSON de seudónimos")
+    return parser
+
+
+# --------------------------------------------------------------------------- E/S
+
+
+def _read_text(path: str) -> str:
+    try:
+        return Path(path).read_text(encoding="utf-8-sig")
+    except OSError as exc:
+        raise CLIError(f"No se pudo leer {path}: {exc.strerror or exc}") from exc
+    except UnicodeDecodeError as exc:
+        raise CLIError(f"{path} no es UTF-8 válido") from exc
+
+
+def _load_input(args: argparse.Namespace) -> tuple[str, bool]:
+    """Devuelve ``(contenido, es_csv)``."""
+    if args.archivo:
+        content = _read_text(args.archivo)
+        return content, Path(args.archivo).suffix.lower() == ".csv"
+    if args.texto is not None and args.texto != "-":
+        return args.texto, False
+    if sys.stdin.isatty():
+        raise CLIError("No hay entrada: pasa un texto, --archivo o redirige stdin")
+    return sys.stdin.read(), False
+
+
+def _write_output(args: argparse.Namespace, content: str) -> None:
+    if args.salida:
+        try:
+            Path(args.salida).write_text(content, encoding="utf-8", newline="")
+        except OSError as exc:
+            raise CLIError(f"No se pudo escribir {args.salida}: {exc.strerror or exc}") from exc
+    else:
+        sys.stdout.write(content)
+        if content and not content.endswith("\n"):
+            sys.stdout.write("\n")
+
+
+# --------------------------------------------------------------------------- CSV
+
+
+def _csv_dialect(sample: str, delimiter: str | None) -> type[csv.Dialect] | csv.Dialect:
+    if delimiter:
+        if len(delimiter) != 1:
+            raise CLIError("--delimitador debe ser un solo carácter")
+
+        class _Custom(csv.excel):
+            pass
+
+        _Custom.delimiter = delimiter
+        return _Custom
+    try:
+        return csv.Sniffer().sniff(sample[:4096], delimiters=",;\t|")
+    except csv.Error:
+        return csv.excel
+
+
+def _selected_columns(spec: str | None, header: list[str] | None, width: int) -> set[int] | None:
+    if not spec:
+        return None
+    chosen: set[int] = set()
+    for item in (part.strip() for part in spec.split(",") if part.strip()):
+        if header is not None and item in header:
+            chosen.add(header.index(item))
+        elif item.isdigit() and int(item) < width:
+            chosen.add(int(item))
+        else:
+            raise CLIError(f"Columna no encontrada: {item!r}")
+    return chosen
+
+
+def _read_csv(args: argparse.Namespace, content: str) -> tuple[list[list[str]], csv.Dialect]:
+    dialect = _csv_dialect(content, args.delimitador)
+    rows = list(csv.reader(io.StringIO(content, newline=""), dialect))
+    return rows, dialect  # type: ignore[return-value]
+
+
+def _write_csv(rows: list[list[str]], dialect: csv.Dialect) -> str:
+    buffer = io.StringIO(newline="")
+    csv.writer(buffer, dialect).writerows(rows)
+    return buffer.getvalue()
+
+
+def _process_csv(args: argparse.Namespace, content: str, cell_fn) -> list[list[str]]:  # type: ignore[no-untyped-def]
+    rows, _ = _read_csv(args, content)
+    width = max((len(r) for r in rows), default=0)
+    header = None if args.sin_encabezado or not rows else rows[0]
+    columns = _selected_columns(args.columnas, header, width)
+    out: list[list[str]] = []
+    for i, row in enumerate(rows):
+        if header is not None and i == 0:
+            out.append(row)
+            continue
+        out.append(
+            [
+                cell_fn(cell, i, j) if (columns is None or j in columns) else cell
+                for j, cell in enumerate(row)
+            ]
+        )
+    return out
+
+
+# --------------------------------------------------------------------------- comandos
+
+
+def _types(args: argparse.Namespace) -> tuple[PIIType, ...] | None:
+    if not args.tipos:
+        return None
+    try:
+        return coerce_types([t for t in args.tipos.split(",") if t.strip()])
+    except ValueError as exc:
+        raise CLIError(str(exc)) from exc
+
+
+def _load_table(path: str | None, modo: str) -> PseudonymTable | None:
+    if modo != "seudonimo":
+        if path:
+            raise CLIError("--tabla solo aplica con --modo seudonimo")
+        return None
+    if not path:
+        return None
+    if Path(path).exists():
+        try:
+            return PseudonymTable.load(path)
+        except (ValueError, OSError) as exc:
+            raise CLIError(f"Tabla inválida {path}: {exc}") from exc
+    return PseudonymTable()
+
+
+def _cmd_anonymize(args: argparse.Namespace) -> int:
+    modo = normalize_mode(args.modo)
+    tipos = _types(args)
+    table = _load_table(args.tabla, modo)
+    if modo == "seudonimo" and table is None:
+        table = PseudonymTable()
+    content, is_csv = _load_input(args)
+
+    def run(cell: str) -> str:
+        return anonymize(cell, modo, tipos=tipos, tabla=table, min_score=args.min_score)
+
+    if is_csv:
+        _, dialect = _read_csv(args, content)
+        rows = _process_csv(args, content, lambda cell, _i, _j: run(cell))
+        result = _write_csv(rows, dialect)
+    else:
+        result = run(content)
+    _write_output(args, result)
+    if table is not None and args.tabla:
+        table.save(args.tabla)
+        print(
+            f"Tabla de seudónimos guardada en {args.tabla} ({len(table)} entradas). "
+            "Contiene datos originales: protégela.",
+            file=sys.stderr,
+        )
+    return 0
+
+
+def _cmd_detect(args: argparse.Namespace) -> int:
+    tipos = _types(args)
+    content, is_csv = _load_input(args)
+    findings: list[dict[str, object]] = []
+    if is_csv:
+
+        def collect(cell: str, i: int, j: int) -> str:
+            for ent in detect(cell, tipos=tipos, min_score=args.min_score):
+                findings.append({"fila": i, "columna": j, **ent.to_dict()})
+            return cell
+
+        _process_csv(args, content, collect)
+    else:
+        findings = [e.to_dict() for e in detect(content, tipos=tipos, min_score=args.min_score)]
+
+    if args.json:
+        _write_output(args, json.dumps(findings, ensure_ascii=False, indent=2))
+        return 0
+    counts = Counter(str(f["type"]) for f in findings)
+    lines = [
+        f"{f['type']:<20} {f['start']:>6}-{f['end']:<6} score={f['score']:.2f}  {f['text']}"
+        for f in findings
+    ]
+    lines.append("")
+    lines.append(
+        "Total: "
+        + (", ".join(f"{k}={v}" for k, v in sorted(counts.items())) if counts else "sin hallazgos")
+    )
+    _write_output(args, "\n".join(lines))
+    return 0
+
+
+def _cmd_restore(args: argparse.Namespace) -> int:
+    try:
+        table = PseudonymTable.load(args.tabla)
+    except (ValueError, OSError) as exc:
+        raise CLIError(f"Tabla inválida {args.tabla}: {exc}") from exc
+    if args.archivo:
+        content = _read_text(args.archivo)
+    elif args.texto is not None and args.texto != "-":
+        content = args.texto
+    elif sys.stdin.isatty():
+        raise CLIError("No hay entrada: pasa un texto, --archivo o redirige stdin")
+    else:
+        content = sys.stdin.read()
+    _write_output(args, table.restore(content))
+    return 0
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    parser = _build_parser()
+    args = parser.parse_args(argv)
+    handlers = {
+        "anonimizar": _cmd_anonymize,
+        "anonymize": _cmd_anonymize,
+        "detectar": _cmd_detect,
+        "detect": _cmd_detect,
+        "restaurar": _cmd_restore,
+        "restore": _cmd_restore,
+    }
+    try:
+        return handlers[args.command](args)
+    except CLIError as exc:
+        print(f"pii-shield: error: {exc}", file=sys.stderr)
+        return 2
+
+
+if __name__ == "__main__":  # pragma: no cover
+    sys.exit(main())

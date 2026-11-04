@@ -1,0 +1,151 @@
+# Conjunto CIEGO (sintético). Se redactó DESPUÉS de congelar los detectores (commit 1683f45) y
+# no se usó para ajustarlos. Incluye a propósito casos difíciles y límites conocidos.
+# Formato: ver eval/dataset.py. Todos los datos son inventados.
+
+# ---------------- cédula ----------------
+Yo, [[NOMBRE|Hernán Darío Vélez]], identificado con la C.C. [[CEDULA|71.234.567]] de Envigado, certifico lo anterior.
+Número de cédula: [[CEDULA|1001234567]]
+Aportó su cédula de ciudadanía No [[CEDULA|1.152.333.444]] y un recibo de servicios.
+Su CC es la [[CEDULA|52.987.654]] según el formulario.
+Registramos C.C. [[CEDULA|98765432]] y C.C. [[CEDULA|1.045.666.777]] como codeudores.
+Doc: [[CEDULA|1020304050]] en la planilla de ingreso.
+Cédula [[CEDULA|1020 304 050]] copiada del carné.
+El usuario con ID 1.234.567 no existe en la tabla.
+La tarjeta de identidad del menor es la [[CEDULA|1.100.222.333]].
+Presentar documento de identidad vigente (cédula original) en ventanilla.
+Se anexa fotocopia de la cédula de ciudadanía del solicitante.
+
+# ---------------- cédula de extranjería ----------------
+CE [[CEDULA_EXTRANJERIA|1.234.567]] (cédula de extranjería) vigente.
+El extranjero con cédula de extranjería número [[CEDULA_EXTRANJERIA|654321]] pidió prórroga.
+Cédula de extranjería: [[CEDULA_EXTRANJERIA|3456789]]
+C.E. No. [[CEDULA_EXTRANJERIA|876543]] del empleado.
+
+# ---------------- NIT ----------------
+Cobrar a Distribuciones La Esperanza Ltda., NIT [[NIT|{NITDV.:830456789}]], por los servicios prestados.
+Nit: [[NIT|{NITDV:900876543}]]
+Su NIT es [[NIT|{NITDV:1020304050}]] como persona natural.
+NIT [[NIT|900.555.666]] (el DV se omitió en la factura).
+Identificación tributaria [[NIT|{NITDV.:901222333}]] de la sociedad.
+Factura No. {NITBAD:000123456} emitida el mes pasado.
+El consecutivo {NITBAD:987654321} corresponde a una orden interna.
+Pago a nombre de Servicios Integrales del Caribe S.A.S., N.I.T. [[NIT|{NITDV.:802333444}]].
+
+# ---------------- pasaporte ----------------
+Pasaporte colombiano [[PASAPORTE|AQ123456]] expedido en Bogotá.
+El pasaporte (No. [[PASAPORTE|AR555777]]) fue enviado por mensajería.
+Passport No. [[PASAPORTE|PA9876543]]
+Núm. pasaporte: [[PASAPORTE|AT111222]]
+El pasaporte venció y debe renovarse en la cancillería.
+
+# ---------------- teléfonos ----------------
+Mi WhatsApp es el [[TELEFONO|301 555 0166]], escríbeme.
+Tel: [[TELEFONO|(1) 555-0177]]
+WhatsApp: [[TELEFONO|+57 3105550166]]
+Contacto alterno [[TELEFONO|(57) 3215550123]] por la tarde.
+Tel [[TELEFONO|6015550100]] ext 22 en horario de oficina.
+Contactos: [[TELEFONO|3001112223]] / [[TELEFONO|3001112224]].
+Cel [[TELEFONO|315-555-0144]].
+Línea de atención 018000 123 456 gratuita desde cualquier celular.
+Código de verificación 4829 3017 enviado por mensaje.
+Llame al [[TELEFONO|(602) 555 0111]] para agendar su cita.
+Reserva confirmada para 4 personas el 2 de agosto a las 7:30.
+Mi número de celular cambió: ahora es [[TELEFONO|320 555 0188]].
+
+# ---------------- correos ----------------
+Mi correo es [[CORREO|CARLOS.RUIZ@EXAMPLE.COM]] desde siempre.
+Enviar a <[[CORREO|ventas@empresa.example.org]]> con copia al área jurídica.
+Correo electrónico: [[CORREO|lucia.m@mail.example.net]]; teléfono pendiente.
+Escriba a [[CORREO|ana@example.com]] o a [[CORREO|luis@example.org]] según el caso.
+Instale el paquete con npm install left-pad@1.3.0 y reinicie.
+Responder a [[CORREO|info(at)example.com]] para más información.
+Cuenta de correo corporativo creada para el nuevo empleado.
+
+# ---------------- direcciones ----------------
+Dirección de residencia: [[DIRECCION|Carrera 70 # 45-120 Apto 1504 Torre 2]]
+Mi oficina está en la [[DIRECCION|Av. Carrera 9 # 115-06 Oficina 1203]] desde 2021.
+Visítenos en [[DIRECCION|Calle 53 # 21 - 40]] de lunes a sábado.
+Notificaciones a [[DIRECCION|Carrera 43A # 1 Sur-100]] de Medellín.
+Recoger en [[DIRECCION|Cl. 93B # 11A-27]] con el portero.
+Reside en [[DIRECCION|Calle 8 sur # 50 - 15]] (barrio Villa Nueva) hace años.
+Enviar a [[DIRECCION|Kra 10 # 20-30]] antes del mediodía.
+Queda sobre la [[DIRECCION|Autopista Norte # 152-30]] en Usaquén.
+Vive en [[DIRECCION|Manzana 5 Casa 12 barrio El Prado]].
+Nos vemos en la calle 80 con carrera 30 a las cinco.
+La carrera 15 es una de las vías principales del norte.
+Las calles 10 y 11 estarán cerradas por obras.
+El plan de pagos 10-20-30 se aplica a todos.
+Horario de atención de 8-5 de lunes a viernes.
+
+# ---------------- placas ----------------
+Se registró el vehículo con placa [[PLACA|SPQ482]] en el peaje.
+Taxi [[PLACA|TXT-905]] reportado por el usuario.
+Le robaron la moto, placa [[PLACA|KLM27B]], el sábado.
+El carro de placas [[PLACA|ZZZ111]] y [[PLACA|YYY222]] está en el patio.
+Bus [[PLACA|SMT 340]] de la ruta alimentadora.
+Referencia del pedido PED123 entregada ayer.
+Sala B-204 reservada para la reunión.
+Vuelo en Boeing 747-400 con escala en Panamá.
+Se compró una RTX 4090 para la estación de trabajo.
+Pista 007 del disco original.
+Habitación ABC 123 disponible desde el lunes.
+
+# ---------------- cuentas bancarias ----------------
+Banco Davivienda, cuenta de ahorros No. [[CUENTA_BANCARIA|0123456789012]] a nombre del proveedor.
+Pagos a la cuenta corriente [[CUENTA_BANCARIA|456-123456-78]] de Bancolombia.
+Giro a la CLABE [[CUENTA_BANCARIA|{CLABE:03218000011835971}]] desde México.
+IBAN: [[CUENTA_BANCARIA|{IBAN:GB:MYBK60161331926819}]]
+Consignar a Bancolombia [[CUENTA_BANCARIA|123456789]] antes del viernes.
+IBAN inválido {IBANBAD:GB:MYBK60161331926819} reportado por el banco.
+Las cuentas por cobrar de 2024 suman varios millones.
+Número de cuenta pendiente de asignar por el área contable.
+
+# ---------------- nombres ----------------
+¿Quién es [[NOMBRE|Mariana Cortés]]? Es la gerente comercial.
+El abogado [[NOMBRE|Santiago Villamizar]] presentó el recurso ayer.
+Se llama [[NOMBRE|Dayana Lucía Bohórquez]] y es la nueva contadora.
+Según el testimonio de [[NOMBRE|Wilson Arturo Gallego]], la entrega fue puntual.
+Contrato entre ACME S.A.S. y [[NOMBRE|Roberto Carlos Zuluaga]] firmado en enero.
+[[NOMBRE|ELIANA MARCELA RESTREPO DÍAZ]] firmó el acta de entrega.
+Mi mamá, [[NOMBRE|Gladys]], trabaja en la tienda.
+Atte. [[NOMBRE|Jhon Fredy Ramírez]]
+Sr. [[NOMBRE|Fernando Cano]] por favor acercarse a la caja.
+Paciente: [[NOMBRE|Mariela Duarte]]
+Querida abuela [[NOMBRE|María Eugenia]], te mando un abrazo.
+[[NOMBRE|Duarte Ramírez]], [[NOMBRE|Mariela]] aparece en el listado.
+Reunión con [[NOMBRE|Ximena Alarcón]] y [[NOMBRE|Cristian Bedoya]] el jueves.
+Te escribió [[NOMBRE|Laurita Mendieta]] preguntando por el pedido.
+La Calle Santa Fe es conocida por su comercio.
+Quedamos en la Plaza de Bolívar a las tres.
+Visité el Parque Simón Bolívar con mi familia.
+Tomamos café en Juan Valdez cerca del parque.
+Reservó el Hotel Marriott para dos noches.
+El Teatro Colón abrió su temporada.
+Viajamos a El Carmen de Bolívar en bus.
+Mercedes Benz presentó su nuevo modelo eléctrico.
+Estudia en la Universidad Francisco José de Caldas desde 2022.
+Pasamos por San Pedro Claver y luego por la plaza.
+
+# ---------------- negativos generales ----------------
+Resumen: ingresos por $12.450.000, gastos por $9.870.500 y utilidad de $2.579.500.
+El 30/11/2024 vence el plazo para presentar la declaración.
+Subió 4,2 % la inflación en octubre según el DANE.
+Compré 2 boletas por $180.000 para el concierto del sábado.
+Mañana a las 9:00 hay reunión sobre el proyecto Atlas.
+Bitcoin cerró en 98.250 dólares y Ethereum en 3.420.
+Visite www.example.com para conocer los términos y condiciones.
+Se aprobó la Ley 2300 de 2023 sobre cobranza de deudas.
+Datos del estudio: n = 1.200 encuestados y margen de error de 3 %.
+La habitación 305 está lista para el huésped.
+Pedido 784512 despachado, guía 99887766 en tránsito.
+Usa el código QWERTY2024 al pagar.
+El indicador RSI está en 68 y el MACD cruzó al alza.
+La clave del wifi la tiene recepción.
+El tratamiento de datos se rige por la política de privacidad vigente.
+
+# ---------------- párrafos mixtos ----------------
+Solicitud 2025-1180: [[NOMBRE|Andrea Carolina Ruiz Mora]], C.C. [[CEDULA|1.032.456.789]], correo [[CORREO|andrea.ruiz@example.com]], celular [[TELEFONO|3125550190]], reside en [[DIRECCION|Calle 127 # 15-30 Apto 402]].
+Proveedor Insumos del Sur S.A.S., NIT [[NIT|{NITDV.:900777888}]], cuenta de ahorros [[CUENTA_BANCARIA|0034-5678-9012]], contacto [[NOMBRE|Ricardo Peña]].
+El conductor [[NOMBRE|Luis Carlos Mora]] manejaba la camioneta [[PLACA|NBC456]] con cédula [[CEDULA|79.111.222]].
+Estimada [[NOMBRE|Claudia Marcela Pineda]]: recibimos su pasaporte [[PASAPORTE|AS4455667]] y su cédula de extranjería [[CEDULA_EXTRANJERIA|445566]].
+El comité se reunió el martes y aprobó el presupuesto de 2025 sin objeciones.

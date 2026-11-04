@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="es" data-lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta name="color-scheme" content="light dark">
+  <title>pii-shield-es · Anonimiza datos personales en español, 100 % local</title>
+  <meta name="description" content="pii-shield-es detecta y anonimiza datos personales en textos en español de Colombia y LatAm (cédula, NIT, teléfonos, correos, direcciones, placas, cuentas y nombres). 100 % local, de código abierto.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#contenido"><span data-l="es">Saltar al contenido</span><span data-l="en">Skip to content</span></a>
+
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="#top" aria-label="pii-shield-es">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 5 6v8c0 7.2 4.6 12.8 11 16 6.4-3.2 11-8.8 11-16V6z" fill="currentColor" opacity=".18"/><path d="M16 2 5 6v8c0 7.2 4.6 12.8 11 16 6.4-3.2 11-8.8 11-16V6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M11 15.5l3.6 3.6L21.5 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        pii-shield-es
+      </a>
+      <nav class="nav" aria-label="Secciones">
+        <a href="#problema"><span data-l="es">Problema</span><span data-l="en">Problem</span></a>
+        <a href="#como-funciona"><span data-l="es">Cómo funciona</span><span data-l="en">How it works</span></a>
+        <a href="#instalacion"><span data-l="es">Instalación</span><span data-l="en">Install</span></a>
+        <a href="#limites"><span data-l="es">Límites</span><span data-l="en">Limits</span></a>
+      </nav>
+      <div class="seg" role="group" aria-label="Idioma / Language">
+        <button type="button" data-set-lang="es" aria-pressed="true">ES</button>
+        <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <button type="button" class="icon-btn" id="theme-toggle" aria-pressed="false" aria-label="Tema oscuro / Dark mode">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <span data-l="es">Tema oscuro</span><span data-l="en">Dark mode</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <!-- ===================== HERO ===================== -->
+    <div class="hero" id="top">
+      <div class="wrap">
+        <span class="eyebrow"><span data-l="es">Código abierto · MIT · Python 3.10+</span><span data-l="en">Open source · MIT · Python 3.10+</span></span>
+        <h1>
+          <span data-l="es">Quita los datos personales de tus textos en español</span>
+          <span data-l="en">Strip personal data from your Spanish text</span>
+        </h1>
+        <p class="lead">
+          <span data-l="es">Detecta y anonimiza cédulas, NIT, teléfonos, correos, direcciones, placas, cuentas y nombres de Colombia y LatAm. Todo en tu máquina: sin APIs externas, sin llamadas de red.</span>
+          <span data-l="en">Detects and anonymizes Colombian/LatAm IDs, tax IDs (NIT), phones, emails, addresses, plates, bank accounts and names. Everything runs on your machine: no external APIs, no network calls.</span>
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://github.com/neurodeveloper11/pii-shield-es" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="5" r="2.2"/><circle cx="6" cy="19" r="2.2"/><circle cx="18" cy="9" r="2.2"/><path d="M6 7.2v9.6M18 11.2c0 4-6 3-12 6"/></svg>
+            <span data-l="es">Ver el código en GitHub</span><span data-l="en">View the code on GitHub</span>
+          </a>
+          <a class="btn btn-ghost" href="#instalacion"><span data-l="es">Instalar</span><span data-l="en">Install</span></a>
+        </div>
+        <ul class="badges" aria-label="Características">
+          <li><span data-l="es">100 % local</span><span data-l="en">100% local</span></li>
+          <li><span data-l="es">Sin dependencias en ejecución</span><span data-l="en">No runtime dependencies</span></li>
+          <li><span data-l="es">Checksum en NIT, IBAN y CLABE</span><span data-l="en">Checksums for NIT, IBAN and CLABE</span></li>
+          <li><span data-l="es">API de Python + CLI</span><span data-l="en">Python API + CLI</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== PROBLEMA ===================== -->
+    <section id="problema">
+      <div class="wrap">
+        <h2><span data-l="es">El problema</span><span data-l="en">The problem</span></h2>
+        <p class="section-lead">
+          <span data-l="es">Los textos en español están llenos de datos personales: respuestas a PQRS, correos, chats de soporte, contratos, hojas de cálculo. Antes de compartirlos con un tercero, analizarlos o enviarlos a un servicio de IA, hay que quitar esos datos, y hacerlo a mano no escala.</span>
+          <span data-l="en">Spanish-language text is full of personal data: complaint replies, emails, support chats, contracts, spreadsheets. Before sharing it with a third party, analyzing it or sending it to an AI service, that data has to go, and doing it by hand does not scale.</span>
+        </p>
+        <div class="grid grid-2">
+          <div class="card">
+            <h3><span data-l="es">Formatos locales</span><span data-l="en">Local formats</span></h3>
+            <p>
+              <span data-l="es">Muchas herramientas de detección de PII están pensadas sobre todo para inglés y formatos de EE. UU. Una cédula con puntos, un NIT con su dígito de verificación, una dirección «Cra 15 # 93-60» o un celular «+57 300…» exigen reglas propias.</span>
+              <span data-l="en">Many PII detection tools are designed mainly for English and US formats. A dotted cédula, a NIT with its check digit, an address like “Cra 15 # 93-60” or a “+57 300…” mobile number need purpose-built rules.</span>
+            </p>
+          </div>
+          <div class="card">
+            <h3><span data-l="es">Sin enviar nada afuera</span><span data-l="en">Nothing leaves your machine</span></h3>
+            <p>
+              <span data-l="es">Mandar el texto sin anonimizar a un servicio externo para anonimizarlo es justo lo que querías evitar. pii-shield-es corre sin red: reglas, listas y checksums, sin modelos pesados.</span>
+              <span data-l="en">Sending raw text to an external service so it can be anonymized defeats the purpose. pii-shield-es runs offline: rules, word lists and checksums, no heavy models.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CÓMO FUNCIONA ===================== -->
+    <section id="como-funciona">
+      <div class="wrap">
+        <h2><span data-l="es">Cómo funciona</span><span data-l="en">How it works</span></h2>
+        <p class="section-lead">
+          <span data-l="es">Cuatro pasos, todos deterministas y auditables.</span>
+          <span data-l="en">Four steps, all deterministic and auditable.</span>
+        </p>
+        <div class="grid grid-4">
+          <div class="card">
+            <span class="step-n" aria-hidden="true">1</span>
+            <h3><span data-l="es">Reglas y contexto</span><span data-l="en">Rules and context</span></h3>
+            <p><span data-l="es">Expresiones regulares y palabras clave («cédula», «NIT», «placa»…) localizan candidatos.</span><span data-l="en">Regular expressions and keywords (“cédula”, “NIT”, “placa”…) find candidates.</span></p>
+          </div>
+          <div class="card">
+            <span class="step-n" aria-hidden="true">2</span>
+            <h3><span data-l="es">Validación</span><span data-l="en">Validation</span></h3>
+            <p><span data-l="es">Dígito de verificación del NIT (DIAN), IBAN módulo 97 y CLABE descartan números que solo «se parecen».</span><span data-l="en">NIT check digit (DIAN), IBAN mod 97 and CLABE discard numbers that merely “look like” IDs.</span></p>
+          </div>
+          <div class="card">
+            <span class="step-n" aria-hidden="true">3</span>
+            <h3><span data-l="es">Resolución</span><span data-l="en">Resolution</span></h3>
+            <p><span data-l="es">Si dos detecciones se solapan, gana la de mayor confianza. Cada una trae su puntaje (heurístico).</span><span data-l="en">When two detections overlap, the higher-confidence one wins. Each carries a (heuristic) score.</span></p>
+          </div>
+          <div class="card">
+            <span class="step-n" aria-hidden="true">4</span>
+            <h3><span data-l="es">Reemplazo</span><span data-l="en">Replacement</span></h3>
+            <p><span data-l="es">Etiqueta, máscara parcial o seudónimo; con tabla local, la seudonimización es reversible.</span><span data-l="en">Label, partial mask or pseudonym; with a local table, pseudonymization is reversible.</span></p>
+          </div>
+        </div>
+
+        <h3 id="ejemplo"><span data-l="es">Ejemplo: entrada y salida</span><span data-l="en">Example: input and output</span></h3>
+        <p class="section-lead">
+          <span data-l="es">Salida real de la librería sobre un texto inventado (los datos no pertenecen a nadie).</span>
+          <span data-l="en">Real library output on an invented text (the data belongs to no one).</span>
+        </p>
+        <div class="example">
+          <div class="example-grid">
+            <div class="pane">
+              <div class="pane-title"><span data-l="es">Entrada (con detecciones)</span><span data-l="en">Input (with detections)</span></div>
+              <pre class="sample" id="ex-input">Hola, soy <mark class="e e-NOMBRE" title="NOMBRE">Juan Camilo Pérez Gómez</mark>, C.C. <mark class="e e-CEDULA" title="CEDULA">1.023.456.789</mark>. Vivo en la <mark class="e e-DIRECCION" title="DIRECCION">Carrera 15 # 93-60, Apto 502</mark>, Bogotá. Mi celular es <mark class="e e-TELEFONO" title="TELEFONO">+57 300 123 4567</mark> y mi correo es <mark class="e e-CORREO" title="CORREO">juan.perez@example.com</mark>. El carro, placa <mark class="e e-PLACA" title="PLACA">ABC123</mark>, es de la empresa con NIT <mark class="e e-NIT" title="NIT">900.123.456-8</mark>.</pre>
+            </div>
+            <div class="pane">
+              <div class="pane-title">
+                <span data-l="es">Salida</span><span data-l="en">Output</span>
+                <div class="tabs" role="tablist" aria-label="Modo / Mode">
+                  <button type="button" role="tab" id="tab-etiqueta" aria-selected="true" data-target="ex-etiqueta"><span data-l="es">Etiqueta</span><span data-l="en">Label</span></button>
+                  <button type="button" role="tab" id="tab-mascara" aria-selected="false" tabindex="-1" data-target="ex-mascara"><span data-l="es">Máscara</span><span data-l="en">Mask</span></button>
+                  <button type="button" role="tab" id="tab-seudonimo" aria-selected="false" tabindex="-1" data-target="ex-seudonimo"><span data-l="es">Seudónimo</span><span data-l="en">Pseudonym</span></button>
+                </div>
+              </div>
+              <pre class="sample" id="ex-etiqueta" role="tabpanel" aria-labelledby="tab-etiqueta">Hola, soy <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE]</mark>, C.C. <mark class="e e-CEDULA" title="CEDULA">[CEDULA]</mark>. Vivo en la <mark class="e e-DIRECCION" title="DIRECCION">[DIRECCION]</mark>, Bogotá. Mi celular es <mark class="e e-TELEFONO" title="TELEFONO">[TELEFONO]</mark> y mi correo es <mark class="e e-CORREO" title="CORREO">[CORREO]</mark>. El carro, placa <mark class="e e-PLACA" title="PLACA">[PLACA]</mark>, es de la empresa con NIT <mark class="e e-NIT" title="NIT">[NIT]</mark>.</pre>
+              <pre class="sample" id="ex-mascara" role="tabpanel" aria-labelledby="tab-mascara" hidden>Hola, soy <mark class="e e-NOMBRE" title="NOMBRE">J*** C***** P**** G****</mark>, C.C. <mark class="e e-CEDULA" title="CEDULA">*.***.***.789</mark>. Vivo en la <mark class="e e-DIRECCION" title="DIRECCION">Carrera ** # **-**, **** ***</mark>, Bogotá. Mi celular es <mark class="e e-TELEFONO" title="TELEFONO">+** *** *** *567</mark> y mi correo es <mark class="e e-CORREO" title="CORREO">j***@e***.com</mark>. El carro, placa <mark class="e e-PLACA" title="PLACA">******</mark>, es de la empresa con NIT <mark class="e e-NIT" title="NIT">***.***.***-8</mark>.</pre>
+              <pre class="sample" id="ex-seudonimo" role="tabpanel" aria-labelledby="tab-seudonimo" hidden>Hola, soy <mark class="e e-NOMBRE" title="NOMBRE">[NOMBRE_1]</mark>, C.C. <mark class="e e-CEDULA" title="CEDULA">[CEDULA_1]</mark>. Vivo en la <mark class="e e-DIRECCION" title="DIRECCION">[DIRECCION_1]</mark>, Bogotá. Mi celular es <mark class="e e-TELEFONO" title="TELEFONO">[TELEFONO_1]</mark> y mi correo es <mark class="e e-CORREO" title="CORREO">[CORREO_1]</mark>. El carro, placa <mark class="e e-PLACA" title="PLACA">[PLACA_1]</mark>, es de la empresa con NIT <mark class="e e-NIT" title="NIT">[NIT_1]</mark>.</pre>
+            </div>
+          </div>
+          <div class="legend" aria-label="Leyenda / Legend">
+            <mark class="e e-NOMBRE">NOMBRE</mark>
+            <mark class="e e-CEDULA">CEDULA</mark>
+            <mark class="e e-DIRECCION">DIRECCION</mark>
+            <mark class="e e-TELEFONO">TELEFONO</mark>
+            <mark class="e e-CORREO">CORREO</mark>
+            <mark class="e e-PLACA">PLACA</mark>
+            <mark class="e e-NIT">NIT</mark>
+          </div>
+        </div>
+        <p class="section-lead">
+          <span data-l="es">Observa que «Bogotá» no se toca: las ciudades no son uno de los tipos cubiertos. El resultado siempre debe revisarse.</span>
+          <span data-l="en">Note that “Bogotá” is left alone: cities are not among the covered types. Always review the result.</span>
+        </p>
+
+        <h3><span data-l="es">Qué detecta</span><span data-l="en">What it detects</span></h3>
+        <ul class="chips">
+          <li><span data-l="es">Cédula de ciudadanía</span><span data-l="en">National ID (cédula)</span></li>
+          <li><span data-l="es">Cédula de extranjería</span><span data-l="en">Foreigner ID</span></li>
+          <li>NIT <small data-l="es">(con DV)</small><small data-l="en">(with check digit)</small></li>
+          <li><span data-l="es">Pasaporte</span><span data-l="en">Passport</span></li>
+          <li><span data-l="es">Teléfonos (+57, móvil y fijo)</span><span data-l="en">Phones (+57, mobile and landline)</span></li>
+          <li><span data-l="es">Correos</span><span data-l="en">Emails</span></li>
+          <li><span data-l="es">Direcciones</span><span data-l="en">Addresses</span></li>
+          <li><span data-l="es">Placas</span><span data-l="en">Vehicle plates</span></li>
+          <li><span data-l="es">Cuentas bancarias / IBAN / CLABE</span><span data-l="en">Bank accounts / IBAN / CLABE</span></li>
+          <li><span data-l="es">Nombres propios (reglas y listas)</span><span data-l="en">Proper names (rules and lists)</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== INSTALACIÓN ===================== -->
+    <section id="instalacion">
+      <div class="wrap">
+        <h2><span data-l="es">Instalación y uso</span><span data-l="en">Install and use</span></h2>
+        <p class="section-lead">
+          <span data-l="es">Requiere Python 3.10 o superior. Aún no está en PyPI; se instala desde GitHub.</span>
+          <span data-l="en">Requires Python 3.10+. Not on PyPI yet; install it from GitHub.</span>
+        </p>
+
+        <div class="code">
+          <span class="label"><span data-l="es">Instalar</span><span data-l="en">Install</span></span>
+          <button type="button" class="copy" data-copy="code-install"><span data-l="es">Copiar</span><span data-l="en">Copy</span></button>
+          <pre id="code-install">pip install "git+https://github.com/neurodeveloper11/pii-shield-es.git"</pre>
+        </div>
+
+        <div class="code">
+          <span class="label"><span data-l="es">Desde Python</span><span data-l="en">From Python</span></span>
+          <button type="button" class="copy" data-copy="code-python"><span data-l="es">Copiar</span><span data-l="en">Copy</span></button>
+          <pre id="code-python">from pii_shield_es import detect, anonymize, PseudonymTable
+
+texto = "Mi cédula es 1.023.456.789 y mi correo es a@example.com"
+
+detect(texto)                         # entidades con tipo, rango y puntaje
+anonymize(texto)                      # "Mi cédula es [CEDULA] y mi correo es [CORREO]"
+anonymize(texto, modo="mascara")      # enmascarado parcial
+
+tabla = PseudonymTable()              # seudonimización reversible
+anon = anonymize(texto, modo="seudonimo", tabla=tabla)
+assert tabla.restore(anon) == texto</pre>
+        </div>
+
+        <div class="code">
+          <span class="label"><span data-l="es">Desde la terminal (texto, .txt y .csv)</span><span data-l="en">From the terminal (text, .txt and .csv)</span></span>
+          <button type="button" class="copy" data-copy="code-cli"><span data-l="es">Copiar</span><span data-l="en">Copy</span></button>
+          <pre id="code-cli">pii-shield anonimizar "Mi cédula es 1.023.456.789"
+pii-shield anonimizar -f clientes.csv --columnas nota -m mascara -o clientes_anon.csv
+pii-shield anonimizar -f datos.csv -m seudonimo --tabla tabla.json -o datos_anon.csv
+pii-shield restaurar -f datos_anon.csv --tabla tabla.json
+pii-shield detectar -f clientes.csv --json</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== LÍMITES ===================== -->
+    <section id="limites">
+      <div class="wrap">
+        <h2><span data-l="es">Límites y aviso legal</span><span data-l="en">Limits and legal notice</span></h2>
+        <div class="notice">
+          <h3><span data-l="es">No sustituye una revisión de cumplimiento</span><span data-l="en">It does not replace a compliance review</span></h3>
+          <p>
+            <span data-l="es">pii-shield-es es una ayuda técnica heurística: no garantiza detectarlo todo y no ofrece asesoría jurídica. Cumplir la Ley 1581 de 2012 (<em>Habeas Data</em>) implica mucho más que anonimizar texto. Revisa siempre el resultado y consulta a un profesional.</span>
+            <span data-l="en">pii-shield-es is a heuristic technical aid: it does not guarantee that everything is detected and offers no legal advice. Complying with Colombian Law 1581 of 2012 (<em>Habeas Data</em>) takes far more than anonymizing text. Always review the output and consult a professional.</span>
+          </p>
+          <ul>
+            <li><span data-l="es">Son reglas y listas, no un modelo de lenguaje: habrá falsos negativos y positivos.</span><span data-l="en">It is rules and word lists, not a language model: expect false negatives and positives.</span></li>
+            <li><span data-l="es">Un nombre fuera de las listas solo se detecta con contexto («señor…», «nombre:»).</span><span data-l="en">A name outside the word lists is only detected with context (“señor…”, “nombre:”).</span></li>
+            <li><span data-l="es">Un número de identificación sin palabra clave cerca no se marca (para no confundirlo con montos).</span><span data-l="en">An ID number with no nearby keyword is not flagged (to avoid confusing it with amounts).</span></li>
+            <li><span data-l="es">La tabla de seudónimos contiene los datos originales: protégela. Los datos seudonimizados siguen siendo datos personales.</span><span data-l="en">The pseudonym table contains the original data: protect it. Pseudonymized data generally remains personal data.</span></li>
+          </ul>
+          <p>
+            <span data-l="es">Las métricas (precisión y recall por tipo) se miden con un script sobre un conjunto <strong>sintético</strong> y están en el README, junto con la lista completa de limitaciones:</span>
+            <span data-l="en">Per-type precision and recall are measured by a script on a <strong>synthetic</strong> set and published in the README, along with the full list of limitations:</span>
+            <a href="https://github.com/neurodeveloper11/pii-shield-es#métricas-medidas--measured-metrics" target="_blank" rel="noopener noreferrer"><span data-l="es">ver métricas</span><span data-l="en">see metrics</span></a> ·
+            <a href="https://github.com/neurodeveloper11/pii-shield-es#limitaciones" target="_blank" rel="noopener noreferrer"><span data-l="es">ver limitaciones</span><span data-l="en">see limitations</span></a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CTA FINAL ===================== -->
+    <section class="cta-final">
+      <div class="wrap">
+        <h2><span data-l="es">Pruébalo, audítalo, mejóralo</span><span data-l="en">Try it, audit it, improve it</span></h2>
+        <p class="section-lead">
+          <span data-l="es">Código abierto bajo licencia MIT. Las contribuciones y los reportes de falsos positivos o negativos son bienvenidos.</span>
+          <span data-l="en">Open source under the MIT license. Contributions and false positive/negative reports are welcome.</span>
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://github.com/neurodeveloper11/pii-shield-es" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="5" r="2.2"/><circle cx="6" cy="19" r="2.2"/><circle cx="18" cy="9" r="2.2"/><path d="M6 7.2v9.6M18 11.2c0 4-6 3-12 6"/></svg>
+            <span data-l="es">Ver el código en GitHub</span><span data-l="en">View the code on GitHub</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span data-l="es">pii-shield-es · Licencia MIT · Los ejemplos usan datos inventados. No es asesoría jurídica.</span>
+      <span data-l="en">pii-shield-es · MIT License · Examples use invented data. Not legal advice.</span>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+# Tablas de seudonimización: contienen los datos originales. NUNCA versionar.
+*.tabla.json
+tabla*.json
