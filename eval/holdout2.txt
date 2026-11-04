@@ -1,0 +1,113 @@
+# Conjunto CIEGO v2 (sintético). Se redactó ANTES de los cambios de la v0.2 (sobre el commit
+# 75b8b8e) y no se usa para ajustar los detectores: sirve para comparar antes/después.
+# Imita documentos reales (historias clínicas, call center, RR. HH., chats, formularios) e
+# incluye tipos que la v0.1 no detecta (tarjetas, IP, fechas de nacimiento) y casos difíciles.
+# Formato: ver eval/dataset.py. Todos los datos son inventados; las tarjetas son números de
+# prueba públicos y las IP pertenecen a rangos de documentación (RFC 5737 / RFC 3849).
+
+# ---------------- historia clínica ----------------
+Paciente: [[NOMBRE|Rosa Elena Quintero]], C.C. [[CEDULA|41.888.222]], fecha de nacimiento: [[FECHA_NACIMIENTO|14/03/1957]].
+Acompañante: [[NOMBRE|Héctor Julio Quintero]], celular [[TELEFONO|311 555 0142]].
+Se remite al servicio de cardiología. Control en 30 días.
+La paciente refiere dolor torácico desde hace 3 días; TA 140/90, FC 88.
+F. nac.: [[FECHA_NACIMIENTO|1985-07-22]] · Documento: [[CEDULA|1.098.765.432]]
+Médico tratante: Dr. [[NOMBRE|Mauricio Lozano]], registro médico 54321.
+Nació el [[FECHA_NACIMIENTO|3 de mayo de 1990]] en Tunja, según la madre.
+Se programa cita para el 14/03/2026 a las 10:00.
+
+# ---------------- call center / soporte ----------------
+Cliente: [[NOMBRE|Fabián Andrés Cárdenas]] · Tel. [[TELEFONO|604 555 0123]] · Correo [[CORREO|fabian.cardenas@example.com]]
+El cliente indica que su número es el [[TELEFONO|3175550109]] y que no le llegan los SMS.
+Pagó con la tarjeta [[TARJETA_CREDITO|4111 1111 1111 1111]] y el cobro salió doble.
+Tarjeta terminada en 1111, no compartir el número completo por chat.
+Número de tarjeta: [[TARJETA_CREDITO|5555555555554444]] (Mastercard).
+Su tarjeta American Express [[TARJETA_CREDITO|3782 822463 10005]] fue bloqueada.
+El número 4111 1111 1111 1112 no pasó la validación del datáfono.
+Ticket #45821 escalado a segundo nivel el viernes.
+Me pueden escribir al correo [[CORREO|soporte.ventas@example.org]] o al WhatsApp [[TELEFONO|+57 300 555 0175]].
+Radicado PQRS 2025-000123 recibido por el canal web.
+
+# ---------------- recursos humanos ----------------
+Nombre completo: [[NOMBRE|Yuliana Marcela Ospina Henao]]
+Cédula de ciudadanía [[CEDULA|1.017.234.567]] expedida en Medellín.
+Cuenta de nómina: ahorros [[CUENTA_BANCARIA|2345 6789 0123]] en Bancolombia.
+Dirección: [[DIRECCION|Cra. 50 # 30-45 Apto 801]], barrio Laureles.
+El empleado [[NOMBRE|Óscar Iván Salcedo]] ingresó el 2 de febrero con salario de $3.500.000.
+Fecha de nacimiento [[FECHA_NACIMIENTO|02-11-1993]], estado civil soltera.
+Contacto de emergencia: [[NOMBRE|Martha Lucía Henao]] ([[TELEFONO|320 555 0111]]).
+La evaluación de desempeño se realiza cada seis meses.
+Se aprobó la vacante de analista de datos con contrato a término fijo.
+Su hoja de vida llegó desde [[CORREO|y.ospina@mail.example.net]] el lunes.
+
+# ---------------- TI / registros ----------------
+Acceso sospechoso desde la IP [[DIRECCION_IP|203.0.113.45]] a las 02:13.
+El usuario [[CORREO|admin.portal@example.com]] inició sesión desde [[DIRECCION_IP|198.51.100.23]].
+Bloqueada la dirección IPv6 [[DIRECCION_IP|2001:db8:85a3::8a2e:370:7334]] por fuerza bruta.
+Actualice a la versión 2.10.4 antes del viernes.
+El servidor responde en el puerto 8443 con TLS 1.3.
+IP del cliente: [[DIRECCION_IP|192.0.2.17]]
+La dirección 999.10.10.10 no es una IP válida.
+
+# ---------------- formularios y chats ----------------
+Hola, me llamo [[NOMBRE|Valeria Rincón]] y quiero actualizar mis datos.
+Mi cédula es [[CEDULA|1144556677]] y vivo en la [[DIRECCION|Calle 13 # 68D-45]].
+Buenas tardes, soy [[NOMBRE|Germán Ochoa]], de la oficina de Cali.
+Le paso el contacto de mi hermano [[NOMBRE|Kevin Arley]]: [[TELEFONO|318 555 0166]].
+mi correo es [[CORREO|camilo_r85@example.com]] y mi cel [[TELEFONO|3005550190]]
+Saludos a doña [[NOMBRE|Esperanza]] de parte de todos.
+Escríbeme a [[CORREO|laura.vega[at]example.com]] cuando puedas.
+Gracias [[NOMBRE|Natalia]], quedo atento.
+Mi placa es [[PLACA|HTR 593]] y el parqueadero es el 12.
+Placa de la moto: [[PLACA|XYZ45F]]
+El vehículo de placas [[PLACA|DFG-781]] quedó mal parqueado.
+Clave temporal ABC123 enviada al usuario.
+
+# ---------------- documentos comerciales ----------------
+Razón social: Soluciones Andinas S.A.S. — NIT [[NIT|{NITDV.:901456789}]]
+Facturar a [[NIT|{NITDV:860123456}]] con orden de compra 4500123.
+Representante legal: [[NOMBRE|Juan Sebastián Arango]], C.C. [[CEDULA|80.123.456]].
+Transferir a la cuenta corriente No. [[CUENTA_BANCARIA|123-456789-01]] del Banco de Bogotá.
+IBAN [[CUENTA_BANCARIA|{IBAN:ES:21000418450200051332}]] para pagos desde España.
+Notificaciones judiciales: [[DIRECCION|Avenida Calle 26 # 69-76 Torre 3 Oficina 602]]
+La sede principal queda en la [[DIRECCION|Ak 7 # 32-16]] de Bogotá.
+Bodega en [[DIRECCION|Dg 25 # 15-80]] sur, frente al parque.
+Total a pagar: $1.234.567 antes de IVA.
+Orden de compra 4500123456 aprobada por el comité.
+Código postal 110111 de Bogotá.
+El pasaporte No. [[PASAPORTE|BP334455]] del gerente vence en junio.
+
+# ---------------- nombres difíciles ----------------
+La señora [[NOMBRE|María José Echeverri]] llamó dos veces.
+[[NOMBRE|Ana-María Restrepo]] envió la cotización.
+El arquitecto [[NOMBRE|Iván Darío Palacios]] revisó los planos.
+Firmado: [[NOMBRE|Leidy Johana Mosquera]]
+Atentamente, [[NOMBRE|Hernando Villegas Ruiz]]
+Asistentes: [[NOMBRE|Diana Castaño]], [[NOMBRE|Jorge Mario Uribe]] y [[NOMBRE|Paola Andrea Gil]].
+Habló con [[NOMBRE|yesica pérez]] por teléfono.
+[[NOMBRE|Mosquera Palacios]], [[NOMBRE|Leidy Johana]] figura como beneficiaria.
+El colegio San José de Calasanz abrió inscripciones.
+Viajó a San Andrés en diciembre.
+El Banco de la República publicó el informe trimestral.
+Clínica Santa María del Lago atiende urgencias 24 horas.
+La Avenida Boyacá estará cerrada el domingo.
+Santa Marta y Cartagena reciben más turistas en temporada.
+La Fundación Pablo Neruda organizó la feria.
+Los Andes son una cordillera muy extensa.
+
+# ---------------- negativos generales ----------------
+El índice COLCAP subió 1,8 % y el dólar cerró en $4.012,35.
+El BTC rompió los 100.000 dólares y el ETH se mantuvo en 3.800.
+Reunión el 14/03/2025 a las 3:00 p. m. en la sala 4.
+Fecha de vencimiento: 30/06/2026.
+El contrato 2024-0457 se liquidó en diciembre.
+Se vendieron 1.500.000 unidades en el primer trimestre.
+Llamar a la línea 123 en caso de emergencia.
+La versión 3.12.1 de Python corrige varios errores.
+Hay 25 estudiantes inscritos en el curso de ajedrez para principiantes.
+Apertura 1. e4 e5 2. Cf3 Cc6 3. Ab5, la Ruy López.
+
+# ---------------- párrafos mixtos ----------------
+Yo, [[NOMBRE|Carolina Andrea Mejía]], identificada con cédula [[CEDULA|52.345.678]], nacida el [[FECHA_NACIMIENTO|12 de octubre de 1978]], autorizo el tratamiento de mis datos.
+Datos del titular: [[NOMBRE|Andrés Felipe Gaitán]] — [[CORREO|afgaitan@example.com]] — [[TELEFONO|(601) 555 0144]] — [[DIRECCION|Calle 100 # 19-61]].
+El pago con tarjeta [[TARJETA_CREDITO|4012 8888 8888 1881]] desde la IP [[DIRECCION_IP|203.0.113.200]] fue marcado como fraude.
+Conductor: [[NOMBRE|Wilmer Asprilla]], placa [[PLACA|TKL 902]], licencia vigente, cel. [[TELEFONO|3145550133]].
