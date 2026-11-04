@@ -3,6 +3,8 @@
 # apellidos fuera de las listas, minúsculas, formato «Apellido, Nombre», nombres de una palabra,
 # y muchas trampas de falsos positivos (marcas, lugares, santos, instituciones, palabras comunes).
 # Incluye además cuentas con nombre de banco y cédulas alejadas de su palabra clave.
+# Única corrección posterior: «doña Ofelia» se re-anotó sin el tratamiento («doña»), que es la
+# convención del proyecto (igual que en v2); no fue un ajuste del detector.
 # Formato: ver eval/dataset.py. Todos los datos son inventados.
 
 # ---------------- nombres con apellidos poco comunes ----------------
@@ -15,7 +17,7 @@ Le entregué los documentos a [[NOMBRE|Edwin Ararat]] en la portería.
 [[NOMBRE|Luz Dary Guarín]] es la nueva coordinadora de la sede.
 La beca se la ganó [[NOMBRE|Sharon Valentina Ibargüen]].
 El proveedor [[NOMBRE|Wilmer Ospitia]] envió la cotización tarde.
-Visité a [[NOMBRE|doña Ofelia]] en el hospital.
+Visité a doña [[NOMBRE|Ofelia]] en el hospital.
 
 # ---------------- minúsculas (chats y formularios informales) ----------------
 hola, me llamo [[NOMBRE|carlos andrés gómez]] y necesito ayuda con mi pedido

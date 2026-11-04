@@ -66,10 +66,12 @@ def test_no_detecta(text):
 
 
 def test_limites_conocidos_documentados():
-    # Nombres fuera de las listas y sin contexto: NO se detectan (límite de las reglas).
-    assert found("Ayer hablé con Yeimy Orjuelita sobre el tema", PIIType.NOMBRE) == []
-    # Nombres en minúsculas: tampoco.
-    assert found("me escribió juan perez ayer", PIIType.NOMBRE) == []
+    # Nombre de pila ambiguo («Luz») seguido de palabras fuera de las listas: no se detecta.
+    assert found("Ayer vino Luz Dary Guarín a la reunión", PIIType.NOMBRE) == []
+    # Un solo nombre en minúscula sin contexto: no se detecta.
+    assert found("me escribió juan ayer", PIIType.NOMBRE) == []
+    # En minúscula solo se incluyen palabras de las listas: «jorge eliécer» queda en «jorge».
+    assert found("el señor jorge eliécer dejó el paquete", PIIType.NOMBRE) == ["jorge"]
 
 
 def test_nombre_no_invade_otros_tipos():

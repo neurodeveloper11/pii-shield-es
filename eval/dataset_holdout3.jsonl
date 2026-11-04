@@ -1,0 +1,64 @@
+{"text": "Ayer llamó Kevin Arley Mosquera para confirmar la cita.", "entities": [{"type": "NOMBRE", "start": 11, "end": 31, "text": "Kevin Arley Mosquera"}], "id": "holdout3-001"}
+{"text": "La propuesta la presentó Diana Marcela Cuastumal en el comité.", "entities": [{"type": "NOMBRE", "start": 25, "end": 48, "text": "Diana Marcela Cuastumal"}], "id": "holdout3-002"}
+{"text": "Hablé con Jhon Edison Quiñones sobre el inventario.", "entities": [{"type": "NOMBRE", "start": 10, "end": 30, "text": "Jhon Edison Quiñones"}], "id": "holdout3-003"}
+{"text": "El reporte lo firmó Yamile Pertuz desde Barranquilla.", "entities": [{"type": "NOMBRE", "start": 20, "end": 33, "text": "Yamile Pertuz"}], "id": "holdout3-004"}
+{"text": "Mi compañero Brayan Stiven Quimbayo no vino hoy.", "entities": [{"type": "NOMBRE", "start": 13, "end": 35, "text": "Brayan Stiven Quimbayo"}], "id": "holdout3-005"}
+{"text": "Le entregué los documentos a Edwin Ararat en la portería.", "entities": [{"type": "NOMBRE", "start": 29, "end": 41, "text": "Edwin Ararat"}], "id": "holdout3-006"}
+{"text": "Luz Dary Guarín es la nueva coordinadora de la sede.", "entities": [{"type": "NOMBRE", "start": 0, "end": 15, "text": "Luz Dary Guarín"}], "id": "holdout3-007"}
+{"text": "La beca se la ganó Sharon Valentina Ibargüen.", "entities": [{"type": "NOMBRE", "start": 19, "end": 44, "text": "Sharon Valentina Ibargüen"}], "id": "holdout3-008"}
+{"text": "El proveedor Wilmer Ospitia envió la cotización tarde.", "entities": [{"type": "NOMBRE", "start": 13, "end": 27, "text": "Wilmer Ospitia"}], "id": "holdout3-009"}
+{"text": "Visité a doña Ofelia en el hospital.", "entities": [{"type": "NOMBRE", "start": 14, "end": 20, "text": "Ofelia"}], "id": "holdout3-010"}
+{"text": "hola, me llamo carlos andrés gómez y necesito ayuda con mi pedido", "entities": [{"type": "NOMBRE", "start": 15, "end": 34, "text": "carlos andrés gómez"}], "id": "holdout3-011"}
+{"text": "mi nombre es daniela torres, escribo por la factura", "entities": [{"type": "NOMBRE", "start": 13, "end": 27, "text": "daniela torres"}], "id": "holdout3-012"}
+{"text": "soy andrés felipe rojas del área de compras", "entities": [{"type": "NOMBRE", "start": 4, "end": 23, "text": "andrés felipe rojas"}], "id": "holdout3-013"}
+{"text": "nombre: maría josé cárdenas", "entities": [{"type": "NOMBRE", "start": 8, "end": 27, "text": "maría josé cárdenas"}], "id": "holdout3-014"}
+{"text": "buenas, habla luis fernando castro, el del apartamento 302", "entities": [{"type": "NOMBRE", "start": 14, "end": 34, "text": "luis fernando castro"}], "id": "holdout3-015"}
+{"text": "le pregunté a sandra milena y no sabía nada", "entities": [{"type": "NOMBRE", "start": 14, "end": 27, "text": "sandra milena"}], "id": "holdout3-016"}
+{"text": "ok gracias camila, quedo pendiente", "entities": [{"type": "NOMBRE", "start": 11, "end": 17, "text": "camila"}], "id": "holdout3-017"}
+{"text": "el señor jorge eliécer dejó el paquete en recepción", "entities": [{"type": "NOMBRE", "start": 9, "end": 22, "text": "jorge eliécer"}], "id": "holdout3-018"}
+{"text": "Restrepo Gómez, Juliana — aprobada.", "entities": [{"type": "NOMBRE", "start": 0, "end": 14, "text": "Restrepo Gómez"}, {"type": "NOMBRE", "start": 16, "end": 23, "text": "Juliana"}], "id": "holdout3-019"}
+{"text": "Cárdenas Vargas, Andrés Felipe: pendiente de documentos.", "entities": [{"type": "NOMBRE", "start": 0, "end": 15, "text": "Cárdenas Vargas"}, {"type": "NOMBRE", "start": 17, "end": 30, "text": "Andrés Felipe"}], "id": "holdout3-020"}
+{"text": "Inscritos: Martínez López, Sofía; Ortiz Ramírez, Mateo.", "entities": [{"type": "NOMBRE", "start": 11, "end": 25, "text": "Martínez López"}, {"type": "NOMBRE", "start": 27, "end": 32, "text": "Sofía"}, {"type": "NOMBRE", "start": 34, "end": 47, "text": "Ortiz Ramírez"}, {"type": "NOMBRE", "start": 49, "end": 54, "text": "Mateo"}], "id": "holdout3-021"}
+{"text": "GÓMEZ PÉREZ, LAURA figura en la lista de admitidos.", "entities": [{"type": "NOMBRE", "start": 0, "end": 11, "text": "GÓMEZ PÉREZ"}, {"type": "NOMBRE", "start": 13, "end": 18, "text": "LAURA"}], "id": "holdout3-022"}
+{"text": "Gracias, Patricia, por la información.", "entities": [{"type": "NOMBRE", "start": 9, "end": 17, "text": "Patricia"}], "id": "holdout3-023"}
+{"text": "Saludos a Hernán y a toda la familia.", "entities": [{"type": "NOMBRE", "start": 10, "end": 16, "text": "Hernán"}], "id": "holdout3-024"}
+{"text": "Le dije a Mónica que llegaba tarde.", "entities": [{"type": "NOMBRE", "start": 10, "end": 16, "text": "Mónica"}], "id": "holdout3-025"}
+{"text": "Pregúntale a Esteban por las llaves de la bodega.", "entities": [{"type": "NOMBRE", "start": 13, "end": 20, "text": "Esteban"}], "id": "holdout3-026"}
+{"text": "Estimado Rodrigo: adjunto el contrato.", "entities": [{"type": "NOMBRE", "start": 9, "end": 16, "text": "Rodrigo"}], "id": "holdout3-027"}
+{"text": "El cliente Juan Carlos Rodríguez solicitó un reembolso.", "entities": [{"type": "NOMBRE", "start": 11, "end": 32, "text": "Juan Carlos Rodríguez"}], "id": "holdout3-028"}
+{"text": "Asistieron Ana María López y Pedro Pablo Jiménez.", "entities": [{"type": "NOMBRE", "start": 11, "end": 26, "text": "Ana María López"}, {"type": "NOMBRE", "start": 29, "end": 48, "text": "Pedro Pablo Jiménez"}], "id": "holdout3-029"}
+{"text": "Natalia Gutiérrez envió la hoja de vida por correo.", "entities": [{"type": "NOMBRE", "start": 0, "end": 17, "text": "Natalia Gutiérrez"}], "id": "holdout3-030"}
+{"text": "Compré café Juan Valdez para la oficina.", "entities": [], "id": "holdout3-031"}
+{"text": "Vivo cerca de la estación San Diego del metro.", "entities": [], "id": "holdout3-032"}
+{"text": "La iglesia de San José queda en el centro.", "entities": [], "id": "holdout3-033"}
+{"text": "El Santo Tomás de Aquino es patrono de los estudiantes.", "entities": [], "id": "holdout3-034"}
+{"text": "Viajamos a San Andrés y Providencia en diciembre.", "entities": [], "id": "holdout3-035"}
+{"text": "El Colegio Mayor de Nuestra Señora del Rosario abrió convocatoria.", "entities": [], "id": "holdout3-036"}
+{"text": "La Clínica Shaio atiende cardiología.", "entities": [], "id": "holdout3-037"}
+{"text": "El Hospital Pablo Tobón Uribe recibió una donación.", "entities": [], "id": "holdout3-038"}
+{"text": "El Estadio Atanasio Girardot se llenó el domingo.", "entities": [], "id": "holdout3-039"}
+{"text": "Compré un Renault Logan usado.", "entities": [], "id": "holdout3-040"}
+{"text": "Me gusta la música de Carlos Vives.", "entities": [], "id": "holdout3-041"}
+{"text": "El aeropuerto El Dorado tuvo retrasos por niebla.", "entities": [], "id": "holdout3-042"}
+{"text": "Los Andes atraviesan el país de sur a norte.", "entities": [], "id": "holdout3-043"}
+{"text": "Fuimos al parque Jaime Duque el fin de semana.", "entities": [], "id": "holdout3-044"}
+{"text": "Leímos Cien años de soledad en el colegio.", "entities": [], "id": "holdout3-045"}
+{"text": "La avenida Jiménez estaba congestionada.", "entities": [], "id": "holdout3-046"}
+{"text": "tomas el bus en la esquina y te bajas en la plaza", "entities": [], "id": "holdout3-047"}
+{"text": "la rosa del jardín se marchitó con el verano", "entities": [], "id": "holdout3-048"}
+{"text": "había mucha luz en la sala por la mañana", "entities": [], "id": "holdout3-049"}
+{"text": "el pastor cuida a las ovejas en el páramo", "entities": [], "id": "holdout3-050"}
+{"text": "mercedes y dolores son nombres antiguos, dijo la profesora", "entities": [], "id": "holdout3-051"}
+{"text": "salvador de la patria es un título que nadie merece", "entities": [], "id": "holdout3-052"}
+{"text": "en la ruta hay un león de piedra en la entrada", "entities": [], "id": "holdout3-053"}
+{"text": "la paz es un derecho fundamental", "entities": [], "id": "holdout3-054"}
+{"text": "Consignar en Bancolombia 24567891234 a nombre de la empresa.", "entities": [{"type": "CUENTA_BANCARIA", "start": 25, "end": 36, "text": "24567891234"}], "id": "holdout3-055"}
+{"text": "Le transferí a su Nequi 3105550199 el valor acordado.", "entities": [{"type": "TELEFONO", "start": 24, "end": 34, "text": "3105550199"}], "id": "holdout3-056"}
+{"text": "Davivienda ahorros 0550 1234 5678 para los pagos.", "entities": [{"type": "CUENTA_BANCARIA", "start": 19, "end": 33, "text": "0550 1234 5678"}], "id": "holdout3-057"}
+{"text": "El número de identificación del estudiante es 1.098.234.567.", "entities": [{"type": "CEDULA", "start": 46, "end": 59, "text": "1.098.234.567"}], "id": "holdout3-058"}
+{"text": "La tarjeta de identidad del niño que vino ayer es la 1.234.567.890.", "entities": [{"type": "CEDULA", "start": 53, "end": 66, "text": "1.234.567.890"}], "id": "holdout3-059"}
+{"text": "Banco de Bogotá informa que la tasa subió a 12,5 %.", "entities": [], "id": "holdout3-060"}
+{"text": "Bancolombia cumple 150 años de historia.", "entities": [], "id": "holdout3-061"}
+{"text": "Acta: Fredy Alexander Cuesta, C.C. 1.077.888.999, y Leidy Tatiana Moreno firmaron el acuerdo en la sede de Quibdó.", "entities": [{"type": "NOMBRE", "start": 6, "end": 28, "text": "Fredy Alexander Cuesta"}, {"type": "CEDULA", "start": 35, "end": 48, "text": "1.077.888.999"}, {"type": "NOMBRE", "start": 52, "end": 72, "text": "Leidy Tatiana Moreno"}], "id": "holdout3-062"}
+{"text": "chat: hola soy valentina mi cel es 3125550177 y mi correo vale.r@example.com", "entities": [{"type": "NOMBRE", "start": 15, "end": 24, "text": "valentina"}, {"type": "TELEFONO", "start": 35, "end": 45, "text": "3125550177"}, {"type": "CORREO", "start": 58, "end": 76, "text": "vale.r@example.com"}], "id": "holdout3-063"}
+{"text": "Referencia: Palacios Mena, Yeison. Tel. 604 555 0188.", "entities": [{"type": "NOMBRE", "start": 12, "end": 25, "text": "Palacios Mena"}, {"type": "NOMBRE", "start": 27, "end": 33, "text": "Yeison"}, {"type": "TELEFONO", "start": 40, "end": 52, "text": "604 555 0188"}], "id": "holdout3-064"}

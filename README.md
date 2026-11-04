@@ -137,19 +137,19 @@ Opciones comunes: `--tipos CEDULA,NIT,CORREO`, `--min-score 0.8` (entre 0 y 1), 
 | `TARJETA_CREDITO` | 13–19 dígitos (agrupados 4-4-4-4, 4-6-5 o seguidos) | **prefijo de marca (IIN) + longitud + Luhn**; puntaje mayor con contexto («tarjeta», «Visa»…) |
 | `DIRECCION_IP` | IPv4 e IPv6 | **validación de octetos/grupos**; omite versiones de software («versión 2.10.4.1»), `127.*`, `0.*`, `255.*` y `::1` |
 | `FECHA_NACIMIENTO` | `14/03/1957`, `1985-07-22`, «3 de mayo de 1990» tras «fecha de nacimiento», «F. nac.», «nació el»… | exige contexto y una **fecha real** entre 1900 y hoy |
-| `NOMBRE` | secuencias de palabras con mayúscula inicial apoyadas en listas de nombres/apellidos frecuentes y en contexto («señor», «nombre:», «me llamo», «gracias»…); compuestos (`Ana-María`) | exige coincidencias en lista o contexto; descarta lugares e instituciones («Universidad…», «Parque…», «Fundación…») |
+| `NOMBRE` | palabras con mayúscula inicial apoyadas en listas de nombres/apellidos frecuentes y en contexto («señor», «me llamo», «gracias», «a Hernán»…); un nombre de pila conocido arrastra hasta dos apellidos poco comunes (`Kevin Arley Mosquera`); formato `Apellido Apellido, Nombre`; minúsculas con contexto o dos nombres listados (`me llamo carlos andrés gómez`); compuestos (`Ana-María`) | exige lista o contexto; descarta instituciones, santos y lugares («Hospital…», «San Diego», «Santo Tomás»), marcas conocidas y palabras comunes en minúscula («tomas el bus», «la rosa») |
 
 ### Limitaciones
 
 Léelas antes de confiar en la herramienta; son importantes.
 
 - **Es una heurística, no un modelo de lenguaje.** Habrá falsos negativos (datos que no detecta) y falsos positivos. Las métricas de abajo vienen de un conjunto sintético pequeño; **no** se pueden extrapolar a tus datos reales.
-- **Nombres:** las listas son cortas. Un nombre fuera de ellas **solo se detecta si hay contexto** («señor X», «nombre: X», «me llamo X»). No detecta nombres en minúscula, nombres de una sola palabra sin contexto (`Gladys`), ni el formato «Apellido Apellido, Nombre». Puede marcar como nombre una empresa tras «a nombre de». Es el tipo con peor recall (0,85 en el conjunto ciego v2).
-- **Números de identificación sin contexto no se detectan** (por diseño, para no marcar montos o códigos). Una cédula suelta como `1.234.567.890` sin la palabra «cédula» cerca pasa de largo. Tampoco si entre la palabra clave y el número hay mucho texto («la tarjeta de identidad del menor es la 1.100…»).
+- **Nombres:** siguen siendo lo más difícil (recall 0,95 en el ciego v3). No se detectan: un nombre de pila ambiguo («Luz», «Rosa») seguido de apellidos fuera de las listas (`Luz Dary Guarín`); un nombre suelto en minúscula sin contexto (`me escribió juan`); y en minúscula solo se incluyen palabras de las listas (`jorge eliécer` queda en `jorge`). Los nombres de figuras públicas (`Carlos Vives`) también se marcan, y una empresa tras «a nombre de» puede marcarse como nombre.
+- **Números de identificación sin contexto no se detectan** (por diseño, para no marcar montos o códigos). Una cédula suelta como `1.234.567.890` sin la palabra «cédula» cerca pasa de largo. Si la palabra clave está lejos, solo se cubre la forma «… es (el/la) número» con hasta seis palabras en medio.
 - **Teléfonos:** solo formatos colombianos. Los números internacionales no se detectan. Nequi y Daviplata son números de celular (se detectan como `TELEFONO`).
 - **Direcciones:** patrón urbano `Vía N # N-N`, vías con nombre seguidas de `#`/`No.` y manzana/casa. No cubre direcciones rurales («vereda…, finca…»), nombres de vía sin `#` ni intersecciones («calle 80 con carrera 30»).
 - **Placas:** un código con forma de placa sin contexto (`PED123`) puede marcarse por error; filtra con `min_score=0.8` si prefieres precisión.
-- **Cuentas:** las cuentas colombianas no tienen checksum público: se detectan solo con palabra clave («Bancolombia 123456789» sin «cuenta» no se detecta). El IBAN se valida solo para un subconjunto de países.
+- **Cuentas:** las cuentas colombianas no tienen checksum público: se detectan con palabra clave («cuenta», «ahorros»…) o tras el nombre del banco («Bancolombia 24567891234»). El IBAN se valida solo para un subconjunto de países.
 - **Tarjetas:** solo marcas con prefijos públicos (Visa, Mastercard, Amex, Diners, Discover, JCB, UnionPay). Una tarjeta escrita con separadores mezclados (`4111 1111-1111 1111`) no se detecta.
 - **Fechas de nacimiento:** solo con contexto explícito; una fecha suelta nunca se marca. **IP:** una IPv4 tras «versión»/«v.» se omite a propósito.
 - **Correos ofuscados:** se cubren `(at)`, `[at]`, `{at}` y « arroba »; no variantes más creativas («ana punto ruiz en example»).
@@ -230,7 +230,7 @@ Subcommands also exist in Spanish (`anonimizar`, `detectar`, `restaurar`). Optio
 ### Limitations (please read)
 
 - **Heuristics, not a language model.** Expect false negatives and false positives. The metrics below come from a small synthetic set and **cannot** be extrapolated to your real data.
-- **Names:** the word lists are short. A name that is not in them is **only detected with context** ("señor X", "nombre: X", "me llamo X"). Lowercase names, single-word names without context, and the "Surname Surname, Given name" format are missed. Names have the lowest recall (0.85 on blind set v2).
+- **Names:** still the hardest part (recall 0.95 on blind v3). Missed: an ambiguous given name ("Luz", "Rosa") followed by unlisted surnames; a lone lowercase name without context; lowercase spans include only listed words. Public figures' names are flagged too.
 - **ID numbers without context are not detected** (by design, to avoid flagging amounts and codes). A bare `1.234.567.890` with no nearby keyword is missed.
 - **Phones:** Colombian formats only; international numbers are not detected.
 - **Addresses:** urban `Street N # N-N`, named roads followed by `#`/`No.`, and block/house; no rural addresses or intersections.
@@ -269,14 +269,14 @@ Generadas por `python eval/evaluate.py` sobre conjuntos **sintéticos** (todos l
 | TARJETA_CREDITO | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
 | DIRECCION_IP | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
 | FECHA_NACIMIENTO | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
-| NOMBRE | 28 | 25 | 0 | 3 | 1.00 | 0.89 | 0.94 |
-| **TOTAL (micro)** | 127 | 124 | 0 | 3 | 1.00 | 0.98 | 0.99 |
+| NOMBRE | 28 | 28 | 0 | 0 | 1.00 | 1.00 | 1.00 |
+| **TOTAL (micro)** | 127 | 127 | 0 | 0 | 1.00 | 1.00 | 1.00 |
 
 **hold-out v1 (ciego en v0.1; usado para diagnóstico en v0.2 / blind in v0.1, used for diagnosis in v0.2)** — 124 muestras / samples, 90 entidades / entities (coincidencia exacta de tipo y rango / exact type+span match)
 
 | Tipo / Type | Soporte / Support | TP | FP | FN | Precisión / Precision | Recall | F1 |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| CEDULA | 11 | 10 | 0 | 1 | 1.00 | 0.91 | 0.95 |
+| CEDULA | 11 | 11 | 0 | 0 | 1.00 | 1.00 | 1.00 |
 | CEDULA_EXTRANJERIA | 5 | 5 | 0 | 0 | 1.00 | 1.00 | 1.00 |
 | NIT | 7 | 7 | 0 | 0 | 1.00 | 1.00 | 1.00 |
 | PASAPORTE | 5 | 4 | 0 | 1 | 1.00 | 0.80 | 0.89 |
@@ -284,12 +284,12 @@ Generadas por `python eval/evaluate.py` sobre conjuntos **sintéticos** (todos l
 | CORREO | 7 | 7 | 0 | 0 | 1.00 | 1.00 | 1.00 |
 | DIRECCION | 10 | 10 | 0 | 0 | 1.00 | 1.00 | 1.00 |
 | PLACA | 7 | 7 | 0 | 0 | 1.00 | 1.00 | 1.00 |
-| CUENTA_BANCARIA | 6 | 5 | 0 | 1 | 1.00 | 0.83 | 0.91 |
+| CUENTA_BANCARIA | 6 | 6 | 0 | 0 | 1.00 | 1.00 | 1.00 |
 | TARJETA_CREDITO | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
 | DIRECCION_IP | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
 | FECHA_NACIMIENTO | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
-| NOMBRE | 21 | 17 | 1 | 4 | 0.94 | 0.81 | 0.87 |
-| **TOTAL (micro)** | 90 | 83 | 1 | 7 | 0.99 | 0.92 | 0.95 |
+| NOMBRE | 21 | 19 | 1 | 2 | 0.95 | 0.90 | 0.93 |
+| **TOTAL (micro)** | 90 | 87 | 1 | 3 | 0.99 | 0.97 | 0.98 |
 
 **ciego v2 / blind hold-out v2** — 89 muestras / samples, 79 entidades / entities (coincidencia exacta de tipo y rango / exact type+span match)
 
@@ -307,15 +307,34 @@ Generadas por `python eval/evaluate.py` sobre conjuntos **sintéticos** (todos l
 | TARJETA_CREDITO | 4 | 4 | 0 | 0 | 1.00 | 1.00 | 1.00 |
 | DIRECCION_IP | 5 | 5 | 0 | 0 | 1.00 | 1.00 | 1.00 |
 | FECHA_NACIMIENTO | 5 | 5 | 0 | 0 | 1.00 | 1.00 | 1.00 |
-| NOMBRE | 27 | 23 | 0 | 4 | 1.00 | 0.85 | 0.92 |
-| **TOTAL (micro)** | 79 | 75 | 0 | 4 | 1.00 | 0.95 | 0.97 |
+| NOMBRE | 27 | 26 | 0 | 1 | 1.00 | 0.96 | 0.98 |
+| **TOTAL (micro)** | 79 | 78 | 0 | 1 | 1.00 | 0.99 | 0.99 |
+
+**ciego v3, centrado en nombres / blind hold-out v3, name-focused** — 64 muestras / samples, 51 entidades / entities (coincidencia exacta de tipo y rango / exact type+span match)
+
+| Tipo / Type | Soporte / Support | TP | FP | FN | Precisión / Precision | Recall | F1 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| CEDULA | 3 | 3 | 0 | 0 | 1.00 | 1.00 | 1.00 |
+| CEDULA_EXTRANJERIA | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
+| NIT | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
+| PASAPORTE | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
+| TELEFONO | 3 | 3 | 0 | 0 | 1.00 | 1.00 | 1.00 |
+| CORREO | 1 | 1 | 0 | 0 | 1.00 | 1.00 | 1.00 |
+| DIRECCION | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
+| PLACA | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
+| CUENTA_BANCARIA | 2 | 2 | 0 | 0 | 1.00 | 1.00 | 1.00 |
+| TARJETA_CREDITO | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
+| DIRECCION_IP | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
+| FECHA_NACIMIENTO | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
+| NOMBRE | 42 | 40 | 2 | 2 | 0.95 | 0.95 | 0.95 |
+| **TOTAL (micro)** | 51 | 49 | 2 | 2 | 0.96 | 0.96 | 0.96 |
 
 <!-- METRICS:END -->
 
 **Cómo leerlas / How to read them**
 
-- **ES:** *desarrollo* se usó mientras se escribían y ajustaban los detectores, por lo que **sobreestima** el rendimiento. El *hold-out v1* fue ciego para la v0.1, pero sus errores se usaron para diagnosticar la v0.2: **ya no es ciego**. La cifra honesta de la v0.2 es la del *ciego v2*, redactado **antes** de cambiar los detectores (commit `5117975`) e imitando documentos reales (historias clínicas, call center, RR. HH., registros). Con la v0.1 ese mismo conjunto daba P 0,95 · R 0,67 · F1 0,79 (sin tarjetas, IP ni fechas de nacimiento). Sigue siendo pequeño, sintético y escrito por quien escribió los detectores, y los errores de la línea base se vieron antes de implementar. Coincidencia estricta: tipo y rango exactos. Los conteos son pequeños: una o dos muestras mueven mucho los porcentajes.
-- **EN:** *development* was used while the detectors were written and tuned, so it **overestimates** performance. *Hold-out v1* was blind for v0.1, but its errors were used to diagnose v0.2: it is **no longer blind**. The honest v0.2 figure is *blind v2*, written **before** changing the detectors (commit `5117975`) and modeled on real documents (medical records, call center, HR, logs). With v0.1 the same set scored P 0.95 · R 0.67 · F1 0.79 (no cards, IPs or birth dates). It is still small, synthetic and authored by the detectors' author, and the baseline errors were seen before implementing. Strict match: exact type and span. Counts are small: one or two samples move the percentages a lot.
+- **ES:** *desarrollo* se usó mientras se escribían y ajustaban los detectores, por lo que **sobreestima** el rendimiento. El *hold-out v1* fue ciego para la v0.1, pero sus errores se usaron para diagnosticar la v0.2: **ya no es ciego**. La cifra honesta de la v0.2 es la del *ciego v2*, redactado **antes** de cambiar los detectores (commit `5117975`) e imitando documentos reales (historias clínicas, call center, RR. HH., registros). Con la v0.1 ese mismo conjunto da P 0,96 · R 0,68 · F1 0,80 (sin tarjetas, IP ni fechas de nacimiento). El *ciego v3* se escribió antes de los cambios de la v0.4 (commit `6c4b5b1`) y se centra en nombres (apellidos poco comunes, minúsculas, «Apellido, Nombre») con muchas trampas de falsos positivos; con la v0.3 daba F1 0,49 (nombres: recall 0,26). Sigue siendo pequeño, sintético y escrito por quien escribió los detectores, y los errores de la línea base se vieron antes de implementar. Coincidencia estricta: tipo y rango exactos. Los conteos son pequeños: una o dos muestras mueven mucho los porcentajes.
+- **EN:** *development* was used while the detectors were written and tuned, so it **overestimates** performance. *Hold-out v1* was blind for v0.1, but its errors were used to diagnose v0.2: it is **no longer blind**. The honest v0.2 figure is *blind v2*, written **before** changing the detectors (commit `5117975`) and modeled on real documents (medical records, call center, HR, logs). With v0.1 the same set scores P 0.96 · R 0.68 · F1 0.80 (no cards, IPs or birth dates). *Blind v3* was written before the v0.4 changes (commit `6c4b5b1`) and focuses on names, with many false-positive traps; v0.3 scored F1 0.49 on it (names recall 0.26). It is still small, synthetic and authored by the detectors' author, and the baseline errors were seen before implementing. Strict match: exact type and span. Counts are small: one or two samples move the percentages a lot.
 - `n/a` = no hay casos (denominador cero) / no cases (zero denominator).
 - Reproducir / Reproduce: `python eval/evaluate.py --errors` lista cada falso positivo/negativo / lists every false positive/negative. `python eval/evaluate.py --update-readme` regenera esta tabla; el CI falla si el README no coincide con lo medido / regenerates this table; CI fails if the README does not match what was measured.
 

@@ -51,6 +51,15 @@ SCENARIOS: tuple[tuple[str, str, str, str], ...] = (
         "Agente: Ya escalamos el caso #45821; le responderemos en 24 horas.",
     ),
     (
+        "informal",
+        "Chat informal",
+        "Informal chat",
+        "cliente: hola, me llamo carlos andrés gómez y mi cel es 3125550177\n"
+        "agente: con gusto. ¿me confirma su cédula?\n"
+        "cliente: claro, cédula 1.023.456.789. gracias camila\n"
+        "Lista de espera: Restrepo Gómez, Juliana; Ortiz Ramírez, Mateo.",
+    ),
+    (
         "proveedores",
         "Proveedores y pagos",
         "Vendors and payments",

@@ -29,14 +29,15 @@ README = ROOT / "README.md"
 DOCS_INDEX = ROOT / "docs" / "index.html"
 START, END = "<!-- METRICS:START -->", "<!-- METRICS:END -->"
 CHART_START, CHART_END = "<!-- CHART:START -->", "<!-- CHART:END -->"
-SETS = ("dev", "holdout", "holdout2")
+SETS = ("dev", "holdout", "holdout2", "holdout3")
 SET_LABEL = {
     "dev": "desarrollo / development",
     "holdout": "hold-out v1 (ciego en v0.1; usado para diagnóstico en v0.2 / blind in v0.1, "
     "used for diagnosis in v0.2)",
     "holdout2": "ciego v2 / blind hold-out v2",
+    "holdout3": "ciego v3, centrado en nombres / blind hold-out v3, name-focused",
 }
-CHART_SET = "holdout2"
+CHART_SET = "holdout3"
 
 
 def _counts() -> dict[str, int]:
