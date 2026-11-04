@@ -1,0 +1,178 @@
+# Conjunto de DESARROLLO (sintético). Se usó mientras se escribían y ajustaban los detectores,
+# por lo que sus métricas son optimistas. Ver holdout.txt para el conjunto ciego.
+# Formato: ver eval/dataset.py. Todos los datos son inventados.
+
+# ---------------- cédula de ciudadanía ----------------
+El señor identificado con cédula de ciudadanía [[CEDULA|1.234.567.890]] radicó la solicitud.
+Cliente: [[NOMBRE|Marta Rodríguez]], CC [[CEDULA|52123456]].
+C.C. No. [[CEDULA|79.456.123]] expedida en Bogotá.
+Adjunto copia de mi cédula [[CEDULA|1020304050]] para el trámite.
+Documento de identidad: [[CEDULA|80.123.987]]
+Con cc. [[CEDULA|1.098.765.432]] y celular [[TELEFONO|3105550142]] queda registrado.
+Tarjeta de identidad [[CEDULA|1.000.123.456]] del menor.
+Número de identificación [[CEDULA|94.321.654]] aprobado.
+Se identificó con la cédula N° [[CEDULA|43.111.222]] y firmó.
+NUIP [[CEDULA|1002003004]] registrado en el sistema.
+Mi cedula [[CEDULA|1013222111]] no aparece en la base.
+Cédula: [[CEDULA|1.111.222.333]]
+Identificado con C.C. [[CEDULA|71.555.666]] de Medellín.
+Presentó el documento de identidad número [[CEDULA|1.017.123.987]] en ventanilla.
+
+# ---------------- cédula de extranjería ----------------
+Cédula de extranjería [[CEDULA_EXTRANJERIA|456789]] vigente hasta 2027.
+C.E. [[CEDULA_EXTRANJERIA|1234567]] del solicitante.
+Titular con CE [[CEDULA_EXTRANJERIA|345.678]] y visa de trabajo.
+La cédula de extranjería No. [[CEDULA_EXTRANJERIA|987654]] fue renovada.
+Se registró con cédula de extranjería [[CEDULA_EXTRANJERIA|2345678]] en la oficina.
+
+# ---------------- NIT ----------------
+Factura emitida por la empresa con NIT [[NIT|{NITDV.:900123456}]].
+NIT: [[NIT|{NITDV:811000222}]]
+Proveedor NIT [[NIT|901234567]] (registrado sin dígito de verificación).
+Razón social Ejemplos del Valle S.A.S. [[NIT|{NITDV.:830111222}]] ciudad Bogotá.
+La sociedad con N.I.T. [[NIT|{NITDV.:860555123}]] solicita certificado.
+El contratista, NIT [[NIT|{NITBAD:900123456}]], digitó mal el dígito de verificación.
+Número de referencia {NITBAD:900123456} sin relación con ningún NIT.
+Cuota de {NITBAD:1234567} registrada en el sistema.
+NIT [[NIT|{NITDV:890123456}]] pertenece a la fundación.
+Aliado comercial (NIT [[NIT|{NITDV.:901987654}]]) con sede en Cali.
+
+# ---------------- pasaporte ----------------
+Pasaporte [[PASAPORTE|AP123456]] vence en 2030.
+El pasaporte No. [[PASAPORTE|AT987654]] fue retenido.
+Passport: [[PASAPORTE|XK3456789]]
+Viaja con pasaporte colombiano número [[PASAPORTE|AQ555123]].
+Pasaporte: [[PASAPORTE|PE0123456]] emitido en Cancún.
+
+# ---------------- teléfonos ----------------
+Llámame al [[TELEFONO|3001234567]] cuando puedas.
+Cel: [[TELEFONO|300 123 4567]]
+WhatsApp [[TELEFONO|+57 311 555 0199]] disponible de lunes a viernes.
+Mi número es [[TELEFONO|(+57) 320-555-0123]], escríbeme.
+Oficina: [[TELEFONO|(601) 555 0123]] extensión 4.
+PBX [[TELEFONO|601 5550123]] atención en horario laboral.
+Teléfono fijo [[TELEFONO|(2) 555 0123]] en Cali.
+Tel. [[TELEFONO|555 0123]] después de las seis.
+Línea en Bogotá [[TELEFONO|+57 1 555 0123]] para pedidos.
+Contacto [[TELEFONO|3205550188]] o [[TELEFONO|3115550102]].
+Marque [[TELEFONO|300-555-0199]] para soporte.
+Celular [[TELEFONO|573105550123]] registrado.
+Su celular es [[TELEFONO|310.555.0123]] según el formulario.
+Escríbanos por WhatsApp al [[TELEFONO|350 555 01 99]].
+Fijo en Medellín [[TELEFONO|(604) 555-0142]] con extensión.
+Contactar al [[TELEFONO|+573155550177]] en horas de la tarde.
+
+# ---------------- correos ----------------
+Escríbeme a [[CORREO|juan.perez@example.com]] y te respondo.
+Correo: [[CORREO|maria_g88@example.org]], gracias.
+Para soporte use [[CORREO|contacto@ventas.example.org]].
+Factura enviada ([[CORREO|jorge+facturas@example.net]]) ayer.
+Mail de soporte: [[CORREO|soporte@sub.example.com]].
+Mis datos: [[CORREO|a.rios_77@example.org]] o por teléfono.
+Reenvíe el archivo a [[CORREO|nomina@empresa-ejemplo.example.com]].
+
+# ---------------- direcciones ----------------
+Vivo en la [[DIRECCION|Calle 45 # 12-34]] de Bogotá.
+Dirección: [[DIRECCION|Carrera 15 No. 93-60, Apto 502]]
+Radicar en [[DIRECCION|Cra 7 # 71-21 Torre B]] antes del viernes.
+Entregar en [[DIRECCION|Diagonal 40A Sur # 15-22]] por la mañana.
+Ubicados en [[DIRECCION|Transversal 25 No 10-05 Interior 3]] desde 2020.
+Sede principal: [[DIRECCION|Av. Calle 26 # 59-51]]
+Atendemos en [[DIRECCION|Cl 80 # 11-42 Oficina 301]] de lunes a viernes.
+Residencia en [[DIRECCION|Carrera 13 # 85-32, Barrio Chicó Norte]] según el contrato.
+Mi casa queda en [[DIRECCION|Cll 100 19-61]] frente al parque.
+Notificar a [[DIRECCION|Calle 72 Bis # 10-34]] por correo certificado.
+Envíe el paquete a [[DIRECCION|Calle 9 # 5-17 Casa 2]] y avise.
+
+# ---------------- placas ----------------
+El vehículo de placa [[PLACA|ABC123]] fue inmovilizado.
+Moto [[PLACA|XYZ12D]] estacionada en el sótano.
+Placa: [[PLACA|QWE-456]] registrada a nombre del conductor.
+La placa [[PLACA|abc 123]] aparece en el comparendo.
+Camioneta [[PLACA|JKL789]] de servicio especial.
+Registrar el carro [[PLACA|MNO456]] en el parqueadero.
+Salió el [[PLACA|RTY987]] por la puerta principal.
+Motocicleta de placa [[PLACA|FGH45K]] con SOAT vigente.
+
+# ---------------- cuentas bancarias ----------------
+Consigne a la cuenta de ahorros [[CUENTA_BANCARIA|123-456789-01]] antes del cierre.
+Cta corriente No. [[CUENTA_BANCARIA|0123456789]] del titular.
+IBAN [[CUENTA_BANCARIA|{IBAN:ES:12345678901234567890}]] para la transferencia.
+Mi IBAN es [[CUENTA_BANCARIA|{IBAN:GB:MYBK50123456789012}]] por si acaso.
+Transfiera a la CLABE [[CUENTA_BANCARIA|{CLABE:01218000123456789}]] gracias.
+Número de cuenta: [[CUENTA_BANCARIA|4567 8901 2345]]
+La cuenta [[CUENTA_BANCARIA|987654321098]] está inactiva.
+Cuenta bancaria {IBANBAD:ES:12345678901234567890} no pasa validación.
+Cuenta bancaria Davivienda de ahorros [[CUENTA_BANCARIA|0550-0123-4567]] en Cali.
+IBAN [[CUENTA_BANCARIA|{IBAN:DO:ABCD00000012345678901234}]] de la sucursal.
+
+# ---------------- nombres ----------------
+Habla [[NOMBRE|Carlos Andrés Gómez]] desde la oficina.
+Me llamo [[NOMBRE|Yeimy Fonseca]] y quiero reclamar.
+Estimado [[NOMBRE|Julián Restrepo]]: adjunto el contrato.
+Hola [[NOMBRE|Sofía]], gracias por escribir.
+El paciente [[NOMBRE|Luis Fernando Rojas Pineda]] ingresó a urgencias.
+Firmado por [[NOMBRE|Diana Carolina Ospina]] el lunes.
+NOMBRE: [[NOMBRE|MARÍA FERNANDA LÓPEZ MARÍN]]
+La reunión es con [[NOMBRE|Andrés Felipe Cardona]] mañana.
+Dra. [[NOMBRE|Paola Quintero]] atiende en el consultorio.
+Señora [[NOMBRE|Luz Marina Salazar]] pase a caja.
+Atendió [[NOMBRE|María de los Ángeles Gómez]] en recepción.
+Entregó el informe [[NOMBRE|Juan de Dios Pérez]] sin demora.
+Entregó [[NOMBRE|Pablo Orjuela]] y [[NOMBRE|Natalia Ballesteros]] los documentos.
+Contacto: [[NOMBRE|Camila Vélez]], correo [[CORREO|camila.velez@example.com]].
+Beneficiaria: [[NOMBRE|Ana Sofía Mejía]] con cédula [[CEDULA|1.037.555.444]].
+Apellidos: [[NOMBRE|Torres Zapata]] y nombres: [[NOMBRE|Hernán Darío]].
+Quien llamó fue [[NOMBRE|Ricardo Álvarez]] de la sede norte.
+Gracias, [[NOMBRE|Valentina Cruz]], por la rápida respuesta.
+Ayer hablé con [[NOMBRE|Yeimy Orjuelita]] sobre el tema.
+Se reunió con [[NOMBRE|Brayan Quimbaya]] en la sede.
+Me escribió [[NOMBRE|juan perez]] para pedir el soporte.
+
+# ---------------- negativos: montos, fechas, códigos ----------------
+El 15 de marzo de 2024 se pagaron $1.500.000 en 3 cuotas de $500.000.
+La reunión será el 12/05/2025 a las 10:30 en la sala principal.
+Tasa del 12,5 % EA con plazo de 36 meses.
+Versión 3.10.4 de Python lanzada en 2023.
+Código postal 110111 y barrio sin número.
+Radicado 11001-31-03-005-2020-00123-00 del juzgado.
+Teléfono de emergencias 123 disponible las 24 horas.
+Según la Ley 1581 de 2012, el titular puede solicitar la supresión de sus datos.
+Total de la factura: $3.001.234 con IVA del 19 %.
+Pedido 3001234567890 enviado por transportadora.
+Radicado 2024-0034567 pendiente de revisión.
+El decreto 1377 de 2013 reglamenta parcialmente la norma.
+Modelo USB 300 de alta velocidad en bodega.
+Cumple la norma ISO 9001 y la ISO 27001.
+Código de producto REF123 agotado.
+El archivo PDF 123 pesa 2 MB.
+Se calculó el 35 % del presupuesto, unos 350.000 pesos.
+Resolución 000123 del 5 de enero de 2020.
+La cuenta de cobro fue enviada ayer.
+Tenga en cuenta 12 de los 15 puntos del acta.
+
+# ---------------- negativos: correos, direcciones, nombres ----------------
+Sígueme en @usuario_ejemplo para más novedades.
+El símbolo @ se usa en las menciones.
+La Calle 100 es muy transitada en la mañana.
+En la Carrera 7 con calle 72 hay trancón siempre.
+Queda por la avenida principal, al lado del parque.
+Viajé de Santiago de Cali a Santa Marta en avión.
+Visité el Hospital San Juan de Dios por urgencias.
+Estudió en la Universidad Nacional de Colombia.
+Pagó en el Banco de Bogotá y en Bancolombia.
+Rosa es una flor muy común en los jardines.
+La luz verde del semáforo cambió rápido.
+El Ministerio de Hacienda y Crédito Público publicó la circular.
+Santa Marta y San Andrés son destinos turísticos.
+La Ley 1581 de 2012 protege los datos personales.
+Habeas Data es un derecho fundamental en Colombia.
+El equipo Atlético Nacional ganó el domingo.
+
+# ---------------- párrafos mixtos ----------------
+Radicado 2024-00345. El señor [[NOMBRE|Luis Alberto Mora]], con C.C. [[CEDULA|79.222.333]], reside en [[DIRECCION|Calle 63 # 20-15]] y su celular es [[TELEFONO|3125550144]].
+Datos del vehículo: placa [[PLACA|STU789]], propietario [[NOMBRE|Gloria Esperanza Díaz]], correo [[CORREO|gloria.diaz@example.com]].
+La empresa con NIT [[NIT|{NITDV.:900333444}]] pagó $2.500.000 a la cuenta de ahorros [[CUENTA_BANCARIA|0012-3456-7890]].
+Paciente [[NOMBRE|Juan David Henao]], cédula de extranjería [[CEDULA_EXTRANJERIA|765432]], pasaporte [[PASAPORTE|AB1234567]].
+Compré 3 productos por $45.000 el 20/08/2024 y recibí el pedido en una semana.
+Sr. [[NOMBRE|Fabio Nelson Vargas]] (NIT [[NIT|{NITDV:79123456}]]), tel. [[TELEFONO|(601) 555 0188]], dirección [[DIRECCION|Carrera 50 # 30-20, Apto 801]].
