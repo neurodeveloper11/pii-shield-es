@@ -108,17 +108,31 @@ def test_todos_los_ids_referenciados_existen():
 
 
 def test_vista_previa_para_redes_sociales():
-    import struct
-
     pages = "https://neurodeveloper11.github.io/pii-shield-es/"
-    for prop in ("og:title", "og:description", "og:url", "og:image", "twitter:card"):
+    for prop in (
+        "og:title",
+        "og:description",
+        "og:url",
+        "og:image",
+        "og:image:secure_url",
+        "og:image:type",
+        "twitter:card",
+    ):
         assert f'"{prop}"' in INDEX, prop
-    assert f'content="{pages}og-image.png"' in INDEX
-    png = (DOCS / "og-image.png").read_bytes()
-    assert png[:8] == b"\x89PNG\r\n\x1a\n"
-    width, height = struct.unpack(">II", png[16:24])
+    assert f'property="og:image" content="{pages}og-datashield.jpg"' in INDEX
+    jpg = (DOCS / "og-datashield.jpg").read_bytes()
+    assert jpg[:3] == b"\xff\xd8\xff"  # JPEG
+    # Busca el marcador SOF (baseline o progresivo) para leer alto y ancho.
+    i = 2
+    while i < len(jpg):
+        marker, length = jpg[i + 1], int.from_bytes(jpg[i + 2 : i + 4], "big")
+        if marker in (0xC0, 0xC2):
+            height = int.from_bytes(jpg[i + 5 : i + 7], "big")
+            width = int.from_bytes(jpg[i + 7 : i + 9], "big")
+            break
+        i += 2 + length
     assert (width, height) == (1200, 627)
-    assert len(png) < 1_000_000  # LinkedIn recomienda imágenes livianas
+    assert len(jpg) < 300_000  # liviana: LinkedIn la procesa sin problemas
 
 
 def test_herramienta_de_archivos_en_la_web():
