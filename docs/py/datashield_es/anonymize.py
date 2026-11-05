@@ -252,10 +252,11 @@ def anonymize_detailed(
     tipos: Iterable[PIIType | str] | PIIType | str | None = None,
     tabla: PseudonymTable | None = None,
     min_score: float = 0.0,
+    contexto: str | None = None,
 ) -> AnonymizationResult:
     """Como :func:`anonymize`, pero devuelve también las entidades y la tabla usada."""
     mode = normalize_mode(modo)
-    entities = detect(texto, tipos=tipos, min_score=min_score)
+    entities = detect(texto, tipos=tipos, min_score=min_score, contexto=contexto)
     table = tabla
     if mode == "seudonimo" and table is None:
         table = PseudonymTable()  # consistente dentro de la llamada, pero no recuperable
@@ -287,6 +288,7 @@ def anonymize(
     tipos: Iterable[PIIType | str] | PIIType | str | None = None,
     tabla: PseudonymTable | None = None,
     min_score: float = 0.0,
+    contexto: str | None = None,
 ) -> str:
     """Anonimiza ``texto``.
 
@@ -297,8 +299,11 @@ def anonymize(
         tipos: restringe los tipos a anonimizar.
         tabla: :class:`PseudonymTable` que acumula el mapeo en modo ``seudonimo``.
         min_score: umbral mínimo de confianza.
+        contexto: texto anterior (turnos previos); ver :func:`datashield_es.detect`.
     """
-    return anonymize_detailed(texto, modo, tipos=tipos, tabla=tabla, min_score=min_score).text
+    return anonymize_detailed(
+        texto, modo, tipos=tipos, tabla=tabla, min_score=min_score, contexto=contexto
+    ).text
 
 
 def deanonymize(texto: str, tabla: PseudonymTable) -> str:

@@ -1,5 +1,28 @@
 # Cambios / Changelog
 
+## 0.5.1
+
+### Conversaciones de atención al cliente
+
+- **Cédula dictada en otro turno:** `detect`, `anonymize` y `anonymize_detailed` aceptan
+  `contexto=` (por ejemplo, los turnos anteriores). Si el contexto pide un documento («¿me confirma
+  su número de cédula?»), un número con forma de documento dictado solo («12.635.880», «Claro,
+  421.216.262.») se marca como `CEDULA` (detector `cc_dialogo`). Los montos con `$` se excluyen.
+  Sin `contexto` el comportamiento no cambia.
+- **Nombres en vocativo:** «Entiendo su preocupación, Jorge, ya lo reviso», «Llegó tarde, Diana.».
+- **Nombre ambiguo seguido de otro tras «con», «a», «para»:** «¿Hablo con Luz Dary?».
+- **Presentación del asesor:** «le habla Sebastián de ConectaYa», «soy Laura de Banco Cordillera».
+  Solo se toman nombres y apellidos conocidos; la empresa que sigue no entra en la entidad.
+
+### Correcciones
+
+- Una entidad ya no puede empezar ni terminar a mitad de palabra. Antes, «Sebastián de ConectaYa»
+  producía `[NOMBRE]Ya` porque «Conecta» se tomaba como apellido.
+
+### Métricas
+
+- Recall de `NOMBRE` en el conjunto de evaluación: 0,90 → 0,95, sin falsos positivos nuevos.
+
 ## 0.5.0
 
 ### Archivos completos (Word, Excel, CSV, texto)

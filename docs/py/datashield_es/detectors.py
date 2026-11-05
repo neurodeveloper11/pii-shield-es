@@ -83,6 +83,29 @@ def detect_cedula(text: str) -> list[Entity]:
     return found
 
 
+_PIDE_DOCUMENTO = re.compile(
+    r"(?i:c[eé]dula|documento|identificaci[oó]n|\bc\.?\s?c\b|tarjeta\s+de\s+identidad|\bnuip\b)"
+)
+_ID_SUELTO_RE = re.compile(r"(?<![\d$.,])(?<!\$ )" + _ID_NUMBER)
+
+
+def detect_cedula_dialogo(text: str, contexto: str) -> list[Entity]:
+    """Cédula dictada como respuesta: la palabra clave está en el contexto, no en el texto.
+
+    En una conversación el asesor pide el documento y el cliente responde, a veces varios
+    turnos después, solo con el número. Los montos («$1.200.000») se excluyen.
+    """
+    if not _PIDE_DOCUMENTO.search(contexto):
+        return []
+    found = []
+    for m in _ID_SUELTO_RE.finditer(text):
+        if 6 <= len(_digits(m["num"])) <= 10:
+            found.append(
+                _entity(PIIType.CEDULA, text, m.start("num"), m.end("num"), 0.75, "cc_dialogo")
+            )
+    return found
+
+
 def detect_cedula_extranjeria(text: str) -> list[Entity]:
     """Cédula de extranjería (6-7 dígitos) con contexto «C.E.» / «cédula de extranjería»."""
     found = []
@@ -543,7 +566,10 @@ def detect_fecha_nacimiento(text: str) -> list[Entity]:
 
 _UPPER = "A-ZÁÉÍÓÚÜÑ"
 _LOWER = "a-záéíóúüñ"
-_NAME_WORD = rf"(?:[{_UPPER}][{_LOWER}]+(?:[-'’][{_UPPER}][{_LOWER}]+)?|[{_UPPER}]{{2,}})"
+# Límites de palabra a ambos lados: «ConectaYa» no contiene el nombre «Conecta».
+_NAME_WORD = (
+    rf"(?<![\w])(?:[{_UPPER}][{_LOWER}]+(?:[-'’][{_UPPER}][{_LOWER}]+)?|[{_UPPER}]{{2,}})(?![\w])"
+)
 _CONNECTOR = r"(?:(?i:de[ ]+la|de[ ]+los|de[ ]+las|del|de))"
 _RUN_RE = re.compile(rf"{_NAME_WORD}(?:[ \t\u00a0]+(?:{_CONNECTOR}[ \t\u00a0]+)?{_NAME_WORD})*")
 _WORD_RE = re.compile(_NAME_WORD)
@@ -616,6 +642,11 @@ _TITLE_BEFORE = re.compile(
     r"(?<![\w])(?i:se[ñn]or(?:a)?|sr\.?|sra\.?|don|do[ñn]a|doctor(?:a)?|dr\.?|dra\.?)\s+$"
 )
 _PREP_CTX = re.compile(r"(?<![\w])(?i:a|con|para|de\s+parte\s+de)\s+$")
+# Presentación del asesor: «le habla Sebastián de ConectaYa», «soy Laura del Banco». Solo
+# se toman nombres y apellidos conocidos: lo que sigue suele ser la empresa.
+_INTRO_CTX = re.compile(r"(?<![\w])(?i:(?:le|te|les)\s+habla|soy)\s+$")
+_VOCATIVE_BEFORE = re.compile(r"\w[ \t]*,[ \t]*$")
+_VOCATIVE_AFTER = re.compile(r"[ \t]*[,.;!?]")
 _SENTENCE_END = frozenset('.!?¡¿\n:;"“(-•*')
 _LISTED = _names.FIRST_NAMES | _names.SURNAMES
 _STRONG_FIRST = _names.FIRST_NAMES - _names.AMBIGUOUS - _names.STOPWORDS
@@ -664,6 +695,30 @@ def _evaluate_run(text: str, run_start: int, run_end: int) -> Entity | None:
     sentence_start = _is_sentence_start(text, run_start)
     titled = bool(_TITLE_BEFORE.search(before))
     if not trigger and words and words[0].norm in _STRONG_FIRST and _PREP_CTX.search(before):
+        trigger = True
+    # Tras «con», «a», «para»: un nombre de pila aunque sea ambiguo, si lo sigue otra palabra
+    # con mayúscula («¿Hablo con Luz Dary?»).
+    if (
+        not trigger
+        and len(words) >= 2
+        and words[0].norm in _names.FIRST_NAMES
+        and _PREP_CTX.search(before)
+    ):
+        trigger = True
+    if not trigger and words and words[0].norm in _names.FIRST_NAMES and _INTRO_CTX.search(before):
+        n = 1
+        while n < len(words) and words[n].norm in _LISTED:
+            n += 1
+        words = words[:n]
+        trigger = True
+    # Vocativo entre comas: «Entiendo su preocupación, Jorge, ya lo reviso».
+    if (
+        not trigger
+        and len(words) == 1
+        and words[0].norm in _STRONG_FIRST
+        and _VOCATIVE_BEFORE.search(before)
+        and _VOCATIVE_AFTER.match(text, run_end)
+    ):
         trigger = True
 
     while words and words[0].norm in _names.TITLES:
@@ -923,6 +978,7 @@ def detect(
     *,
     tipos: Iterable[PIIType | str] | PIIType | str | None = None,
     min_score: float = 0.0,
+    contexto: str | None = None,
 ) -> list[Entity]:
     """Detecta datos personales en ``texto``.
 
@@ -930,6 +986,10 @@ def detect(
         texto: texto en español.
         tipos: restringe la búsqueda a estos tipos (``PIIType`` o cadenas como ``"NIT"``).
         min_score: descarta detecciones con confianza menor a este umbral (0 a 1).
+        contexto: texto anterior (por ejemplo, los turnos previos de una conversación). Si
+            pide un documento («¿me confirma su número de cédula?»), un número con forma de
+            documento dictado solo en ``texto`` («12.635.880») se marca como ``CEDULA``.
+            El contexto no se analiza ni se devuelve: solo da la pista.
 
     Returns:
         Lista de :class:`Entity` ordenada por posición y sin solapamientos. Los índices se
@@ -945,6 +1005,8 @@ def detect(
     for tipo in coerce_types(tipos):
         for detector in DETECTORS[tipo]:
             found.extend(detector(norm))
+    if contexto and PIIType.CEDULA in coerce_types(tipos):
+        found.extend(detect_cedula_dialogo(norm, contexto))
     result = resolve_overlaps(e for e in found if e.score >= min_score)
     if starts is None or ends is None:
         return result

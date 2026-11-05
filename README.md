@@ -313,8 +313,8 @@ Generadas por `python eval/evaluate.py` sobre conjuntos **sintéticos** (todos l
 | TARJETA_CREDITO | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
 | DIRECCION_IP | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
 | FECHA_NACIMIENTO | 0 | 0 | 0 | 0 | n/a | n/a | n/a |
-| NOMBRE | 21 | 19 | 1 | 2 | 0.95 | 0.90 | 0.93 |
-| **TOTAL (micro)** | 90 | 87 | 1 | 3 | 0.99 | 0.97 | 0.98 |
+| NOMBRE | 21 | 20 | 1 | 1 | 0.95 | 0.95 | 0.95 |
+| **TOTAL (micro)** | 90 | 88 | 1 | 2 | 0.99 | 0.98 | 0.98 |
 
 **ciego v2 / blind hold-out v2** — 89 muestras / samples, 79 entidades / entities (coincidencia exacta de tipo y rango / exact type+span match)
 
